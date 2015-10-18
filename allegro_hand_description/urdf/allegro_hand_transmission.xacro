@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+
+  <!-- High-leveel hand macro -->
+  <xacro:macro name="ahand_transmission">
+    <xacro:ahand_finger_transmission finger="f1" />
+    <xacro:ahand_finger_transmission finger="f2" />
+    <xacro:ahand_finger_transmission finger="f3" />    
+    <xacro:ahand_finger_transmission finger="thumb"/>
+  </xacro:macro>
+
+
+  <xacro:macro name="ahand_finger_transmission" params="finger">
+    <xacro:finger_transmission finger="${finger}" dof="0"/> 
+    <xacro:finger_transmission finger="${finger}" dof="1"/>
+    <xacro:finger_transmission finger="${finger}" dof="2"/>
+    <xacro:finger_transmission finger="${finger}" dof="3"/>
+  </xacro:macro>
+
+
+<xacro:macro name="finger_transmission" params="finger dof">
+
+	    <transmission name="${finger}_dof${dof}_trans">
+			<type>transmission_interface/SimpleTransmission</type>
+			<joint name="${finger}_dof${dof}_joint">
+				<hardwareInterface>EffortJointInterface</hardwareInterface>
+			</joint>
+			<actuator name="${finger}_dof${dof}_motor">
+				<hardwareInterface>EffortJointInterface</hardwareInterface>
+				<mechanicalReduction>1</mechanicalReduction>
+			</actuator>
+	    </transmission>
+
+
+</xacro:macro>
+
+
+</robot>
