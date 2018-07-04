@@ -2,34 +2,41 @@
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
+ <xacro:macro name="ahand_transmission" params="name">
 
-  <!-- High-leveel hand macro -->
-  <xacro:macro name="ahand_transmission">
-    <xacro:ahand_finger_transmission finger="f1" />
-    <xacro:ahand_finger_transmission finger="f2" />
-    <xacro:ahand_finger_transmission finger="f3" />    
-    <xacro:ahand_finger_transmission finger="thumb"/>
-  </xacro:macro>
+   <xacro:finger_transmission name="${name}" finger_num="0"/>
+   <xacro:finger_transmission name="${name}" finger_num="1"/>
+   <xacro:finger_transmission name="${name}" finger_num="2"/>
+   <xacro:finger_transmission name="${name}" finger_num="3"/>
 
+   <xacro:finger_transmission name="${name}" finger_num="4"/>
+   <xacro:finger_transmission name="${name}" finger_num="5"/>
+   <xacro:finger_transmission name="${name}" finger_num="6"/>
+   <xacro:finger_transmission name="${name}" finger_num="7"/>
 
-  <xacro:macro name="ahand_finger_transmission" params="finger">
-    <xacro:finger_transmission finger="${finger}" dof="0"/> 
-    <xacro:finger_transmission finger="${finger}" dof="1"/>
-    <xacro:finger_transmission finger="${finger}" dof="2"/>
-    <xacro:finger_transmission finger="${finger}" dof="3"/>
-  </xacro:macro>
+   <xacro:finger_transmission name="${name}" finger_num="8"/>
+   <xacro:finger_transmission name="${name}" finger_num="9"/>
+   <xacro:finger_transmission name="${name}" finger_num="10"/>
+   <xacro:finger_transmission name="${name}" finger_num="11"/>
 
-  <xacro:macro name="finger_transmission" params="finger dof">
-	<transmission name="${finger}_dof${dof}_trans">
-		<type>transmission_interface/SimpleTransmission</type>
-		<joint name="${finger}_dof${dof}_joint">
-			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-		</joint>
-		<actuator name="${finger}_dof${dof}_motor">
-			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
-			<mechanicalReduction>1</mechanicalReduction>
-		</actuator>
-	</transmission>
+   <xacro:finger_transmission name="${name}" finger_num="12"/>
+   <xacro:finger_transmission name="${name}" finger_num="13"/>
+   <xacro:finger_transmission name="${name}" finger_num="14"/>
+   <xacro:finger_transmission name="${name}" finger_num="15"/>
+
+ </xacro:macro>
+
+ <!-- High-leveel hand macro -->
+ <xacro:macro name="finger_transmission" params="name finger_num">
+   <transmission name="${name}_${finger_num}_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="${name}_joint_${finger_num}">
+       <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="${name}_${finger_num}_motor">
+       <mechanicalReduction>1</mechanicalReduction>
+     </actuator>
+   </transmission>
  </xacro:macro>
 
 

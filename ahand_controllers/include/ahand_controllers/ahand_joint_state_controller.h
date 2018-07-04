@@ -13,7 +13,7 @@
 #include <realtime_tools/realtime_publisher.h>
 
 
-namespace ah_controllers{
+namespace ahand_controllers{
 
 class AhandJointStateController : public controller_interface::Controller<hardware_interface::JointStateInterface>{
 

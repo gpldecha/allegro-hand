@@ -13,25 +13,28 @@ void AhandHW::create(std::string name, std::string urdf_string){
     urdf_string_ = urdf_string;
 
     joint_names_.reserve(n_joints_);
-    joint_names_.push_back(  std::string("f1_dof0_joint") );
-    joint_names_.push_back(  std::string("f1_dof1_joint") );
-    joint_names_.push_back(  std::string("f1_dof2_joint") );
-    joint_names_.push_back(  std::string("f1_dof3_joint") );
+    joint_names_.push_back(  std::string("_joint_0") );
+    joint_names_.push_back(  std::string("_joint_1") );
+    joint_names_.push_back(  std::string("_joint_2") );
+    joint_names_.push_back(  std::string("_joint_3") );
 
-    joint_names_.push_back(  std::string("f2_dof0_joint") );
-    joint_names_.push_back(  std::string("f2_dof1_joint") );
-    joint_names_.push_back(  std::string("f2_dof2_joint") );
-    joint_names_.push_back(  std::string("f2_dof3_joint") );
+    joint_names_.push_back(  std::string("_joint_4") );
+    joint_names_.push_back(  std::string("_joint_5") );
+    joint_names_.push_back(  std::string("_joint_6") );
+    joint_names_.push_back(  std::string("_joint_7") );
 
-    joint_names_.push_back(  std::string("f3_dof0_joint") );
-    joint_names_.push_back(  std::string("f3_dof1_joint") );
-    joint_names_.push_back(  std::string("f3_dof2_joint") );
-    joint_names_.push_back(  std::string("f3_dof3_joint") );
+    joint_names_.push_back(  std::string("_joint_8") );
+    joint_names_.push_back(  std::string("_joint_9") );
+    joint_names_.push_back(  std::string("_joint_10") );
+    joint_names_.push_back(  std::string("_joint_11") );
 
-    joint_names_.push_back(  std::string("thumb_dof0_joint") );
-    joint_names_.push_back(  std::string("thumb_dof1_joint") );
-    joint_names_.push_back(  std::string("thumb_dof2_joint") );
-    joint_names_.push_back(  std::string("thumb_dof3_joint") );
+    joint_names_.push_back(  std::string("_joint_12") );
+    joint_names_.push_back(  std::string("_joint_13") );
+    joint_names_.push_back(  std::string("_joint_14") );
+    joint_names_.push_back(  std::string("_joint_15") );
+    for(std::size_t i = 0; i < joint_names_.size(); i++){
+        joint_names_[i] = robot_namespace_ + joint_names_[i];
+    }
 
     joint_position_.resize(n_joints_);
     joint_velocity_.resize(n_joints_);
@@ -99,6 +102,9 @@ void AhandHW::registerInterfaces(const urdf::Model *const urdf_model, std::vecto
         joint_handle_effort = hardware_interface::JointHandle(state_interface_.getHandle(joint_names_[j]), &joint_effort_command_[j]);
         effort_interface_.registerHandle(joint_handle_effort);
     }
+
+    // Register interfaces
+    registerInterface(&state_interface_);
 }
 
 
@@ -109,13 +115,14 @@ bool AhandHW::parseTransmissionsFromURDF(const std::string& urdf_string){
     for (int j = 0; j < n_joints_; ++j){
         //std::cout << "Check joint " << joint_names_[j] << std::endl;
         std::vector<transmission_interface::TransmissionInfo>::iterator it = transmissions.begin();
+
         for(; it != transmissions.end(); ++it){
-           // std::cout << "With transmission " << it->name_ << std::endl;
            if (joint_names_[j].compare(it->joints_[0].name_) == 0){
             transmissions_.push_back( *it );
             std::cout << "Found a match for transmission " << it->name_ << std::endl;
            }
         }
+
      }
 
      if( transmissions_.empty() ){

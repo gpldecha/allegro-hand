@@ -1,7 +1,7 @@
 #include "ahand_controllers/ahand_joint_state_controller.h"
 
 
-bool ah_controllers::AhandJointStateController::init(hardware_interface::JointStateInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh){
+bool ahand_controllers::AhandJointStateController::init(hardware_interface::JointStateInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh){
     ROS_INFO("init JointStateController");
 
     // get all joint names from the hardware interface
@@ -28,12 +28,12 @@ bool ah_controllers::AhandJointStateController::init(hardware_interface::JointSt
     }
 }
 
-void ah_controllers::AhandJointStateController::starting(const ros::Time& time){
+void ahand_controllers::AhandJointStateController::starting(const ros::Time& time){
     // initialize time
     last_publish_time_ = time;
 }
 
-void ah_controllers::AhandJointStateController::update(const ros::Time& time, const ros::Duration& period){
+void ahand_controllers::AhandJointStateController::update(const ros::Time& time, const ros::Duration& period){
     // limit rate of publishing
     if (publish_rate_ > 0.0 && last_publish_time_ + ros::Duration(1.0/publish_rate_) < time) {
         // try to publish
@@ -53,8 +53,8 @@ void ah_controllers::AhandJointStateController::update(const ros::Time& time, co
     }
 }
 
-void ah_controllers::AhandJointStateController::stopping(const ros::Time&){}
+void ahand_controllers::AhandJointStateController::stopping(const ros::Time&){}
 
 
 
-PLUGINLIB_EXPORT_CLASS(ah_controllers::AhandJointStateController,  controller_interface::ControllerBase)
+PLUGINLIB_EXPORT_CLASS(ahand_controllers::AhandJointStateController,  controller_interface::ControllerBase)

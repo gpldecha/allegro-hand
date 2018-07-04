@@ -1,7 +1,7 @@
 ahand:
   # Publish all joint states -----------------------------------
   joint_state_controller:
-    type: AhandJointStateController
+    type: ahand_controllers/AhandJointStateController
     publish_rate: 100
 
   # Task Inverse Kinematics
