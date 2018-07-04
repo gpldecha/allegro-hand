@@ -1,4 +1,4 @@
-#include "allegro_hand_controllers/ahand_joint_state_controller.h"
+#include "ahand_controllers/ahand_joint_state_controller.h"
 
 
 bool ah_controllers::AhandJointStateController::init(hardware_interface::JointStateInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh){
@@ -58,6 +58,3 @@ void ah_controllers::AhandJointStateController::stopping(const ros::Time&){}
 
 
 PLUGINLIB_EXPORT_CLASS(ah_controllers::AhandJointStateController,  controller_interface::ControllerBase)
-
-
-

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(allegro_hand_controllers)
+project(ahand_controllers)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -19,7 +19,7 @@ find_package(catkin REQUIRED COMPONENTS
 )
 
 
-include_directories(include/allegro_hand_controllers ${orocos_kdl_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+include_directories(include/ahand_controllers ${orocos_kdl_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 
 link_directories(${catkin_LIBRARY_DIRS})
@@ -57,31 +57,29 @@ catkin_package(
     kdl_parser
     message_runtime
   INCLUDE_DIRS include
-  LIBRARIES ${PROJECT_NAME}
+  LIBRARIES ahand_controllers
   )
 
-add_library(${PROJECT_NAME}
+add_library(ahand_controllers
         # src/task_inverse_kinematics.cpp include/allegro_hand_controllers/task_inverse_kinematics.h
-        src/ahand_joint_state_controller.cpp include/allegro_hand_controllers/ahand_joint_state_controller.h
+        src/ahand_joint_state_controller.cpp include/ahand_controllers/ahand_joint_state_controller.h
 
 )
 
 
-target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})
+target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})
 
 
 
 # Install
-install(DIRECTORY include/${PROJECT_NAME}/
+install(DIRECTORY include/ahand_controllers/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
 
-install(TARGETS ${PROJECT_NAME}
+install(TARGETS ahand_controllers
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   )
 
-install(FILES allegro_hand_controllers_plugins.xml
+install(FILES ahand_controllers_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
-
-

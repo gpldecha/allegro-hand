@@ -55,8 +55,8 @@ set(HDR_FILES  ${INCLUDE_DIR}/ahand_hw/ahand_hw.h)
 include_directories(${catkin_INCLUDE_DIRS} ${INCLUDE_DIR})
 
 ## Declare a C++ library
-add_library(ahand_lwr src/ahand_hw.cpp ${HDR_FILES})
-target_link_libraries(ahand_lwr ${catkin_LIBRARIES})
+add_library(ahand_hw src/ahand_hw.cpp ${HDR_FILES})
+target_link_libraries(ahand_hw ${catkin_LIBRARIES})
 
 ## SIMULATION
 find_package(gazebo REQUIRED)
@@ -64,5 +64,5 @@ include_directories(${GAZEBO_INCLUDE_DIRS})
 link_directories(${GAZEBO_LIBRARY_DIRS})
 add_library(ahand_hw_gazebo_plugin  src/ahand_hw_gazebo_plugin.cpp include/ahand_hw/ahand_hw_gazebo.hpp)
 
-add_dependencies(ahand_hw_gazebo_plugin ahand_lwr)
-target_link_libraries(ahand_hw_gazebo_plugin ahand_lwr ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+add_dependencies(ahand_hw_gazebo_plugin ahand_hw)
+target_link_libraries(ahand_hw_gazebo_plugin ahand_hw ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})

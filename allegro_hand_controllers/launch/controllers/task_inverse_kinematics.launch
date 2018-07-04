@@ -1,8 +1,0 @@
-<launch>
-
-	<include file="$(find allegro_hand_controllers)/launch/load_controller.launch"> 
-		<arg name="controller" value="TaskInverseKinematics" />
-	</include>
-		
-</launch>
-		

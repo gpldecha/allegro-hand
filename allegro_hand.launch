@@ -18,7 +18,7 @@
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
 
 	<!-- load controller -->
-	<include file="$(find allegro_hand_controllers)/launch/load_controller.launch">
+	<include file="$(find ahand_controllers)/launch/load_controller.launch">
 		<arg name="controller" value="$(arg controller)" />
 		<arg name="stopped_controllers" value="$(arg stopped_controllers)" />
 	</include>
