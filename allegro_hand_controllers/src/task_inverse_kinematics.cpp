@@ -7,7 +7,7 @@
 #include <utils/skew_symmetric.h>
 #include <allegro_hand_controllers/task_inverse_kinematics.h>
 
-namespace allegro_hand_controllers 
+namespace ah_controllers
 {
     TaskInverseKinematics::TaskInverseKinematics() {}
     TaskInverseKinematics::~TaskInverseKinematics() {}
@@ -267,7 +267,7 @@ namespace allegro_hand_controllers
         }
 	}
 
-    void TaskInverseKinematics::command_configuration(const allegro_hand_controllers::PoseRPY::ConstPtr &msg)
+    void TaskInverseKinematics::command_configuration(const PoseRPY::ConstPtr &msg)
 	{	
         KDL::Frame frame_des_;
 
@@ -307,4 +307,4 @@ namespace allegro_hand_controllers
     }
 }
 
-PLUGINLIB_EXPORT_CLASS(allegro_hand_controllers::TaskInverseKinematics, controller_interface::ControllerBase)
+PLUGINLIB_EXPORT_CLASS(ah_controllers::TaskInverseKinematics, controller_interface::ControllerBase)

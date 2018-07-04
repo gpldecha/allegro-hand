@@ -5,6 +5,6 @@
 
 <link name="world"/>
 
-<xacro:ahand prefix="ahand" parent_link="world" xyz="1.0 0 0.15" rpy="0 0 0" left="1" use_ros_control="true"/>
+<xacro:ahand prefix="ahand" parent_link="world" xyz="1.0 0 0.15" rpy="0 0 0" left="1"/>
 
 </robot>

@@ -2,38 +2,37 @@
 <robot name="allegro_hand" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <xacro:include filename="$(find allegro_hand_description)/urdf/common.xacro"/>
-  <xacro:property name="b" value="0.02"/> <!-- 0.8 damping // 0.2 ..--> 
+  <xacro:property name="b" value="0.02"/> <!-- 0.8 damping // 0.2 ..-->
   <xacro:property name="c" value="0.8"/> <!-- friction: not used ... -->
 
   <!-- Include transmissions -->
   <xacro:include filename="$(find allegro_hand_description)/urdf/allegro_hand_transmission.xacro"/>
-  
+
   <!-- Include Gazebo -->
   <xacro:include filename="$(find allegro_hand_description)/urdf/hand_gazebo.xacro"/>
 
 
-
   <!-- High-leveel hand macro -->
-  <xacro:macro name="ahand" params="parent_link prefix xyz rpy left  use_ros_control">
+  <xacro:macro name="ahand" params="parent_link prefix xyz rpy left">
     <xacro:ahand_palm parent_link="${parent_link}" xyz="${xyz}" rpy="${rpy}" left="${left}"/>
     <xacro:ahand_finger_1 prefix="${prefix}"/>
     <xacro:ahand_finger_2 prefix="${prefix}"/>
-    <xacro:ahand_finger_3 prefix="${prefix}"/>    
+    <xacro:ahand_finger_3 prefix="${prefix}"/>
     <xacro:ahand_thumb prefix="${prefix}"/>
-    <xacro:allegro_hand_gazebo name="ahand" use_ros_control="${use_ros_control}"/>
+    <xacro:ahand_gazebo name="ahand"/>
     <xacro:ahand_transmission/>
   </xacro:macro>
 
   <!-- Fingers -->
   <xacro:macro name="ahand_finger_1" params="prefix">
-    <xacro:ahand_finger_dof0 prefix="f1" parent_link="ahand_palm_link" xyz="0 ${-0.044981*left} -0.002298" rpy="${0.0873*left} 0 0" axis="0 0 1"/> 
+    <xacro:ahand_finger_dof0 prefix="f1" parent_link="ahand_palm_link" xyz="0 ${-0.044981*left} -0.002298" rpy="${0.0873*left} 0 0" axis="0 0 1"/>
     <xacro:ahand_finger_dof1 prefix="f1"/>
     <xacro:ahand_finger_dof2 prefix="f1"/>
     <xacro:ahand_finger_dof3 prefix="f1"/>
     <xacro:ahand_finger_dof4 prefix="f1"/>
   </xacro:macro>
 
-  <xacro:macro name="ahand_finger_2" params="prefix"> 
+  <xacro:macro name="ahand_finger_2" params="prefix">
     <xacro:ahand_finger_dof0 prefix="f2" parent_link="ahand_palm_link" xyz="0 0 0" rpy="0 0 ${0}" axis="0 0 1"/>
     <xacro:ahand_finger_dof1 prefix="f2"/>
     <xacro:ahand_finger_dof2 prefix="f2"/>
@@ -41,7 +40,7 @@
     <xacro:ahand_finger_dof4 prefix="f2"/>
   </xacro:macro>
 
-  <xacro:macro name="ahand_finger_3" params="prefix"> 
+  <xacro:macro name="ahand_finger_3" params="prefix">
     <xacro:ahand_finger_dof0 prefix="f3" parent_link="ahand_palm_link" xyz="0 ${0.044981*left} -0.002298" rpy="${-0.0873*left} 0 -${0}" axis="0 0 1"/>
     <xacro:ahand_finger_dof1 prefix="f3"/>
     <xacro:ahand_finger_dof2 prefix="f3"/>
@@ -146,17 +145,17 @@
   <!-- Components MAIN FINGERS  -->
 <!--DOF 0-->
 <xacro:macro name="ahand_finger_dof0" params="prefix parent_link xyz rpy axis">
-	<!-- JOINT 0 -->	
+	<!-- JOINT 0 -->
 	<joint name="${prefix}_dof0_joint" type="revolute">
 		<parent link="${parent_link}"/>
       		<child link="${prefix}_dof0_link"/>
-      		<origin xyz="${xyz}" rpy="${rpy}"/>      
+      		<origin xyz="${xyz}" rpy="${rpy}"/>
       		<axis xyz="${axis}"/>
       		<limit lower="${-26.929016*PI/180.0}" upper="${26.929016*PI/180.0}" effort="100" velocity="100"/>
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
 
-	<!-- LINK 0 -->    	
+	<!-- LINK 0 -->
 	<link name="${prefix}_dof0_link">
 		<inertial>
        			<origin xyz="0.00 0 0.01"/>
@@ -165,7 +164,7 @@
       		</inertial>
 
 		<visual>
-        		<origin xyz="-0.0098 -0.012 0.0" rpy="${PI/2} ${0} ${0} "/> <!-- DONE, OK -->        
+        		<origin xyz="-0.0098 -0.012 0.0" rpy="${PI/2} ${0} ${0} "/> <!-- DONE, OK -->
         		<material name="all">
         			<color rgba="0.1 0.1 0.1 0.5"/>
         		</material>
@@ -175,7 +174,7 @@
 		</visual>
 
 		<collision>
-			<origin xyz="-0.0098 -0.012 0.0" rpy="${PI/2} ${0} ${0} "/> <!-- DONE, OK -->        
+			<origin xyz="-0.0098 -0.012 0.0" rpy="${PI/2} ${0} ${0} "/> <!-- DONE, OK -->
 			<material name="all">
 	        		<color rgba="0.1 0.1 0.1 0.5"/>
         		</material>
@@ -193,7 +192,7 @@
 	<joint name="${prefix}_dof1_joint" type="revolute">
       		<parent link="${prefix}_dof0_link"/>
       		<child link="${prefix}_dof1_link"/>
-      
+
 		<origin xyz="0 0 0.0164" rpy="${-PI/2} 0 0"/>
       		<axis xyz="0 0 1"/>
       		<limit lower="${-11.229973*PI/180.0}" upper="${92.246205*PI/180.0}" effort="100" velocity="100"/>
@@ -228,10 +227,10 @@
     	</link>
 </xacro:macro>
 
- 
+
 <!--DOF 2-->
 <xacro:macro name="ahand_finger_dof2" params="prefix">
-	<!-- JOINT 2 -->	
+	<!-- JOINT 2 -->
 	<joint name="${prefix}_dof2_joint" type="revolute">
 		<parent link="${prefix}_dof1_link"/>
       		<child link="${prefix}_dof2_link"/>
@@ -241,15 +240,15 @@
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
 
-	<!-- LINK 2 -->    
+	<!-- LINK 2 -->
 	<link name="${prefix}_dof2_link">
-	
+
 		<inertial>
         		<origin xyz=" 0.0192 0 0 "/>
         		<xacro:cuboid_inertia_def width="0.0384" height="0.025" length="0.025" mass="0.0402"/>
         		<mass value="0.0402" />
       		</inertial>
-      		
+
 		<visual>
         		<origin xyz="-0.0098 -0.0098 -0.012" rpy="${PI} 0 ${PI/2}" /> <!-- DONE -->
         		<material name="WAMGrey">
@@ -273,19 +272,19 @@
 
 <!--DOF 3-->
 <xacro:macro name="ahand_finger_dof3" params="prefix">
-	
-	<!-- JOINT 3 -->	
+
+	<!-- JOINT 3 -->
 	<joint name="${prefix}_dof3_joint" type="revolute">
 		<parent link="${prefix}_dof2_link"/>
 		<child link="${prefix}_dof3_link"/>
       		<origin xyz="0.0384 0 0" rpy="0 0 0"/>
       		<axis xyz="0 0 1"/>
-      		<limit lower="${-13.006142*PI/180.0}" upper="${92.704571*PI/180.0}" effort="100" velocity="100"/>      
+      		<limit lower="${-13.006142*PI/180.0}" upper="${92.704571*PI/180.0}" effort="100" velocity="100"/>
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
-    
+
 	<!-- LINK 3 -->
-	<link name="${prefix}_dof3_link">      		
+	<link name="${prefix}_dof3_link">
 		<inertial>
         		<origin xyz=" 0.01 0 0 "/>
        			<xacro:cuboid_inertia_def width="0.02" height="0.025" length="0.025" mass="0.0094"/>
@@ -301,7 +300,7 @@
           			<mesh filename="${models_path}/allegro_fingerdof0.dae"/>
         		</geometry>
       		</visual>
-      
+
 		<collision>
         		<origin xyz="0.016 -0.0098 0.012" rpy="0 0 ${PI/2}"/> 	<!-- DONE -->
         		<geometry>
@@ -313,14 +312,14 @@
 
 <!--DOF 4-->
 <xacro:macro name="ahand_finger_dof4" params="prefix">
-	
+
 	<!-- JOINT 4 -->
 	<joint name="${prefix}_dof4_joint" type="fixed">
       		<parent link="${prefix}_dof3_link"/>
       		<child link="${prefix}_dof4_link"/>
       		<origin xyz="0.016 0 0" rpy="0 0 0"/>
     	</joint>
-    
+
 	<!-- LINK 4 -->
 	<link name="${prefix}_dof4_link">
 		<inertial>
@@ -355,13 +354,13 @@
 <!--DOF 0 THUMB-->
 <xacro:macro name="ahand_thumb_dof0" params="prefix parent_link xyz rpy axis">
 
-	<!-- JOINT 0 THUMB -->	
+	<!-- JOINT 0 THUMB -->
 	<joint name="${prefix}_dof0_joint" type="revolute">
 		<parent link="${parent_link}"/>
       		<child link="${prefix}_dof0_link"/>
-      		<origin xyz="${xyz}" rpy="${rpy}"/>      
-      		<axis xyz="${axis}"/> 
-     		<limit lower="-1.0" upper="85.0" effort="100" velocity="100"/> <!-- new version, it still needs to be negative ... -->       
+      		<origin xyz="${xyz}" rpy="${rpy}"/>
+      		<axis xyz="${axis}"/>
+     		<limit lower="-1.0" upper="85.0" effort="100" velocity="100"/> <!-- new version, it still needs to be negative ... -->
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
 
@@ -371,9 +370,9 @@
                 	<xacro:cuboid_inertia_def width="0.02" height="0.04" length="0.04" mass="0.0001"/>
         		<mass value="0.0001" />
       		</inertial>
-      		
+
 		<visual>
-        		<origin xyz="0.025 -0.0088 0.010" rpy="${-PI/2} ${0} ${PI} "/> <!-- DONE -->        
+        		<origin xyz="0.025 -0.0088 0.010" rpy="${-PI/2} ${0} ${PI} "/> <!-- DONE -->
         		<material name="all">
           			<color rgba="0.1 0.1 0.1 0.5"/>
         		</material>
@@ -382,7 +381,7 @@
         		</geometry>
       		</visual>
       		<!--collision>
-        		<origin xyz="0.025 -0.0088 0.010" rpy="${-PI/2} ${0} ${PI} "/> 
+        		<origin xyz="0.025 -0.0088 0.010" rpy="${-PI/2} ${0} ${PI} "/>
         		<geometry>
           			<mesh filename="${models_path}/shapes/allegro_thumbdof0.dae"/>
         		</geometry>
@@ -394,7 +393,7 @@
 
 <!--DOF 1 THUMB-->
 <xacro:macro name="ahand_thumb_dof1" params="prefix">
-	
+
 	<!-- JOINT 1 THUMB -->
 	<joint name="${prefix}_dof1_joint" type="revolute">
 		<parent link="${prefix}_dof0_link"/>
@@ -404,7 +403,7 @@
       		<limit lower="-66.0" upper="6.0" effort="100" velocity="100"/>
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
-    
+
 	<!-- LINK 1 THUMB -->
 	<link name="${prefix}_dof1_link">
       		<inertial>
@@ -422,7 +421,7 @@
           			<mesh filename="${models_path}/allegro_fingerdof0.dae"/>
         		</geometry>
       		</visual>
-	  	 	
+
 		<!--collision>
 	       		<origin xyz="0.012 -0.0098 0" rpy="${PI/2} ${0} ${PI/2}" />
         		<geometry>
@@ -434,17 +433,17 @@
 
 <!--DOF 2 THUMB-->
 <xacro:macro name="ahand_thumb_dof2" params="prefix">
-	
+
 	<!-- JOINT 2 THUMB -->
 	<joint name="${prefix}_dof2_joint" type="revolute">
       		<parent link="${prefix}_dof1_link"/>
       		<child link="${prefix}_dof2_link"/>
       		<origin xyz="0 0 0.0177" rpy="${-PI/2} 0 ${PI/2}"/> <!-- DONE -->
       		<axis xyz="0 0 1"/>
-      		<limit lower="-10.8" upper="94.0" effort="100" velocity="100"/>      
+      		<limit lower="-10.8" upper="94.0" effort="100" velocity="100"/>
       		<dynamics damping="${0.1*b}" friction="${0.1*c}"/>
     	</joint>
-     	
+
 	<!-- LINK 2 THUMB -->
 	<link name="${prefix}_dof2_link">
 		<inertial>
@@ -458,7 +457,7 @@
         		<material name="WAMGrey">
           			<color rgba="0.9 0.9 0.9 0.0"/>
         		</material>
-        	
+
 			<geometry>
           			<mesh filename="${models_path}/allegro_fingerdof1.dae"/>
         		</geometry>
@@ -476,7 +475,7 @@
 
 <!--DOF 3 THUMB-->
 <xacro:macro name="ahand_thumb_dof3" params="prefix">
-	
+
 	<!-- JOINT 3 THUMB -->
 	<joint name="${prefix}_dof3_joint" type="revolute">
 		<parent link="${prefix}_dof2_link"/>
@@ -518,7 +517,7 @@
     		<child link="${prefix}_dof4_link"/>
     		<origin xyz="0.046 0 0" rpy="0 0 0"/> <!-- DONE -->
   	</joint>
-  
+
 	<!-- LINK 4 THUMB -->
 	<link name="${prefix}_dof4_link">
    		<inertial>
@@ -526,7 +525,7 @@
         		<xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="0.0001"/>
     			<mass value="0.0001" />
   		</inertial>
- 
+
  		<visual>
     			<origin xyz="0 0.012 0.012" rpy="0 0 ${-PI/2}"/> 	<!-- DONE -->
     			<material name="WAMGrey">
@@ -537,7 +536,7 @@
     			</geometry>
   		</visual>
  		<!--collision>
-   			<origin xyz="0 0.012 0.012" rpy="0 0 ${-PI/2}"/> 
+   			<origin xyz="0 0.012 0.012" rpy="0 0 ${-PI/2}"/>
     			<geometry>
       			<mesh filename="${models_path}/shapes/allegro_fingertip.dae"/>
    			</geometry>

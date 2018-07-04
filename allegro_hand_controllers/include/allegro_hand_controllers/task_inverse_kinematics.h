@@ -29,7 +29,7 @@
 #include <allegro_hand_controllers/PoseRPY.h>
 #include <allegro_hand_controllers/PIDgains.h>
 
-namespace allegro_hand_controllers
+namespace ah_controllers
 {
 
 	class TaskInverseKinematics: public controller_interface::Controller<hardware_interface::EffortJointInterface>
@@ -41,7 +41,8 @@ namespace allegro_hand_controllers
 		bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n);
 		void starting(const ros::Time& time);
 		void update(const ros::Time& time, const ros::Duration& period);
-                void command_configuration(const allegro_hand_controllers::PoseRPY::ConstPtr &msg);
+
+        void command_configuration(const ah_controllers::PoseRPY::ConstPtr &msg);
 
 	private:
 		ros::NodeHandle nh_;

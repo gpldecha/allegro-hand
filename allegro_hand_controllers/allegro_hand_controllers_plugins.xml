@@ -1,10 +1,11 @@
 <library path="lib/liballegro_hand_controllers">
 
-  <class name="allegro_hand_controllers/TaskInverseKinematics" type="allegro_hand_controllers::TaskInverseKinematics" base_class_type="controller_interface::ControllerBase">
-    <description>
-      Info...
-    </description>
-  </class> 
+  <class type="ah_controllers::TaskInverseKinematics" base_class_type="controller_interface::ControllerBase">
+    <description> Position Controller for each finger </description>
+  </class>
 
+  <class type="ah_controllers::AhandJointStateController" base_class_type="controller_interface::ControllerBase">
+    <description> The JointStateController is for publishing information such as the position of the joints </description>
+  </class>
 
 </library>

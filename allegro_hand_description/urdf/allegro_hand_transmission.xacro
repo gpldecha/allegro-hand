@@ -19,22 +19,18 @@
     <xacro:finger_transmission finger="${finger}" dof="3"/>
   </xacro:macro>
 
-
-<xacro:macro name="finger_transmission" params="finger dof">
-
-	    <transmission name="${finger}_dof${dof}_trans">
-			<type>transmission_interface/SimpleTransmission</type>
-			<joint name="${finger}_dof${dof}_joint">
-				<hardwareInterface>EffortJointInterface</hardwareInterface>
-			</joint>
-			<actuator name="${finger}_dof${dof}_motor">
-				<hardwareInterface>EffortJointInterface</hardwareInterface>
-				<mechanicalReduction>1</mechanicalReduction>
-			</actuator>
-	    </transmission>
-
-
-</xacro:macro>
+  <xacro:macro name="finger_transmission" params="finger dof">
+	<transmission name="${finger}_dof${dof}_trans">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="${finger}_dof${dof}_joint">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="${finger}_dof${dof}_motor">
+			<hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+ </xacro:macro>
 
 
 </robot>

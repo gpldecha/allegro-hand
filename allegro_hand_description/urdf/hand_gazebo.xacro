@@ -1,69 +1,56 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-	<xacro:macro name="allegro_hand_gazebo" params="name use_ros_control">
+	<xacro:macro name="ahand_gazebo" params="name">
+		<gazebo>
+			<plugin name="${name}_hw_sim" filename="libahand_hw_gazebo_plugin.so">
+				<robotNamespace>/${name}</robotNamespace>
+			</plugin>
+		</gazebo>
 
-			<xacro:if value="${use_ros_control}">
-				<gazebo>
-					<plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
-						<robotNamespace>/${name}</robotNamespace>
-					</plugin>
-				</gazebo>
-			</xacro:if>
+   	<gazebo reference="ahand_palm_link">
+    	<xacro:gz_hand_link collide="false"/>
+    </gazebo>
 
-   			<gazebo reference="ahand_palm_link">
-      				<xacro:gz_hand_link collide="false"/>
-    			</gazebo>
-
-    			<xacro:gazebo_one_finger finger="f1" />
-    			<xacro:gazebo_one_finger finger="f2" />
-    			<xacro:gazebo_one_finger finger="f3" />    
-    			<xacro:gazebo_one_finger finger="thumb"/>
-
+    <xacro:gazebo_one_finger finger="f1" />
+    <xacro:gazebo_one_finger finger="f2" />
+    <xacro:gazebo_one_finger finger="f3" />
+    <xacro:gazebo_one_finger finger="thumb"/>
 	</xacro:macro>
 
-  	<xacro:macro name="gz_hand_link" params="collide">
-    		<mu1>0.05</mu1> <!--  Coefficient of friction. Was 0.8 before but then almost impossible to slip. -->
-    		<mu2>0.05</mu2> <!-- 0.8/ 0.05 -->
-    		<kp>400000</kp> <!-- This defines the springiness of the contacts: 400000 -->
-    		<xacro:if value="${collide}">
-      			<selfCollide>false</selfCollide>
-    		</xacro:if>
-  	</xacro:macro>
-
-  	<xacro:macro name="gz_joint">
-    		<provideFeedback>true</provideFeedback>
-    		<implicitSpringDamper>true</implicitSpringDamper>
-    		<!--<kp>0.0</kp>[> CFM <]-->
-    		<!--<kd>0.0</kd>[> ERP <]-->
-    		<!--<cfmDamping>true</cfmDamping>-->
-    		<!--<dynamics damping="5.5" friction="1"/>-->
-  	</xacro:macro>
-
-
-
-  	<xacro:macro name="gazebo_one_finger" params="finger">
-    		<xacro:gazebo_finger_segment finger="${finger}" dof="0" collide="false"/> 
-    		<xacro:gazebo_finger_segment finger="${finger}" dof="1" collide="false"/> 
-    		<xacro:gazebo_finger_segment finger="${finger}" dof="2" collide="false"/> 
-    		<xacro:gazebo_finger_segment finger="${finger}" dof="3" collide="false"/> 
-  	</xacro:macro>
+	<xacro:macro name="gazebo_one_finger" params="finger">
+  	<xacro:gazebo_finger_segment finger="${finger}" dof="0" collide="false"/>
+    <xacro:gazebo_finger_segment finger="${finger}" dof="1" collide="false"/>
+    <xacro:gazebo_finger_segment finger="${finger}" dof="2" collide="false"/>
+    <xacro:gazebo_finger_segment finger="${finger}" dof="3" collide="false"/>
+  </xacro:macro>
 
 	<xacro:macro name="gazebo_finger_segment" params="finger dof collide">
 		<gazebo reference="${finger}_dof${dof}_joint">
-      			<xacro:gz_joint/>
-    		</gazebo>
-
-    		<gazebo reference="${finger}_dof1_link">
-      			<xacro:gz_hand_link collide="${collide}"/>
-    		</gazebo>
+    	<xacro:gz_joint/>
+    </gazebo>
+    <gazebo reference="${finger}_dof${dof}_link">
+    	<xacro:gz_hand_link collide="${collide}"/>
+    </gazebo>
 	</xacro:macro>
 
+	<xacro:macro name="gz_hand_link" params="collide">
+  	<mu1>0.05</mu1> <!--  Coefficient of friction. Was 0.8 before but then almost impossible to slip. -->
+    <mu2>0.05</mu2> <!-- 0.8/ 0.05 -->
+    <kp>400000</kp> <!-- This defines the springiness of the contacts: 400000 -->
+    <xacro:if value="${collide}">
+    	<selfCollide>false</selfCollide>
+    </xacro:if>
+  </xacro:macro>
 
-
-
-
-
+  <xacro:macro name="gz_joint">
+  	<provideFeedback>true</provideFeedback>
+    <implicitSpringDamper>true</implicitSpringDamper>
+    <!--<kp>0.0</kp>[> CFM <]-->
+    <!--<kd>0.0</kd>[> ERP <]-->
+    <!--<cfmDamping>true</cfmDamping>-->
+    <!--<dynamics damping="5.5" friction="1"/>-->
+  </xacro:macro>
 
 
 </robot>
