@@ -13,15 +13,15 @@ void AhandHW::create(std::string name, std::string urdf_string){
     urdf_string_ = urdf_string;
 
     joint_names_.reserve(n_joints_);
-    joint_names_.push_back(  std::string("_joint_0") );
-    joint_names_.push_back(  std::string("_joint_1") );
-    joint_names_.push_back(  std::string("_joint_2") );
-    joint_names_.push_back(  std::string("_joint_3") );
+    joint_names_.push_back( std::string("_joint_0") );
+    joint_names_.push_back( std::string("_joint_1") );
+    joint_names_.push_back( std::string("_joint_2") );
+    joint_names_.push_back( std::string("_joint_3") );
 
-    joint_names_.push_back(  std::string("_joint_4") );
-    joint_names_.push_back(  std::string("_joint_5") );
-    joint_names_.push_back(  std::string("_joint_6") );
-    joint_names_.push_back(  std::string("_joint_7") );
+    joint_names_.push_back( std::string("_joint_4") );
+    joint_names_.push_back( std::string("_joint_5") );
+    joint_names_.push_back( std::string("_joint_6") );
+    joint_names_.push_back( std::string("_joint_7") );
 
     joint_names_.push_back(  std::string("_joint_8") );
     joint_names_.push_back(  std::string("_joint_9") );
@@ -37,6 +37,7 @@ void AhandHW::create(std::string name, std::string urdf_string){
     }
 
     joint_position_.resize(n_joints_);
+    joint_position_prev_.resize(n_joints_);
     joint_velocity_.resize(n_joints_);
     joint_effort_.resize(n_joints_);
     joint_effort_command_.resize(n_joints_);
@@ -59,9 +60,9 @@ void AhandHW::create(std::string name, std::string urdf_string){
 void AhandHW::reset(){
     for (std::size_t j = 0; j < n_joints_; ++j){
       joint_position_[j] = 0.0;
+      joint_position_prev_[j] = 0.0;
       joint_velocity_[j] = 0.0;
       joint_effort_[j] = 0.0;
-
       joint_effort_command_[j] = 0.0;
     }
 }

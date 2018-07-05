@@ -162,6 +162,7 @@
                 </material>
                 <origin rpy="${180*DEG2RAD} 0 0" xyz="0 0 0"/>
             </visual>
+
             <!--collision>
                 <geometry>
                     <box size="${link0_t_x} ${link0_t_y} ${link0_t_z}"/>

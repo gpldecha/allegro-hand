@@ -57,9 +57,8 @@ class AhandHW : public hardware_interface::RobotHW {
         int n_joints_ = 16; // safe magic number, the allegro hand has 16 joints
 
         // state and commands
-        std::vector<double> joint_position_, joint_velocity_, joint_effort_;
+        std::vector<double> joint_position_, joint_position_prev_, joint_velocity_, joint_effort_;
         std::vector<double> joint_effort_command_;
-
 
         // Strings
         std::string robot_namespace_;

@@ -85,7 +85,6 @@ class AHandHWsimPlugin : public gazebo::ModelPlugin{
             // This call will block if ROS is not properly initialized.
             const std::string urdf_string = getURDF(robot_description_);
 
-
             // Load the LWRHWsim abstraction to interface the controllers with the gazebo model
             robot_hw_sim_.reset( new AHandHWGazebo() );
             robot_hw_sim_->create(robot_namespace_, urdf_string);

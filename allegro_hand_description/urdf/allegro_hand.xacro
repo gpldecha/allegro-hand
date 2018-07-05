@@ -1,13 +1,10 @@
 <?xml version="1.0"?>
 <robot name="ahand" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!--xacro:include filename="$(find allegro_hand_description)/urdf/hand.xacro"/-->
 <xacro:include filename="$(find allegro_hand_description)/urdf/allegro_hand_description_right.xacro"/>
 
-<xacro:ahand_robot name="ahand"/>
+<link name="world"/>
 
-<!--link name="world"/-->
-
-<!--xacro:ahand prefix="ahand" parent_link="world" xyz="1.0 0 0.15" rpy="0 0 0" left="1"/-->
+<xacro:ahand_robot name="ahand" parent_link="world" xyz="0.0 0 0.15" rpy="0 0 0"/>
 
 </robot>
