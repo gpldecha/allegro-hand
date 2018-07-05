@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ahand_driver</name>
+  <version>1.0.0</version>
+  <description>The ahand_driver package</description>
+
+  <maintainer email="g.dechambrier@ocado.com">Guillaume de Chambrier</maintainer>
+
+  <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
+  <license>TODO</license>
+
+  <author email="g.dechambrier@ocado.com">Guillaume de Chambrier</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>roscpp</depend>
+  <depend>std_msgs</depend>
+
+</package>
