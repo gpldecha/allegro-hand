@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>allegro_hand_hw</name>
+  <name>ahand_hw</name>
   <version>1.0.0</version>
-  <description>The allegro_hand_hw package</description>
+  <description>The ahand_hw package</description>
 
   <maintainer email="g.dechambrier@ocado.com">Guillaume de Chambrier</maintainer>
 

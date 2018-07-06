@@ -62,8 +62,8 @@ catkin_package(
 
 add_library(ahand_controllers
         # src/task_inverse_kinematics.cpp include/allegro_hand_controllers/task_inverse_kinematics.h
-        src/ahand_joint_state_controller.cpp include/ahand_controllers/ahand_joint_state_controller.h
-
+    src/pd_controller.cpp include/ahand_controllers/pd_controller.h
+    src/ahand_joint_state_controller.cpp include/ahand_controllers/ahand_joint_state_controller.h
 )
 
 

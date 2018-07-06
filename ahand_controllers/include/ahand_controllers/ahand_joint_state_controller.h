@@ -1,5 +1,5 @@
-#ifndef ALLEGRO_HAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
-#define ALLEGRO_HAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
+#ifndef AHAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
+#define AHAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
 
 #include <control_msgs/JointControllerState.h>
 #include <controller_interface/controller.h>

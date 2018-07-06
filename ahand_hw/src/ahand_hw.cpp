@@ -46,7 +46,7 @@ void AhandHW::create(std::string name, std::string urdf_string){
 
     // GET TRANSMISSIONS THAT BELONG TO ALLEGRO HAND
     if (!parseTransmissionsFromURDF(urdf_string_)){
-        std::cout << "ahand_hw: " << "Error parsing URDF in allegro_hand_hw.\n" << std::endl;
+        std::cout << "ahand_hw: " << "Error parsing URDF in ahand_hw.\n" << std::endl;
         return;
     }
 

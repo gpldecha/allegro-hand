@@ -4,4 +4,9 @@
     <description> The JointStateController is for publishing information such as the position of the joints </description>
   </class>
 
+  <class name="ahand_controllers/AhandPDController" type="ahand_controllers::AhandPDController" base_class_type="controller_interface::ControllerBase">
+    <description> The JointStateController is for publishing information such as the position of the joints </description>
+  </class>
+
+
 </library>
