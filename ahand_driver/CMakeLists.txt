@@ -31,8 +31,9 @@ catkin_package(
 
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-
 include_directories(${catkin_INCLUDE_DIRS} include)
 
-add_library(ahand_driver src/ahandDriver.cpp ${INCLUDE_DIR}/ahand_driver/ahandDriver.h)
+add_library(ahand_driver src/ahandDriver.cpp ${INCLUDE_DIR}/ahand_driver/ahandDriver.h ${INCLUDE_DIR}/ahand_driver/rDeviceAllegroHandCANDef.h)
 target_link_libraries(ahand_driver ${catkin_LIBRARIES})
+
+add_subdirectory(example/rockPaperScissors)

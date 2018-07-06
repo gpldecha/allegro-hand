@@ -17,6 +17,15 @@ public:
 
     ~AhandDriver();
 
+    void setTorque(double *torque);
+
+    void getJointInfo(double *position);
+
+    BHand* const getBHand();
+
+    double* getDesiredJointPosition();
+
+
 private:
 
     bool openCAN();

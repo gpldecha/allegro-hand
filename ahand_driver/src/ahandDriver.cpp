@@ -30,6 +30,14 @@ AhandDriver::~AhandDriver(){
     destroyBHandAlgorithm();
 }
 
+BHand* const AhandDriver::getBHand(){
+    return pBHand;
+}
+
+double* AhandDriver::getDesiredJointPosition(){
+    return q_des;
+}
+
 bool AhandDriver::openCAN(){
 #if defined(PEAKCAN)
   CAN_Ch = GetCANChannelIndex(_T("USBBUS1"));
@@ -115,7 +123,6 @@ void AhandDriver::closeCAN(){
     ret = CANAPI::command_can_close(CAN_Ch);
     if(ret < 0) printf("ERROR command_can_close !!! \n");
 }
-
 
 void AhandDriver::updateCAN(){
     char id_des;
