@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>ahand_driver</name>
+  <name>can_api</name>
   <version>1.0.0</version>
-  <description>The ahand_driver package</description>
+  <description>The can api package</description>
 
   <maintainer email="g.dechambrier@ocado.com">Guillaume de Chambrier</maintainer>
 
@@ -12,9 +12,6 @@
   <author email="g.dechambrier@ocado.com">Guillaume de Chambrier</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <depend>can_api</depend>
-  <depend>bhand</depend>
-  <depend>roscpp</depend>
-  <depend>std_msgs</depend>
+
 
 </package>

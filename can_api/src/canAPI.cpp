@@ -24,11 +24,11 @@ typedef void* LPSTR;
 
 #include <PCANBasic.h>
 
-#include "ahand_driver/canDef.h"
-#include "ahand_driver/canAPI.h"
+#include "can_api/canDef.h"
+#include "can_api/canAPI.h"
 
 
-CANAPI_BEGIN
+//CANAPI_BEGIN
 
 /*=====================*/
 /*       Defines       */
@@ -89,13 +89,11 @@ TPCANHandle canDev[MAX_BUS] = {
 /*==========================================*/
 /*       Private functions prototypes       */
 /*==========================================*/
-int canReadMsg(int bus, int *id, int *len, unsigned char *data, int blocking);
-int canSendMsg(int bus, int id, char len, unsigned char *data, int blocking);
 
 /*========================================*/
 /*       Public functions (CAN API)       */
 /*========================================*/
-int initCAN(int bus){
+int CANAPI::initCAN(int bus){
 	TPCANStatus Status = PCAN_ERROR_OK;
 	char strMsg[256];
 	TPCANBaudrate Baudrate = PCAN_BAUD_1M;
@@ -107,7 +105,7 @@ int initCAN(int bus){
 	if (Status != PCAN_ERROR_OK)
 	{
 		CAN_GetErrorText(Status, 0, strMsg);
-		printf("initCAN(): CAN_Initialize() failed with error %ld\n", Status);
+        printf("initCAN(): CAN_Initialize() failed with error %ld\n",(long)Status);
 		printf("%s\n", strMsg);
 		return Status;
 	}
@@ -116,7 +114,7 @@ int initCAN(int bus){
 	if (Status != PCAN_ERROR_OK)
 	{
 		CAN_GetErrorText(Status, 0, strMsg);
-		printf("initCAN(): CAN_Reset() failed with error %ld\n", Status);
+        printf("initCAN(): CAN_Reset() failed with error %ld\n", (long)Status);
 		printf("%s\n", strMsg);
 		return Status;
 	}
@@ -124,7 +122,7 @@ int initCAN(int bus){
 	return 0; // PCAN_ERROR_OK
 }
 
-int freeCAN(int bus){
+int CANAPI::freeCAN(int bus){
 	TPCANStatus Status = PCAN_ERROR_OK;
 	char strMsg[256];
 
@@ -132,7 +130,7 @@ int freeCAN(int bus){
 	if (Status != PCAN_ERROR_OK)
 	{
 		CAN_GetErrorText(Status, 0, strMsg);
-		printf("freeCAN(): CAN_Uninitialize() failed with error %ld\n", Status);
+        printf("freeCAN(): CAN_Uninitialize() failed with error %ld\n", (long)Status);
 		printf("%s\n", strMsg);
 		return Status;
 	}
@@ -140,7 +138,7 @@ int freeCAN(int bus){
 	return 0; // PCAN_ERROR_OK
 }
 
-int canReadMsg(int bus, int *id, int *len, unsigned char *data, int blocking){
+int CANAPI::canReadMsg(int bus, int *id, int *len, unsigned char *data, int blocking){
 	TPCANMsg CANMsg;
 	TPCANTimestamp CANTimeStamp;
 	TPCANStatus Status = PCAN_ERROR_OK;
@@ -154,7 +152,7 @@ int canReadMsg(int bus, int *id, int *len, unsigned char *data, int blocking){
 		if (Status != PCAN_ERROR_QRCVEMPTY)
 		{
 			CAN_GetErrorText(Status, 0, strMsg);
-			printf("canReadMsg(): CAN_Read() failed with error %ld\n", Status);
+            printf("canReadMsg(): CAN_Read() failed with error %ld\n", (long)Status);
 			printf("%s\n", strMsg);
 		}
 
@@ -169,7 +167,7 @@ int canReadMsg(int bus, int *id, int *len, unsigned char *data, int blocking){
 	return 0;
 }
 
-int canSendMsg(int bus, int id, char len, unsigned char *data, int blocking){
+int CANAPI::canSendMsg(int bus, int id, char len, unsigned char *data, int blocking){
 	TPCANMsg CANMsg;
 	TPCANStatus Status = PCAN_ERROR_OK;
 	char strMsg[256];
@@ -184,7 +182,7 @@ int canSendMsg(int bus, int id, char len, unsigned char *data, int blocking){
 	if (Status != PCAN_ERROR_OK)
 	{
 		CAN_GetErrorText(Status, 0, strMsg);
-		printf("canSendMsg(): CAN_Write() failed with error %ld\n", Status);
+        printf("canSendMsg(): CAN_Write() failed with error %ld\n", (long)Status);
 		printf("%s\n", strMsg);
 		return Status;
 	}
@@ -195,7 +193,7 @@ int canSendMsg(int bus, int id, char len, unsigned char *data, int blocking){
 /*========================================*/
 /*       CAN API                          */
 /*========================================*/
-int command_can_open(int ch)
+int CANAPI::command_can_open(int ch)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -210,17 +208,17 @@ int command_can_open(int ch)
 	return 0;
 }
 
-int command_can_open_ex(int ch, int type, int index)
+int CANAPI::command_can_open_ex(int ch, int type, int index)
 {
 	return command_can_open(ch);
 }
 
-int command_can_reset(int ch)
+int CANAPI::command_can_reset(int ch)
 {
 	return -1;
 }
 
-int command_can_close(int ch)
+int CANAPI::command_can_close(int ch)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -232,7 +230,7 @@ int command_can_close(int ch)
 	if (Status != PCAN_ERROR_OK)
 	{
 		CAN_GetErrorText(Status, 0, strMsg);
-		printf("freeCAN(): CAN_Uninitialize() failed with error %ld\n", Status);
+        printf("freeCAN(): CAN_Uninitialize() failed with error %ld\n", (long)Status);
 		printf("%s\n", strMsg);
 		return Status;
 	}
@@ -241,7 +239,7 @@ int command_can_close(int ch)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int command_can_query_id(int ch)
+int CANAPI::command_can_query_id(int ch)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -253,7 +251,7 @@ int command_can_query_id(int ch)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int command_can_sys_init(int ch, int period_msec)
+int CANAPI::command_can_sys_init(int ch, int period_msec)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -278,7 +276,7 @@ int command_can_sys_init(int ch, int period_msec)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int command_can_start(int ch)
+int CANAPI::command_can_start(int ch)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -297,7 +295,7 @@ int command_can_start(int ch)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int command_can_stop(int ch)
+int CANAPI::command_can_stop(int ch)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -311,7 +309,7 @@ int command_can_stop(int ch)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int command_can_AHRS_set(int ch, unsigned char rate, unsigned char mask)
+int CANAPI::command_can_AHRS_set(int ch, unsigned char rate, unsigned char mask)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -327,7 +325,7 @@ int command_can_AHRS_set(int ch, unsigned char rate, unsigned char mask)
 	return 0; //PCAN_ERROR_OK;
 }
 
-int write_current(int ch, int findex, short* pwm)
+int CANAPI::write_current(int ch, int findex, short* pwm)
 {
 	assert(ch >= 0 && ch < MAX_BUS);
 
@@ -359,7 +357,7 @@ int write_current(int ch, int findex, short* pwm)
 	return 0;
 }
 
-int get_message(int ch, char* cmd, char* src, char* des, int* len, unsigned char* data, int blocking)
+int CANAPI::get_message(int ch, char* cmd, char* src, char* des, int* len, unsigned char* data, int blocking)
 {
 	int err;
 	unsigned long Rxid;
@@ -380,4 +378,4 @@ int get_message(int ch, char* cmd, char* src, char* des, int* len, unsigned char
 
 
 
-CANAPI_END
+// CANAPI_END
