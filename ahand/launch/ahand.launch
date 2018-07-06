@@ -8,7 +8,7 @@
 	<arg name="use_rviz" 		default="true"/>
 	<arg name="robot_name" 		default="ahand"/>
 
-  	<param name="robot_description" command="$(find xacro)/xacro.py '$(find allegro_hand_description)/urdf/allegro_hand.xacro'" />
+  	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/allegro_hand.xacro'" />
 	<param name="use_gui" value="$(arg gui)"/>
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

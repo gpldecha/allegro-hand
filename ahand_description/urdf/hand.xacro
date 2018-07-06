@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <robot name="ahand" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:include filename="$(find allegro_hand_description)/urdf/common.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/common.xacro"/>
   <xacro:property name="b" value="0.02"/> <!-- 0.8 damping // 0.2 ..-->
   <xacro:property name="c" value="0.8"/> <!-- friction: not used ... -->
 
   <!-- Include transmissions -->
-  <xacro:include filename="$(find allegro_hand_description)/urdf/allegro_hand_transmission.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/allegro_hand_transmission.xacro"/>
 
   <!-- Include Gazebo -->
-  <xacro:include filename="$(find allegro_hand_description)/urdf/hand_gazebo.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/hand_gazebo.xacro"/>
 
 
   <!-- High-leveel hand macro -->

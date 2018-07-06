@@ -13,6 +13,25 @@
     <xacro:property name="link1_z" value="0.0540"/>
     <xacro:property name="link2_z" value="0.0384"/>
 
+    <!-- according to http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Link_Masses -->
+    <xacro:property name="link_0_mass" value="${11.0*0.001}"/>
+    <xacro:property name="link_1_mass" value="${65*0.001}"/>
+    <xacro:property name="link_2_mass" value="${35.5*0.001}"/>
+    <xacro:property name="link_3_mass" value="${9.6*0.001}"/>
+    <xacro:property name="link_tip_mass" value="${16.8*0.001}"/>
+
+    <xacro:property name="thumb_0_mass" value="${17.6*0.001}"/>
+    <xacro:property name="thumb_1_mass" value="${11.9*0.001}"/>
+    <xacro:property name="thumb_2_mass" value="${38.0*0.001}"/>
+    <xacro:property name="thumb_3_mass" value="${38.8*0.001}"/>
+    <xacro:property name="thumb_tip_mass" value="${16.8*0.001}"/>
+
+    <xacro:property name="palm_mass" value="${415.4*0.001}"/>
+
+    <!-- http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Joint_Dimensions_and_Directions -->
+
+
+
     <!-- full height from joint to tip. when used,
          the radius of the finger tip sphere will be subtracted
          and one fixed link will be added for the tip. -->
@@ -52,16 +71,16 @@
 
     <!-- ============================================================================= -->
 
-  <xacro:include filename="$(find allegro_hand_description)/urdf/common.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/common.xacro"/>
   <xacro:property name="b" value="0.02"/> <!-- 0.8 damping // 0.2 ..-->
   <xacro:property name="c" value="0.8"/> <!-- friction: not used ... -->
 
 
   <!-- Include transmissions -->
-  <xacro:include filename="$(find allegro_hand_description)/urdf/allegro_hand_transmission.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/allegro_hand_transmission.xacro"/>
 
   <!-- Include Gazebo -->
-  <xacro:include filename="$(find allegro_hand_description)/urdf/hand_gazebo.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/hand_gazebo.xacro"/>
 
 
   <!-- URDF model with default base_link (world)-->
@@ -76,29 +95,20 @@
 
     <!-- PALM -->
     <link name="${name}_palm_link">
-        <visual>
-            <geometry>
-                <mesh filename="package://allegro_hand_description/meshes/base_link.STL"/>
-            </geometry>
-            <origin rpy="0 0 0" xyz="0 0 0 "/>
-            <material name="black">
-                <color rgba="0.2 0.2 0.2 1"/>
-            </material>
+      <inertial>
+        <origin xyz="0 0 -${palm_link_z/2}" rpy="0 0 0"/>
+        <mass value="1.1644" />
+        <xacro:cuboid_inertia_def width="0.04" height="0.095" length="0.10" mass="1.1644"/>
+      </inertial>
+      <visual>
+        <geometry>
+          <mesh filename="package://ahand_description/meshes/base_link.STL"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0 0 0 "/>
+          <material name="black">
+            <color rgba="0.2 0.2 0.2 1"/>
+        </material>
         </visual>
-        <!--collision>
-            <origin rpy="0 0 0" xyz="-0.009300 0 -${palm_link_z/2}"/>
-            <geometry>
-                <box size="0.0408 0.1130 ${palm_link_z}"/>
-            </geometry>
-        </collision-->
-        <inertial>
-          <origin xyz="0 0 ${palm_link_z/2}" rpy="0 0 0"/>
-          <mass value="0.4154"/>
-          <inertia
-              ixx="1e-4" ixy="0.0" ixz="0.0"
-              iyy="1e-4" iyz="0.0"
-              izz="1e-4"/>
-        </inertial>
     </link>
 
     <!-- ============================================================================= -->
@@ -153,30 +163,27 @@
 
         <!-- [LINK 12] -->
         <link name="${name}_link_${finger_num*4+0}">
-            <visual>
-                <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_12.0_right.STL"/>
-                </geometry>
-                <material name="black">
-                    <color rgba=".2 .2 .2 1"/>
-                </material>
-                <origin rpy="${180*DEG2RAD} 0 0" xyz="0 0 0"/>
-            </visual>
-
-            <!--collision>
-                <geometry>
-                    <box size="${link0_t_x} ${link0_t_y} ${link0_t_z}"/>
-                </geometry>
-                <origin rpy="0 0 0" xyz="${-0.0358/2+0.0} ${.018/2} ${.029/2}"/>
-            </collision-->
-
             <inertial>
+              <origin xyz="${-link0_t_x/2} 0 0"/>
+              <xacro:cuboid_inertia_def width="0.02" height="0.04" length="0.04" mass="${thumb_0_mass}"/>
+              <mass value="${thumb_0_mass}" />
+            </inertial>
+            <visual>
+              <geometry>
+                <mesh filename="package://ahand_description/meshes/link_12.0_right.STL"/>
+              </geometry>
+              <material name="black">
+                <color rgba=".2 .2 .2 1"/>
+              </material>
+              <origin rpy="${180*DEG2RAD} 0 0" xyz="0 0 0"/>
+            </visual>
+            <!--inertial>
               <mass value="0.0176" />
               <origin xyz="0 0 0" rpy="0 0 0"/>
               <inertia ixx="1.89273333333e-5" ixy="7.16716e-06" ixz="5.35568e-06"
                        iyy="1.43008213333e-05" iyz="6.8068e-06"
                        izz="1.89273333333e-05" />
-            </inertial>
+            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+0}" type="revolute">
@@ -188,14 +195,21 @@
             <child link="${name}_link_${finger_num*4+0}"/>
             <origin rpy="${finger_angle_r} ${finger_angle_p} ${finger_angle_y}"
                     xyz="${offset_origin_x} ${offset_origin_y} ${offset_origin_z}"/>
-              <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
         </joint>
 
         <!-- [LINK 13] -->
         <link name="${name}_link_${finger_num*4+1}">
-            <visual>
+
+          <inertial>
+            <origin xyz="0.0 0.0 ${link1_t_z/2} "/>
+            <xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="${thumb_1_mass}"/>
+            <mass value="${thumb_1_mass}" />
+          </inertial>
+
+          <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_13.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_13.0.STL"/>
                 </geometry>
                 <material name="black">
                     <color rgba=".2 .2 .2 1"/>
@@ -208,14 +222,13 @@
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link1_t_z/2}"/>
             </collision-->
-
-            <inertial>
+            <!--inertial>
               <mass value="0.0119" />
               <origin xyz="0 0 0" rpy="0 0 0"/>
               <inertia ixx="4.24250866667e-06" ixy="1.032087e-06" ixz="1.603525e-06"
                        iyy="4.52362633333e-06" iyz="1.44808125e-06"
                        izz="4.24250866667e-06" />
-            </inertial>
+            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+1}" type="revolute">
@@ -231,27 +244,30 @@
 
         <!-- [LINK 14] -->
         <link name="${name}_link_${finger_num*4+2}">
+            <inertial>
+                  <origin xyz="0.0 0.0 ${link2_t_z/2}"/>
+                        <xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="${thumb_2_mass}"/>
+                  <mass value="${thumb_2_mass}" />
+            </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_14.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_14.0.STL"/>
                 </geometry>
                 <material name="black">
                 </material>
             </visual>
-
             <!--collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link2_t_z}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link2_t_z/2}"/>
             </collision-->
-
-            <inertial>
+            <!--inertial>
               <mass value="0.038" />
               <origin xyz="0 0 0" rpy="0 0 0"/>
               <inertia ixx="4.30439933333e-05" ixy="9.57068e-06" ixz="5.1205e-06" iyy="1.44451933333e-05"
                        iyz="1.342825e-05" izz="4.30439933333e-05" />
-            </inertial>
+            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
@@ -267,9 +283,14 @@
 
         <!-- [LINK 15] -->
         <link name="${name}_link_${finger_num*4+3}">
-            <visual>
+          <inertial>
+                <origin xyz="0.0 0.0 ${link3_t_z/2}"/>
+                      <xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="${thumb_3_mass}"/>
+                <mass value="${thumb_3_mass}" />
+          </inertial>
+          <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_15.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_15.0.STL"/>
                 </geometry>
                 <material name="black">
                 </material>
@@ -282,13 +303,13 @@
                 <origin rpy="0 0 0" xyz="0 0 ${(link3_t_z-fingerTip_r)/2}"/>
             </collision-->
 
-            <inertial>
+            <!--inertial>
               <mass value="0.0388" />
               <origin xyz="0 0 0" rpy="0 0 0"/>
               <inertia ixx="3.29223173333e-05" ixy="8.042076e-06" ixz="5.2283e-06"
                        iyy="1.47493026667e-5" iyz="1.1283525e-5"
                        izz="3.29223173333e-05" />
-            </inertial>
+            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}" type="revolute">
@@ -304,9 +325,14 @@
 
         <!-- [FINGER TIP] -->
         <link name="${name}_link_${finger_num*4+3}_tip">
+          <inertial>
+                <origin xyz="0.0 0.0 0.0"/>
+                      <xacro:cuboid_inertia_def width="0.02" height="0.05" length="0.02" mass="${thumb_tip_mass}"/>
+                <mass value="${thumb_tip_mass}" />
+          </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_15.0_tip.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_15.0_tip.STL"/>
                 </geometry>
                 <material name="white">
                     <color rgba=".9 .9 .9 1"/>
@@ -320,13 +346,13 @@
                 <origin rpy="0 0 0" xyz="0 0 0"/>
             </collision-->
 
-            <inertial>
+            <!--inertial>
               <mass value="0.0168" />
               <origin xyz="0 0 0" rpy="0 0 0"/>
               <inertia ixx="9.68e-07" ixy="0" ixz="0"
                        iyy="9.68e-07" iyz="0"
                        izz="9.68e-07" />
-            </inertial>
+            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">
@@ -342,27 +368,23 @@
 
         <!-- [LINK 0, 4, 8] -->
         <link name="${name}_link_${finger_num*4+0}">
+            <inertial>
+              <origin xyz="0.00 0 0.01"/>
+              <xacro:cuboid_inertia_def width="0.025" height="0.02" length="0.025" mass="${link_0_mass}"/>
+              <mass value="${link_0_mass}" />
+            </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_0.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_0.0.STL"/>
                 </geometry>
                 <material name="black"/>
             </visual>
-
             <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link0_z}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link0_z/2}"/>
             </collision>
-
-            <inertial>
-              <mass value="0.0119" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="1.01666658333e-06" ixy="0.0" ixz="0.0"
-                       iyy="6.47677333333e-07" iyz="0.0"
-                       izz="1.01666658333e-06" />
-            </inertial>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+0}" type="revolute">
@@ -379,26 +401,23 @@
 
         <!-- [LINK 1, 5, 9] -->
         <link name="${name}_link_${finger_num*4+1}">
-            <visual>
-                <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_1.0.STL"/>
-                </geometry>
-                <material name="black"/>
-            </visual>
-
-            <!--collision>
+          <inertial>
+        		<origin xyz="0. 0. ${link1_z/2}" rpy="1.5707 0 0"/>
+        		<xacro:cuboid_inertia_def width="0.025" height="0.054" length="0.025" mass="${link_1_mass}"/>
+        		<mass value="${link_2_mass}" />
+      		</inertial>
+          <visual>
+            <geometry>
+              <mesh filename="package://ahand_description/meshes/link_1.0.STL"/>
+            </geometry>
+            <material name="black"/>
+          </visual>
+          <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link1_z}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link1_z/2}"/>
-            </collision-->
-            <inertial>
-              <mass value="0.065" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="7.95654166667e-05" ixy="1.7199e-05" ixz="8.75875e-06"
-                       iyy="2.47088833333e-05" iyz="2.413125e-05"
-                       izz="7.95654166667e-05" />
-            </inertial>
+          </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+1}" type="revolute">
@@ -416,25 +435,21 @@
         <link name="${name}_link_${finger_num*4+2}">
             <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_2.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_2.0.STL"/>
                 </geometry>
                 <material name="black"/>
             </visual>
-
-            <!--collision>
+            <inertial>
+              <origin xyz="0 0 ${link2_z/2}" rpy="0. 1.5707 0."/>
+              <xacro:cuboid_inertia_def width="0.0384" height="0.025" length="0.025" mass="${link_2_mass}"/>
+              <mass value="${link_2_mass}" />
+            </inertial>
+            <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link2_z}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link2_z/2}"/>
-            </collision-->
-
-            <inertial>
-              <mass value="0.0355" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="2.63979183333e-05" ixy="6.67968e-06" ixz="4.783625e-06"
-                       iyy="1.34948516667e-05" iyz="9.372e-06"
-                       izz="2.63979183333e-05" />
-            </inertial>
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
@@ -450,27 +465,23 @@
 
         <!-- [LINK 3, 7, 11] -->
         <link name="${name}_link_${finger_num*4+3}">
+            <inertial>
+              <origin xyz=" 0 0 0"/>
+              <xacro:cuboid_inertia_def width="0.02" height="0.025" length="0.025" mass="${link_3_mass}"/>
+              <mass value="${link_3_mass}" />
+            </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_3.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_3.0.STL"/>
                 </geometry>
                 <material name="black"/>
             </visual>
-
-            <!--collision>
+            <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link3_z-fingerTip_r}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${(link3_z-fingerTip_r)/2}"/>
-            </collision-->
-
-            <inertial>
-              <mass value="0.0096" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="4.701248e-06" ixy="1.255968e-06" ixz="1.2936e-06"
-                       iyy="3.649312e-06" iyz="1.7622e-06"
-                       izz="4.701248e-06" />
-            </inertial>
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}" type="revolute">
@@ -486,28 +497,20 @@
 
         <!-- [FINGER TIP] -->
         <link name="${name}_link_${finger_num*4+3}_tip">
-            <visual>
-                <geometry>
-                    <mesh filename="package://allegro_hand_description/meshes/link_3.0_tip.STL"/>
-                </geometry>
-                <material name="white">
-                    <color rgba=".9 .9 .9 1"/>
-                </material>
-            </visual>
+          <inertial>
+            <origin xyz="0 0 0"/>
+            <xacro:cuboid_inertia_def width="0.02" height="0.020" length="0.020" mass="${link_tip_mass}"/>
+            <mass value="${link_tip_mass}"/>
+          </inertial>
 
-            <!--collision>
-                <geometry>
-                    <sphere radius="${fingerTip_r}"/>
-                </geometry>
-            </collision-->
-
-            <inertial>
-              <mass value="0.0168" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="9.68e-07" ixy="0" ixz="0"
-                       iyy="9.68e-07" iyz="0"
-                       izz="9.68e-07" />
-            </inertial>
+          <visual>
+            <geometry>
+              <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
+            </geometry>
+            <material name="white">
+              <color rgba=".9 .9 .9 1"/>
+            </material>
+          </visual>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">

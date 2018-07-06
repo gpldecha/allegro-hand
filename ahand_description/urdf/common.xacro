@@ -26,7 +26,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Directories -->
-  <xacro:property name="models_path" value="package://allegro_hand_description/meshes" />
+  <xacro:property name="models_path" value="package://ahand_description/meshes" />
 
   <!-- Constants -->
   <xacro:property name="PI" value="3.1415926535897931" />

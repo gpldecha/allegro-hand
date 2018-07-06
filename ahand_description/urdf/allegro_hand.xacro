@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot name="ahand" xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<xacro:include filename="$(find allegro_hand_description)/urdf/allegro_hand_description_right.xacro"/>
+<xacro:include filename="$(find ahand_description)/urdf/ahand_description_right.xacro"/>
 
 <link name="world"/>
 

@@ -21,7 +21,7 @@
   <link name="ahand_palm_link">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/base_link.STL"/>
+        <mesh filename="package://ahand_description/meshes/base_link.STL"/>
       </geometry>
       <origin rpy="0 0 0" xyz="0 0 0 "/>
       <material name="black">
@@ -44,7 +44,7 @@
   <link name="ahand_link_0">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_0.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_0.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -72,7 +72,7 @@
   <link name="ahand_link_1">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_1.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_1.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -100,7 +100,7 @@
   <link name="ahand_link_2">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_2.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_2.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -128,7 +128,7 @@
   <link name="ahand_link_3">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -156,7 +156,7 @@
   <link name="ahand_link_3_tip">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0_tip.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
       </geometry>
       <material name="white">
         <color rgba=".9 .9 .9 1"/>
@@ -182,7 +182,7 @@
   <link name="ahand_link_4">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_0.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_0.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -210,7 +210,7 @@
   <link name="ahand_link_5">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_1.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_1.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -238,7 +238,7 @@
   <link name="ahand_link_6">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_2.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_2.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -266,7 +266,7 @@
   <link name="ahand_link_7">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -294,7 +294,7 @@
   <link name="ahand_link_7_tip">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0_tip.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
       </geometry>
       <material name="white">
         <color rgba=".9 .9 .9 1"/>
@@ -320,7 +320,7 @@
   <link name="ahand_link_8">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_0.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_0.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -348,7 +348,7 @@
   <link name="ahand_link_9">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_1.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_1.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -376,7 +376,7 @@
   <link name="ahand_link_10">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_2.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_2.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -404,7 +404,7 @@
   <link name="ahand_link_11">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0.STL"/>
       </geometry>
       <material name="black"/>
     </visual>
@@ -432,7 +432,7 @@
   <link name="ahand_link_11_tip">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_3.0_tip.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
       </geometry>
       <material name="white">
         <color rgba=".9 .9 .9 1"/>
@@ -458,7 +458,7 @@
   <link name="ahand_link_12">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_12.0_right.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_12.0_right.STL"/>
       </geometry>
       <material name="black">
         <color rgba=".2 .2 .2 1"/>
@@ -489,7 +489,7 @@
   <link name="ahand_link_13">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_13.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_13.0.STL"/>
       </geometry>
       <material name="black">
         <color rgba=".2 .2 .2 1"/>
@@ -519,7 +519,7 @@
   <link name="ahand_link_14">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_14.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_14.0.STL"/>
       </geometry>
       <material name="black">
                 </material>
@@ -548,7 +548,7 @@
   <link name="ahand_link_15">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_15.0.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_15.0.STL"/>
       </geometry>
       <material name="black">
                 </material>
@@ -577,7 +577,7 @@
   <link name="ahand_link_15_tip">
     <visual>
       <geometry>
-        <mesh filename="package://allegro_hand_description/meshes/link_15.0_tip.STL"/>
+        <mesh filename="package://ahand_description/meshes/link_15.0_tip.STL"/>
       </geometry>
       <material name="white">
         <color rgba=".9 .9 .9 1"/>

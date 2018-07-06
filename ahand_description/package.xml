@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>allegro_hand_description</name>
+  <name>ahand_description</name>
   <version>0.0.0</version>
   <description>The myrobot_description package</description>
 
