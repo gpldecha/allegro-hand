@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ahand_controllers)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
+add_compile_options(-std=c++11)
+
 find_package(orocos_kdl REQUIRED)
 find_package(catkin REQUIRED COMPONENTS
   controller_interface
@@ -43,6 +42,10 @@ generate_messages(
   geometry_msgs
 )
 
+generate_dynamic_reconfigure_options(
+  cfg/gains_pd_param.cfg
+)
+
 
 # Declare catkin package
 catkin_package(
@@ -58,7 +61,13 @@ catkin_package(
     message_runtime
   INCLUDE_DIRS include
   LIBRARIES ahand_controllers
-  )
+)
+
+
+
+#########
+# BUILD #
+#########
 
 add_library(ahand_controllers
         # src/task_inverse_kinematics.cpp include/allegro_hand_controllers/task_inverse_kinematics.h
@@ -69,7 +78,7 @@ add_library(ahand_controllers
 
 target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})
 
-
+add_dependencies(ahand_controllers ${PROJECT_NAME}_gencfg)
 
 # Install
 install(DIRECTORY include/ahand_controllers/

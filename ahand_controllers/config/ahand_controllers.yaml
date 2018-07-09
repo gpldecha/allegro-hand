@@ -5,10 +5,6 @@ ahand:
     publish_rate: 100
 
   # Task Inverse Kinematics
-  # TaskInverseKinematics:
-  #  type: allegro_hand_controllers/TaskInverseKinematics
-  #  root_name: f1_dof0_link
-  #  tip_name:  f1_dof3_link
-  #  pid_f1_dof1_joint: {p: 1,  i: 0.0, d: 0, i_clamp_min: -0.3, i_clamp_max: 0.3}
-  #  pid_f1_dof2_joint: {p: 1,  i: 0.0, d: 0, i_clamp_min: -0.3, i_clamp_max: 0.3}
-#    pid_f1_dof3_joint: {p: 1,  i: 0.0, d: 0, i_clamp_min: -0.3, i_clamp_max: 0.3}
+  pd_controller:
+    type: ahand_controllers/PDController
+    publish_rate: 100

@@ -67,6 +67,19 @@ void AhandHW::reset(){
     }
 }
 
+bool AhandHW::canSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list) const{
+    ROS_INFO("can switch");
+    for ( std::list<hardware_interface::ControllerInfo>::const_iterator it = start_list.begin(); it != start_list.end(); ++it ){
+        std::cout<< "name: " << it->name << std::endl;
+
+    }
+    return true;
+}
+
+void AhandHW::doSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list){
+    ROS_INFO("doSwitch");
+}
+
 
 void AhandHW::registerInterfaces(const urdf::Model *const urdf_model, std::vector<transmission_interface::TransmissionInfo> transmissions){
     std::cout<< "transmissions.size(): " << transmissions.size() << std::endl;
@@ -90,22 +103,20 @@ void AhandHW::registerInterfaces(const urdf::Model *const urdf_model, std::vecto
             continue;
         }
 
-        const std::string& hardware_interface = joint_interfaces.front();
         // Debug
-        std::cout << "\x1B[37m" << "ahand_hw: " << "Loading joint '" << joint_names_[j]
-          << "' of type '" << hardware_interface << "'" << "\x1B[0m" << std::endl;
+        std::cout << "\x1B[37m" << "ahand_hw: " << "Loading joint '" << joint_names_[j] << "' of type '" << joint_interfaces.front() << "'" << "\x1B[0m" << std::endl;
 
-        // Create joint state interface for all joints
         state_interface_.registerHandle(hardware_interface::JointStateHandle(joint_names_[j], &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
 
-        // Decide what kind of command interface this actuator/joint has
         hardware_interface::JointHandle joint_handle_effort;
-        joint_handle_effort = hardware_interface::JointHandle(state_interface_.getHandle(joint_names_[j]), &joint_effort_command_[j]);
+        joint_handle_effort = hardware_interface::JointHandle(state_interface_.getHandle(joint_names_[j]),&joint_effort_command_[j]);
         effort_interface_.registerHandle(joint_handle_effort);
     }
 
     // Register interfaces
     registerInterface(&state_interface_);
+    registerInterface(&effort_interface_);
+
 }
 
 

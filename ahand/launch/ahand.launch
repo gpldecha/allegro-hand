@@ -3,16 +3,26 @@
 	<arg name="gui" 		default="false" />
 	<arg name="controller" 		default="TaskInverseKinematics" />
 	<arg name="stopped_controllers" default="TaskInverseKinematics" />
+  	<arg name="params_dir" 		default="$(find ahand_parameters)" />
 
-	<arg name="use_lwr_sim" 	default="true"/>
+	<arg name="use_sim" 		default="true"/>
 	<arg name="use_rviz" 		default="true"/>
 	<arg name="robot_name" 		default="ahand"/>
+
+  	<!-- yaml param files for your hand can be found in parameters/zero_files/ -->
+  	<arg name="ZEROS" default="$(arg params_dir)/zero.yaml"/>
+
+	<!-- load parameters -->
+    	<!--parameters are within the scope of the hand node so that multiple hands can be run at the same time -->
+    	<rosparam file="$(arg ZEROS)" command="load" />
+
 
   	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/allegro_hand.xacro'" />
 	<param name="use_gui" value="$(arg gui)"/>
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
 		<rosparam param="source_list">[/ahand/joint_states]</rosparam>
+    		<param name="use_gui" value="false"/>
 	</node>
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
@@ -27,12 +37,12 @@
 		<node name="rviz" pkg="rviz" type="rviz" required="true" />
 	</group>
 
-	<group if="$(arg use_lwr_sim)">
+	<group if="$(arg use_sim)">
 		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)"  respawn="false" output="screen" />
 
 		<include file="$(find gazebo_ros)/launch/empty_world.launch">
 			<arg name="world_name" value="simple world"/>
-			<arg name="paused" value="true"/>
+			<arg name="paused" value="false"/>
 			<arg name="use_sim_time" value="true"/>
 			<arg name="gui" value="true"/>
 			<arg name="headless" value="false"/>

@@ -38,6 +38,10 @@ class AhandHW : public hardware_interface::RobotHW {
 
         virtual void write(ros::Time time, ros::Duration period) = 0;
 
+        virtual bool canSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list) const;
+
+        virtual void doSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list);
+
     public:
 
         void create(std::string name, std::string urdf_string);
@@ -54,7 +58,7 @@ class AhandHW : public hardware_interface::RobotHW {
 
     public:
 
-        int n_joints_ = 16; // safe magic number, the allegro hand has 16 joints
+        std::size_t n_joints_ = 16; // safe magic number, the allegro hand has 16 joints
 
         // state and commands
         std::vector<double> joint_position_, joint_position_prev_, joint_velocity_, joint_effort_;

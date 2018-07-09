@@ -44,20 +44,16 @@ class AHandHWGazebo : public AhandHW{
             for(int j=0; j < n_joints_; ++j){
                 joint_position_prev_[j] = joint_position_[j];
                 joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->GetAngle(0).Radian());
-                //joint_position_kdl_(j) = joint_position_[j];
-                // derivate velocity as in the real hardware instead of reading it from simulation
                 joint_velocity_[j]    = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
                 joint_effort_[j]      = sim_joints_[j]->GetForce((int)(0));
-                //joint_stiffness_[j]   = joint_stiffness_command_[j];
-                //joint_damping_[j]     = joint_damping_command_[j];
             }
         }
 
         void write(ros::Time time, ros::Duration period){
-
+            for(std::size_t i = 0; i < n_joints_; i++){
+                sim_joints_[i]->SetForce(0, joint_effort_command_[i]);
+            }
         }
-
-
 
 
 private:
