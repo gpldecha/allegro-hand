@@ -22,7 +22,11 @@ AhandDriver::AhandDriver(){
         std::cerr<< "could not create BHand Algorithm" << std::endl;
     if(!openCAN())
         std::cerr<< "could not open CAN" << std::endl;
+    isInitialised = true;
+}
 
+bool AhandDriver::isIntialised(){
+    return isInitialised;
 }
 
 AhandDriver::~AhandDriver(){
@@ -32,6 +36,12 @@ AhandDriver::~AhandDriver(){
 
 BHand* const AhandDriver::getBHand(){
     return pBHand;
+}
+
+void AhandDriver::getJointInfo(double *position){
+    for(std::size_t i = 0; i < MAX_DOF; i++){
+        position[i] = q[i];
+    }
 }
 
 double* AhandDriver::getDesiredJointPosition(){
@@ -103,7 +113,6 @@ bool AhandDriver::openCAN(){
   return true;
 }
 
-
 void AhandDriver::closeCAN(){
     printf(">CAN: stop periodic communication\n");
     int ret = CANAPI::command_can_stop(CAN_Ch);
@@ -136,6 +145,26 @@ void AhandDriver::updateCAN(){
     while (ioThreadRun){
         /* wait for the event */
         while (0 == CANAPI::get_message(CAN_Ch, &id_cmd, &id_src, &id_des, &len, data, FALSE)){
+
+            if (id_src >= ID_DEVICE_SUB_01 && id_src <= ID_DEVICE_SUB_04){
+               vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 0] = (int)(data[0] | (data[1] << 8));
+               vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 1] = (int)(data[2] | (data[3] << 8));
+               vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 2] = (int)(data[4] | (data[5] << 8));
+               vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 3] = (int)(data[6] | (data[7] << 8));
+               data_return |= (0x01 << (id_src-ID_DEVICE_SUB_01));
+            }
+            if (data_return == (0x01 | 0x02 | 0x04 | 0x08)){
+               // convert encoder count to joint angle
+               for (i=0; i<MAX_DOF; i++){
+                   q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
+               }
+               std::cout<< "f1 " << std::endl;
+               std::cout<< q[0]*57.2958 << std::endl;
+               std::cout<< q[1]*57.2958 << std::endl;
+               std::cout<< q[2]*57.2958 << std::endl;
+               std::cout<< q[3]*57.2958 << std::endl;
+            }
+
             switch (id_cmd){
                  case ID_CMD_QUERY_ID:
                  {

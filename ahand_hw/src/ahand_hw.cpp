@@ -134,7 +134,6 @@ bool AhandHW::parseTransmissionsFromURDF(const std::string& urdf_string){
             std::cout << "Found a match for transmission " << it->name_ << std::endl;
            }
         }
-
      }
 
      if( transmissions_.empty() ){

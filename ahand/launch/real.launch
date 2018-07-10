@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="rviz_config" default="$(find lwr_launch)/launch/rviz_config.rviz"/>
+
+
+</launch>

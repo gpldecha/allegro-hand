@@ -17,6 +17,8 @@ public:
 
     ~AhandDriver();
 
+    bool isIntialised();
+
     void setTorque(double *torque);
 
     void getJointInfo(double *position);
@@ -82,6 +84,7 @@ private:
 
     std::thread updated_thread_;
     bool ioThreadRun = false;
+    bool isInitialised = false;
 
 
 };

@@ -2,7 +2,7 @@
 
 
 bool ahand_controllers::AhandJointStateController::init(hardware_interface::JointStateInterface* hw, ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh){
-    ROS_INFO("init JointStateController");
+    ROS_INFO("Initialising JointStateController");
 
     // get all joint names from the hardware interface
     const std::vector<std::string>& joint_names = hw->getNames();
@@ -26,6 +26,8 @@ bool ahand_controllers::AhandJointStateController::init(hardware_interface::Join
         realtime_pub_->msg_.velocity.push_back(0.0);
         realtime_pub_->msg_.effort.push_back(0.0);
     }
+    ROS_INFO("JointStateController is initialised");
+    return true;
 }
 
 void ahand_controllers::AhandJointStateController::starting(const ros::Time& time){

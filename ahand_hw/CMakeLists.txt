@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   transmission_interface
   gazebo_ros
   std_msgs
+  ahand_driver
 )
 
 add_definitions (-std=c++11)
@@ -39,7 +40,8 @@ catkin_package(
     transmission_interface
     gazebo_ros
     std_msgs
-  LIBRARIES ahand_hw ahand_hw_gazebo_plugin
+    ahand_driver
+  LIBRARIES ahand_hw ahand_hw_can ahand_hw_gazebo_plugin
 )
 
 ###########
@@ -49,14 +51,22 @@ catkin_package(
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(HDR_FILES  ${INCLUDE_DIR}/ahand_hw/ahand_hw.h)
 
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(${catkin_INCLUDE_DIRS} ${INCLUDE_DIR})
 
-## Declare a C++ library
+## AHAND HW BASE CLASS
+
 add_library(ahand_hw src/ahand_hw.cpp ${HDR_FILES})
 target_link_libraries(ahand_hw ${catkin_LIBRARIES})
+
+
+## REAL
+add_executable(ahand_hw_can_node src/ahand_hw_can_node.cpp  include/ahand_hw/ahand_hw_can.hpp)
+add_dependencies(ahand_hw_can_node ahand_hw ahand_driver)
+target_link_libraries(ahand_hw_can_node ahand_hw ahand_driver  ${catkin_LIBRARIES} )
+
+#add_executable(ahand_hw_can_node src/ahand_hw_can_node.cpp)
+#add_dependencies(ahand_hw_can_node ahand_hw_can)
+#target_link_libraries(ahand_hw_can_node ahand_hw_can)
 
 ## SIMULATION
 find_package(gazebo REQUIRED)
