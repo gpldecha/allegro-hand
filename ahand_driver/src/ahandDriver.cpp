@@ -46,6 +46,12 @@ void AhandDriver::getJointInfo(double *position){
     }
 }
 
+void AhandDriver::setTorque(double *torques){
+    for(int i = 0; i < MAX_DOF; i++){
+        tau_des[i] = torques[i];
+    }
+}
+
 double* AhandDriver::getDesiredJointPosition(){
     return q_des;
 }
@@ -156,9 +162,39 @@ void AhandDriver::updateCAN(){
                data_return |= (0x01 << (id_src-ID_DEVICE_SUB_01));
             }
             if (data_return == (0x01 | 0x02 | 0x04 | 0x08)){
-               // convert encoder count to joint angle
+               // READ JOINT POSITIONS convert encoder count to joint angle
                for (i=0; i<MAX_DOF; i++){
                    q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
+               }
+               // convert desired torque to desired current and PWM count
+               for (i=0; i<MAX_DOF; i++){
+                   cur_des[i] = tau_des[i] * motor_dir[i];
+                   if (cur_des[i] > 1.0) cur_des[i] = 1.0;
+                   else if (cur_des[i] < -1.0) cur_des[i] = -1.0;
+               }
+               // send PWM count
+               for (int i=0; i<4;i++){
+                  // the index order for motors is different from that of encoders
+                  switch (HAND_VERSION)
+                    {
+                    case 1:
+                    case 2:
+                      vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v2);
+                      vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v2);
+                      vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v2);
+                      vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v2);
+                      break;
+
+                    case 3:
+                    default:
+                      vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v3);
+                      vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v3);
+                      vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v3);
+                      vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v3);
+                      break;
+                    }
+                  CANAPI::write_current(CAN_Ch, i, &vars.pwm_demand[4*i]);
+                  usleep(5);
                }
             }
 

@@ -3,7 +3,6 @@
 	<arg name="gui" 		default="false" />
 	<arg name="controller" 		default="TaskInverseKinematics" />
 	<arg name="stopped_controllers" default="TaskInverseKinematics" />
-  	<arg name="params_dir" 		default="$(find ahand_parameters)" />
 
 	<arg name="use_real"		default="true"/>
 	<arg name="use_sim" 		default="false"/>

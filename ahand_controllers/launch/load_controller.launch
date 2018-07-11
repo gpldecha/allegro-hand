@@ -7,7 +7,8 @@
 	<!-- Load joint controller configurations from YAML file to parameter server -->
 	<rosparam file="$(find ahand_controllers)/config/ahand_controllers.yaml" command="load"/>
 
-	<node ns="ahand" name="controller_spawner_js" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="joint_state_controller"/>
+	<!--node ns="ahand" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="TaskInverseKinematics"/-->
+	<node ns="ahand" name="controller_spawner_js" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="pd_controller joint_state_controller"/>
 
 	<!--node ns="ahand" name="controller_spawner_stopped" pkg="controller_manager" type="spawner" respawn="false" output="screen"  args="-stopped $(arg stopped_controllers)"/-->
 

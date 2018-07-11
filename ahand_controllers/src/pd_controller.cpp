@@ -71,7 +71,7 @@ void ahand_controllers::PDController::update(const ros::Time& time, const ros::D
 
     // pd controller
     for(std::size_t i = 0; i < joint_handles_.size(); i++) {
-      tau_cmd_[i] = 10.0*(joint_des_position_[i] - joint_msr_position_[i]); //- kd_[i]*joint_msr_velocity_[i];
+      tau_cmd_[i] = kp_[i]*(joint_des_position_[i] - joint_msr_position_[i]) - kd_[i]*joint_msr_velocity_[i];
     }
 
     // write

@@ -7,4 +7,4 @@ ahand:
   # Task Inverse Kinematics
   pd_controller:
     type: ahand_controllers/PDController
-    publish_rate: 100
+    publish_rate: 200

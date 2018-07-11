@@ -28,7 +28,7 @@ public:
     void read(ros::Time time, ros::Duration period){
         ahandDriver_->getJointInfo(positions_);
 
-        for(int j=0; j < n_joints_; ++j){
+        for(std::size_t j=0; j < n_joints_; j++){
             joint_position_prev_[j] = joint_position_[j];
             joint_position_[j] = positions_[j];//+= angles::shortest_angular_distance(joint_position_[j], positions_[j]);
             joint_velocity_[j] = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
@@ -37,13 +37,18 @@ public:
     }
 
     void write(ros::Time time, ros::Duration period){
+        for(int i = 1; i < n_joints_; i++){
+            joint_effort_command_[i] = 0;
+        }
 
+        ahandDriver_->setTorque(&joint_effort_command_[0]);
     }
 
 private:
 
     AhandDriver* ahandDriver_;
     double positions_[n_joints_];
+    double torques_[n_joints_];
 
 };
 
