@@ -25,11 +25,13 @@ AhandDriver::AhandDriver(){
     isInitialised = true;
 }
 
+AhandDriver::~AhandDriver(){}
+
 bool AhandDriver::isIntialised(){
     return isInitialised;
 }
 
-AhandDriver::~AhandDriver(){
+void AhandDriver::stop(){
     closeCAN();
     destroyBHandAlgorithm();
 }
@@ -158,11 +160,6 @@ void AhandDriver::updateCAN(){
                for (i=0; i<MAX_DOF; i++){
                    q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
                }
-               std::cout<< "f1 " << std::endl;
-               std::cout<< q[0]*57.2958 << std::endl;
-               std::cout<< q[1]*57.2958 << std::endl;
-               std::cout<< q[2]*57.2958 << std::endl;
-               std::cout<< q[3]*57.2958 << std::endl;
             }
 
             switch (id_cmd){
@@ -247,10 +244,6 @@ void AhandDriver::updateCAN(){
                            CANAPI::write_current(CAN_Ch, i, &vars.pwm_demand[4*i]);
                            usleep(5);
                         }
-
-                        //sendNum++;
-                        // curTime += delT;
-
                         data_return = 0;
                      }
                  }

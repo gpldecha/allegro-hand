@@ -11,13 +11,6 @@
 
 #include "ahand_hw/ahand_hw_can.hpp"
 
-bool g_quit = false;
-
-void quitRequested(int sig){
-  g_quit = true;
-}
-
-
 // Get the URDF XML from the parameter server
 // Get the URDF XML from the parameter server
 std::string getURDF(ros::NodeHandle &model_nh_, std::string param_name)
@@ -60,11 +53,6 @@ int main(int argc, char** argv){
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
-    // custom signal handlers
-    signal(SIGTERM, quitRequested);
-    signal(SIGINT, quitRequested);
-    signal(SIGHUP, quitRequested);
-
     // create a node
     ros::NodeHandle ahand_nh("/ahand");
 
@@ -94,9 +82,8 @@ int main(int argc, char** argv){
     //the controller manager
     controller_manager::ControllerManager manager(&ahand_robot, ahand_nh);
 
-
     // run as fast as possible
-    while( !g_quit ){
+    while( true ){
       // get the time / period
       if (!clock_gettime(CLOCK_REALTIME, &ts)){
         now.sec = ts.tv_sec;
@@ -122,11 +109,9 @@ int main(int argc, char** argv){
     spinner.stop();
 
     std::cerr<<"Stopping ahand_hw..."<<std::endl;
-    //ahand_robot.stop();
+    ahand_robot.stop();
 
     std::cerr<<"This node was killed!"<<std::endl;
-
-
 
     return 0;
 }

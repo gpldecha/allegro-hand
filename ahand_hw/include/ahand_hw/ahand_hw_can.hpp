@@ -14,8 +14,14 @@ public:
 
     AhandHWCAN() : AhandHW() {}
 
+    void stop(){
+        ahandDriver_->stop();
+        delete ahandDriver_;
+        ahandDriver_ = NULL;
+    }
+
     bool init(){
-        ahandDriver_.reset(new AhandDriver());
+        ahandDriver_ = new AhandDriver();
         return ahandDriver_->isIntialised();
     }
 
@@ -36,7 +42,7 @@ public:
 
 private:
 
-    std::unique_ptr<AhandDriver> ahandDriver_;
+    AhandDriver* ahandDriver_;
     double positions_[n_joints_];
 
 };

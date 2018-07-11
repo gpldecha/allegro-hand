@@ -10,13 +10,7 @@
 	<arg name="use_rviz" 		default="true"/>
 	<arg name="robot_name" 		default="ahand"/>
 
-  	<!-- yaml param files for your hand can be found in parameters/zero_files/ -->
-  	<arg name="ZEROS" default="$(arg params_dir)/zero.yaml"/>
-	<!-- load parameters -->
-    	<rosparam file="$(arg ZEROS)" command="load" />
-
-
-  	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/allegro_hand.xacro'" />
+   	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/allegro_hand.xacro'" />
 	<param name="use_gui" value="$(arg gui)"/>
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">

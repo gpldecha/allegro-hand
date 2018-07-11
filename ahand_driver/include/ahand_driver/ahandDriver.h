@@ -27,6 +27,7 @@ public:
 
     double* getDesiredJointPosition();
 
+    void stop();
 
 private:
 
@@ -55,23 +56,23 @@ private:
     const double tau_cov_const_v2 = 800.0; // 800.0 for SAH020xxxxx
     const double tau_cov_const_v3 = 1200.0; // 1200.0 for SAH030xxxxx
 
-    const double enc_dir[MAX_DOF] = { // SAH030xxxxx
+    const double enc_dir[MAX_DOF] = { // SAH030F049
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0
     };
-    const double motor_dir[MAX_DOF] = { // SAH030xxxxx
+    const double motor_dir[MAX_DOF] = { // SAH030F049
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0
     };
-    const int enc_offset[MAX_DOF] = { // SAH030C033R
-      -1591, -277, 545, 168,
-      -904, 53, -233, -1476,
-      2, -987, -230, -106,
-      -1203, 361, 327, 565
+    const int enc_offset[MAX_DOF] = { // SAH030F049
+      -6212, 3628, 733, 172, // f1
+      -6347, -38, -4683, -4669,
+      -3509, -2094, 312, -12,
+      8234, -7615, 504, -165
     };
 
     BHand* pBHand = NULL;

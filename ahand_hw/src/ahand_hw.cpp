@@ -1,9 +1,7 @@
 #include "ahand_hw/ahand_hw.h"
 
 
-AhandHW::AhandHW(){
-
-}
+AhandHW::AhandHW(){}
 
 void AhandHW::create(std::string name, std::string urdf_string){
 
