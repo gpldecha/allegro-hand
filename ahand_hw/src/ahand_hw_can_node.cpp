@@ -3,13 +3,15 @@
 #include <sys/mman.h>
 #include <signal.h>
 #include <stdexcept>
+#include <chrono>
 
 // ROS
 
 #include <ros/ros.h>
 #include <controller_manager/controller_manager.h>
-
 #include "ahand_hw/ahand_hw_can.hpp"
+
+
 
 // Get the URDF XML from the parameter server
 // Get the URDF XML from the parameter server
@@ -82,7 +84,7 @@ int main(int argc, char** argv){
     //the controller manager
     controller_manager::ControllerManager manager(&ahand_robot, ahand_nh);
 
-    // run as fast as possible
+
     while( true ){
       // get the time / period
       if (!clock_gettime(CLOCK_REALTIME, &ts)){
@@ -103,6 +105,8 @@ int main(int argc, char** argv){
 
       // write the command to the lwr
       ahand_robot.write(now, period);
+      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
     }
 
     std::cerr<<"Stopping spinner..."<<std::endl;

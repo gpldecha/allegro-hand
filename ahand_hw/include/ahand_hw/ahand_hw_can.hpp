@@ -37,10 +37,10 @@ public:
     }
 
     void write(ros::Time time, ros::Duration period){
-        for(int i = 1; i < n_joints_; i++){
+        for(int i = 0; i < n_joints_; i++){
             joint_effort_command_[i] = 0;
         }
-       // ahandDriver_->setTorque(&joint_effort_command_[0]);
+        ahandDriver_->setTorque(&joint_effort_command_[0]);
     }
 
 private:

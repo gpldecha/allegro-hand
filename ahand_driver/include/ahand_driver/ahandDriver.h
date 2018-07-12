@@ -4,6 +4,7 @@
 #include <BHand/BHand.h>
 
 #include <thread>
+#include <mutex>
 
 #include "can_api/canAPI.h"
 #include "can_api/canDef.h"
@@ -83,6 +84,8 @@ private:
     double q_des[MAX_DOF];
     double tau_des[MAX_DOF];
     double cur_des[MAX_DOF];
+
+    std::mutex joint_mutex, torque_mutex;
 
     std::thread updated_thread_;
     bool ioThreadRun = false;

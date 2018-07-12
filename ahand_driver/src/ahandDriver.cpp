@@ -47,14 +47,16 @@ BHand* const AhandDriver::getBHand(){
 }
 
 void AhandDriver::getJointInfo(double *position){
+    std::lock_guard<std::mutex> guard(joint_mutex);
     for(std::size_t i = 0; i < MAX_DOF; i++){
         position[i] = q[i];
     }
 }
 
 void AhandDriver::setTorque(double *torques){
+    std::lock_guard<std::mutex> guard(torque_mutex);
     for(int i = 0; i < MAX_DOF; i++){
-        tau_des[i] = torques[i];
+        tau_des[i] = torques[i]/tau_cov_const;
     }
 }
 
@@ -82,7 +84,6 @@ bool AhandDriver::openCAN(){
 
   ioThreadRun = true;
   updated_thread_ = std::thread(&AhandDriver::updateCAN, this);
-  /* initialize condition variable */
   printf(">CAN: starts listening CAN frames\n");
 
   printf(">CAN: query system id\n");
@@ -168,15 +169,19 @@ void AhandDriver::updateCAN(){
             }
             if (data_return == (0x01 | 0x02 | 0x04 | 0x08)){
                // READ JOINT POSITIONS convert encoder count to joint angle
+               joint_mutex.lock();
                for (i=0; i<MAX_DOF; i++){
-                   q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
+                    q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
                }
+               joint_mutex.unlock();
+               torque_mutex.lock();
                // convert desired torque to desired current and PWM count
                for (i=0; i<MAX_DOF; i++){
                    cur_des[i] = tau_des[i] * motor_dir[i];
                    if (cur_des[i] > 1.0) cur_des[i] = 1.0;
                    else if (cur_des[i] < -1.0) cur_des[i] = -1.0;
                }
+               torque_mutex.unlock();
                // send PWM count
                for (int i=0; i<4;i++){
                   // the index order for motors is different from that of encoders
@@ -187,95 +192,7 @@ void AhandDriver::updateCAN(){
                   CANAPI::write_current(CAN_Ch, i, &vars.pwm_demand[4*i]);
                   usleep(5);
                }
-
-            }
-
-            switch (id_cmd){
-                 case ID_CMD_QUERY_ID:
-                 {
-                    printf(">CAN(%d): AllegroHand revision info: 0x%02x%02x\n", CAN_Ch, data[3], data[2]);
-                    printf("                      firmware info: 0x%02x%02x\n", data[5], data[4]);
-                    printf("                      hardware type: 0x%02x\n", data[7]);
-                 }
-                 break;
-                 case ID_CMD_AHRS_POSE:
-                 {
-                    printf(">CAN(%d): AHRS Roll : 0x%02x%02x\n", CAN_Ch, data[0], data[1]);
-                    printf("               Pitch: 0x%02x%02x\n", data[2], data[3]);
-                    printf("               Yaw  : 0x%02x%02x\n", data[4], data[5]);
-                 }
-                 break;
-                 case ID_CMD_AHRS_ACC:
-                 {
-                    printf(">CAN(%d): AHRS Acc(x): 0x%02x%02x\n", CAN_Ch, data[0], data[1]);
-                    printf("               Acc(y): 0x%02x%02x\n", data[2], data[3]);
-                    printf("               Acc(z): 0x%02x%02x\n", data[4], data[5]);
-                 }
-                 break;
-                 case ID_CMD_AHRS_GYRO:
-                 {
-                    printf(">CAN(%d): AHRS Angular Vel(x): 0x%02x%02x\n", CAN_Ch, data[0], data[1]);
-                    printf("               Angular Vel(y): 0x%02x%02x\n", data[2], data[3]);
-                    printf("               Angular Vel(z): 0x%02x%02x\n", data[4], data[5]);
-                 }
-                 break;
-                 case ID_CMD_AHRS_MAG:
-                 {
-                    printf(">CAN(%d): AHRS Magnetic Field(x): 0x%02x%02x\n", CAN_Ch, data[0], data[1]);
-                    printf("               Magnetic Field(y): 0x%02x%02x\n", data[2], data[3]);
-                    printf("               Magnetic Field(z): 0x%02x%02x\n", data[4], data[5]);
-                 }
-                 break;
-                 case ID_CMD_QUERY_CONTROL_DATA:
-                 {
-                     if (id_src >= ID_DEVICE_SUB_01 && id_src <= ID_DEVICE_SUB_04){
-                        vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 0] = (int)(data[0] | (data[1] << 8));
-                        vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 1] = (int)(data[2] | (data[3] << 8));
-                        vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 2] = (int)(data[4] | (data[5] << 8));
-                        vars.enc_actual[(id_src-ID_DEVICE_SUB_01)*4 + 3] = (int)(data[6] | (data[7] << 8));
-                        data_return |= (0x01 << (id_src-ID_DEVICE_SUB_01));
-                     }
-                     if (data_return == (0x01 | 0x02 | 0x04 | 0x08)){
-                        // convert encoder count to joint angle
-                        for (i=0; i<MAX_DOF; i++){
-                            q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
-                        }
-                        // compute joint torque
-                        computeTorque();
-                        // convert desired torque to desired current and PWM count
-                        for (i=0; i<MAX_DOF; i++){
-                            cur_des[i] = tau_des[i] * motor_dir[i];
-                            if (cur_des[i] > 1.0) cur_des[i] = 1.0;
-                            else if (cur_des[i] < -1.0) cur_des[i] = -1.0;
-                        }
-                        // send torques
-                        for (int i=0; i<4;i++){
-                           // the index order for motors is different from that of encoders
-                           switch (HAND_VERSION)
-                             {
-                             case 1:
-                             case 2:
-                               vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v2);
-                               vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v2);
-                               vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v2);
-                               vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v2);
-                               break;
-
-                             case 3:
-                             default:
-                               vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v3);
-                               vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v3);
-                               vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v3);
-                               vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v3);
-                               break;
-                             }
-                           CANAPI::write_current(CAN_Ch, i, &vars.pwm_demand[4*i]);
-                           usleep(5);
-                        }
-                        data_return = 0;
-                     }
-                 }
-                 break;
+               data_return = 0;
             }
        }
     }

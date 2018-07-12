@@ -248,7 +248,7 @@ int CANAPI::command_can_query_id(int ch)
 	long Txid = ((unsigned long)ID_CMD_QUERY_ID<<6) | ((unsigned long)ID_COMMON <<3) | ((unsigned long)ID_DEVICE_MAIN);
 	int ret = canSendMsg(ch, Txid, 0, data, TRUE);
 
-	return 0; //PCAN_ERROR_OK;
+    return ret; //PCAN_ERROR_OK;
 }
 
 int CANAPI::command_can_sys_init(int ch, int period_msec)
