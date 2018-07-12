@@ -18,6 +18,12 @@ AhandDriver::AhandDriver(){
     memset(tau_des, 0, sizeof(tau_des));
     memset(cur_des, 0, sizeof(cur_des));
 
+    if(HAND_VERSION == 1){
+        tau_cov_const = tau_cov_const_v2;
+    }else{
+        tau_cov_const = tau_cov_const_v3;
+    }
+
     if(!createBHandAlgorithm())
         std::cerr<< "could not create BHand Algorithm" << std::endl;
     if(!openCAN())
@@ -77,7 +83,6 @@ bool AhandDriver::openCAN(){
   ioThreadRun = true;
   updated_thread_ = std::thread(&AhandDriver::updateCAN, this);
   /* initialize condition variable */
-  //int ioThread_error = pthread_create(&hThread, NULL, ioThreadProc, 0);
   printf(">CAN: starts listening CAN frames\n");
 
   printf(">CAN: query system id\n");
@@ -175,27 +180,14 @@ void AhandDriver::updateCAN(){
                // send PWM count
                for (int i=0; i<4;i++){
                   // the index order for motors is different from that of encoders
-                  switch (HAND_VERSION)
-                    {
-                    case 1:
-                    case 2:
-                      vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v2);
-                      vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v2);
-                      vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v2);
-                      vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v2);
-                      break;
-
-                    case 3:
-                    default:
-                      vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const_v3);
-                      vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const_v3);
-                      vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const_v3);
-                      vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const_v3);
-                      break;
-                    }
+                  vars.pwm_demand[i*4+3] = (short)(cur_des[i*4+0]*tau_cov_const);
+                  vars.pwm_demand[i*4+2] = (short)(cur_des[i*4+1]*tau_cov_const);
+                  vars.pwm_demand[i*4+1] = (short)(cur_des[i*4+2]*tau_cov_const);
+                  vars.pwm_demand[i*4+0] = (short)(cur_des[i*4+3]*tau_cov_const);
                   CANAPI::write_current(CAN_Ch, i, &vars.pwm_demand[4*i]);
                   usleep(5);
                }
+
             }
 
             switch (id_cmd){

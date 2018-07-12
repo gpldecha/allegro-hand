@@ -55,6 +55,7 @@ private:
 
     const double tau_cov_const_v2 = 800.0; // 800.0 for SAH020xxxxx
     const double tau_cov_const_v3 = 1200.0; // 1200.0 for SAH030xxxxx
+    double tau_cov_const;
 
     const double enc_dir[MAX_DOF] = { // SAH030F049
       1.0, 1.0, 1.0, 1.0,

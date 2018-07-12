@@ -41,6 +41,7 @@ class PDController : public controller_interface::Controller<hardware_interface:
          std::vector<double> tau_cmd_;
          std::vector<double> joint_msr_position_, joint_msr_velocity_;
          std::vector<double> joint_des_position_;
+         std::vector<double> joint_filtered_position_, joint_filtered_velocity;
 
          std::vector<double> kp_, kd_;
 

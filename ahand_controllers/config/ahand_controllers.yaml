@@ -4,7 +4,7 @@ ahand:
     type: ahand_controllers/AhandJointStateController
     publish_rate: 100
 
-  # Task Inverse Kinematics
+  # PD controller
   pd_controller:
     type: ahand_controllers/PDController
-    publish_rate: 200
+    publish_rate: 300
