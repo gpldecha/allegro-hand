@@ -41,10 +41,6 @@ bool ahand_controllers::PDController::init(hardware_interface::EffortJointInterf
     kp_.resize(n_joints_, 0.0);
     kd_.resize(n_joints_, 0.0);
 
-    realtime_publisher.reset(new realtime_tools::RealtimePublisher<std_msgs::Float32MultiArray>(nh,"pd_controller",1) );
-    data_msg_.layout.dim.resize(1);
-    data_msg_.data.resize(n_joints_);
-
     // Dynamic reconfigure
     nh_gains_pd_ = ros::NodeHandle("gains_pd");
     dynamic_server_gains_dp_param_.reset( new dynamic_reconfigure::Server< ahand_controllers::gains_pd_paramConfig>(nh_gains_pd_) );

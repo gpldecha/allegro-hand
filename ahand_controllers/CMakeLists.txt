@@ -76,12 +76,16 @@ add_library(ahand_controllers
     src/pd_controller.cpp include/ahand_controllers/pd_controller.h
     src/state_publisher.cpp include/ahand_controllers/state_publisher.h
     ${INCLUDE_DIR}/utils/filters.h
+    ${INCLUDE_DIR}/utils/utils.h
 )
 
 
 target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})
 
 add_dependencies(ahand_controllers ${PROJECT_NAME}_gencfg)
+
+add_executable(test_load tests/test_load.cpp)
+
 
 # Install
 install(DIRECTORY include/ahand_controllers/
@@ -95,3 +99,8 @@ install(TARGETS ahand_controllers
 
 install(FILES ahand_controllers_plugins.xml
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+
+
+
+
+
