@@ -10,7 +10,7 @@ catkin_package(
   INCLUDE_DIRS include
   LIBRARIES can_api
   CATKIN_DEPENDS
-  DEPENDS pcanbasic
+  DEPENDS
 )
 
 ###########

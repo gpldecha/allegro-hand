@@ -97,5 +97,9 @@ void ahand_controllers::PDController::gains_pd_callback(ahand_controllers::gains
 
 }
 
+void ahand_controllers::PDController::command_callback(ahand_controllers::CommandRequest& request, ahand_controllers::CommandResponse& response){
+
+}
+
 
 PLUGINLIB_EXPORT_CLASS(ahand_controllers::PDController, controller_interface::ControllerBase)

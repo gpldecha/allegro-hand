@@ -27,6 +27,7 @@ link_directories(${orocos_kdl_LIBRARY_DIRS})
 
 find_library(KDL_LIBRARY REQUIRED NAMES orocos-kdl HINTS ${orocos_kdl_LIBRARY_DIRS})
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+
 add_message_files(
    FILES
    PoseRPY.msg
@@ -34,6 +35,11 @@ add_message_files(
    MultiPriorityTask.msg
    PID.msg
    PIDgains.msg
+)
+
+add_service_files(
+  FILES
+  Command.srv
 )
 
 generate_messages(
@@ -72,7 +78,6 @@ catkin_package(
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(ahand_controllers
-        # src/task_inverse_kinematics.cpp include/allegro_hand_controllers/task_inverse_kinematics.h
     src/pd_controller.cpp include/ahand_controllers/pd_controller.h
     src/state_publisher.cpp include/ahand_controllers/state_publisher.h
     ${INCLUDE_DIR}/utils/filters.h

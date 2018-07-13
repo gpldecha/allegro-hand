@@ -1,6 +1,9 @@
 #ifndef AHAND_CONTROLLERS__PD_CONTROLLER_H
 #define AHAND_CONTROLLERS__PD_CONTROLLER_H
 
+// ROS
+
+#include <ahand_controllers/Command.h>
 #include <dynamic_reconfigure/server.h>
 #include <ahand_controllers/gains_pd_paramConfig.h>
 
@@ -10,6 +13,7 @@
 #include <hardware_interface/joint_command_interface.h>
 
 #include <pluginlib/class_list_macros.h>
+
 
 // STL
 
@@ -33,6 +37,8 @@ class PDController : public controller_interface::Controller<hardware_interface:
     private:
 
         void gains_pd_callback(ahand_controllers::gains_pd_paramConfig& config, uint32_t level);
+
+        void command_callback(ahand_controllers::CommandRequest& request, ahand_controllers::CommandResponse& response);
 
     private:
 
