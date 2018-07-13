@@ -1,7 +1,7 @@
 ahand:
   # Publish all joint states -----------------------------------
-  joint_state_controller:
-    type: ahand_controllers/AhandJointStateController
+  state_publisher:
+    type: ahand_controllers/StatePublisher
     publish_rate: 300
 
   # PD controller

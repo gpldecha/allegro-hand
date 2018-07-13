@@ -1,6 +1,6 @@
 <library path="lib/libahand_controllers">
 
-  <class name="ahand_controllers/AhandJointStateController" type="ahand_controllers::AhandJointStateController" base_class_type="controller_interface::ControllerBase">
+  <class name="ahand_controllers/StatePublisher" type="ahand_controllers::StatePublisher" base_class_type="controller_interface::ControllerBase">
     <description> The JointStateController publishes information such as the position of the joints. </description>
   </class>
 

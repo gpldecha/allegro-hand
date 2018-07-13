@@ -74,7 +74,7 @@ set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 add_library(ahand_controllers
         # src/task_inverse_kinematics.cpp include/allegro_hand_controllers/task_inverse_kinematics.h
     src/pd_controller.cpp include/ahand_controllers/pd_controller.h
-    src/ahand_joint_state_controller.cpp include/ahand_controllers/ahand_joint_state_controller.h
+    src/state_publisher.cpp include/ahand_controllers/state_publisher.h
     ${INCLUDE_DIR}/utils/filters.h
 )
 

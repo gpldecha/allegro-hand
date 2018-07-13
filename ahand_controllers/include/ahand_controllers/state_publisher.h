@@ -15,11 +15,11 @@
 
 namespace ahand_controllers{
 
-class AhandJointStateController : public controller_interface::Controller<hardware_interface::JointStateInterface>{
+class StatePublisher : public controller_interface::Controller<hardware_interface::JointStateInterface>{
 
     public:
 
-        AhandJointStateController() : publish_rate_(0.0) {}
+        StatePublisher() : publish_rate_(0.0) {}
 
         virtual bool init(hardware_interface::JointStateInterface* hw,
                           ros::NodeHandle&                         root_nh,
