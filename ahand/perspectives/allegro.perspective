@@ -41,7 +41,7 @@
                 },
                 "topics": {
                   "type": "repr",
-                  "repr": "u'/joint_states/position[0]'"
+                  "repr": "[u'/joint_states/position[1]', u'/joint_states/position[0]']"
                 },
                 "y_limits": {
                   "type": "repr",
@@ -49,7 +49,7 @@
                 },
                 "x_limits": {
                   "type": "repr",
-                  "repr": "[83.00541186332703, 84.00541186332703]"
+                  "repr": "[28.299601078033447, 29.299601078033447]"
                 }
               },
               "groups": {}
@@ -62,8 +62,8 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000206000000800000045a0000025e000002070000009c000004590000025d00000000000000000780')",
-          "pretty-print": "         Z ^     Y ]     "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000420000000b3000006740000029100000421000000cf000006730000029000000000000000000780')",
+          "pretty-print": "         t   !   s       "
         },
         "state": {
           "type": "repr(QByteArray.hex)",

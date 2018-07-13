@@ -18,6 +18,7 @@ public:
         ahandDriver_->stop();
         delete ahandDriver_;
         ahandDriver_ = NULL;
+        bfirst_=true;
     }
 
     bool init(){
@@ -29,10 +30,13 @@ public:
         ahandDriver_->getJointInfo(positions_);
         for(std::size_t j=0; j < n_joints_; j++){
             joint_position_prev_[j] = joint_position_[j];
-            joint_position_[j] = positions_[j];//+= angles::shortest_angular_distance(joint_position_[j], positions_[j]);
+            if( bfirst_ || (positions_[j] <= (joint_upper_limits_[j]+angle_error) && positions_[j] >= (joint_lower_limits_[j]-angle_error))){
+                joint_position_[j] = positions_[j];//+= angles::shortest_angular_distance(joint_position_[j], positions_[j]);
+            }
             joint_velocity_[j] = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
             joint_effort_[j]   = 0.0;
         }
+        bfirst_=false;
 
     }
 
@@ -48,6 +52,8 @@ private:
     AhandDriver* ahandDriver_;
     double positions_[n_joints_];
     double torques_[n_joints_];
+    const double angle_error = 5.0*M_PI/180;
+    bool bfirst_;
 
 };
 

@@ -54,6 +54,11 @@ class AhandHW : public hardware_interface::RobotHW {
 
         void registerInterfaces(const urdf::Model *const urdf_model, std::vector<transmission_interface::TransmissionInfo> transmissions);
 
+        void registerJointLimits(const std::string& joint_name,
+                                 const urdf::Model *const urdf_model,
+                                 double *const lower_limit,
+                                 double *const upper_limit);
+
         bool initKDLdescription(const urdf::Model *const urdf_model);
 
     public:
@@ -63,6 +68,10 @@ class AhandHW : public hardware_interface::RobotHW {
         // state and commands
         std::vector<double> joint_position_, joint_position_prev_, joint_velocity_, joint_effort_;
         std::vector<double> joint_effort_command_;
+
+        // joint limits
+        std::vector<double> joint_lower_limits_;
+        std::vector<double> joint_upper_limits_;
 
         // Strings
         std::string robot_namespace_;

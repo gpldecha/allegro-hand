@@ -173,6 +173,24 @@ void AhandDriver::updateCAN(){
                for (i=0; i<MAX_DOF; i++){
                     q[i] = (double)(vars.enc_actual[i]*enc_dir[i]-32768-enc_offset[i])*(333.3/65536.0)*(3.141592/180.0);
                }
+
+               /*std::cout<<std::endl;
+               std::cout<< "q[0]" << q[0] << std::endl;
+               std::cout<< "q[1]" << q[1] << std::endl;
+               std::cout<< "q[2]" << q[2] << std::endl;
+               std::cout<< "q[3]" << q[3] << std::endl;
+               std::cout<<std::endl;
+               std::cout<< "q[4]" << q[4] << std::endl;
+               std::cout<< "q[5]" << q[5] << std::endl;
+               std::cout<< "q[6]" << q[6] << std::endl;
+               std::cout<< "q[7]" << q[7] << std::endl;
+               std::cout<<std::endl;
+               std::cout<< "q[8]"  << q[8] << std::endl;
+               std::cout<< "q[9]"  << q[9] << std::endl;
+               std::cout<< "q[10]" << q[10] << std::endl;
+               std::cout<< "q[11]" << q[11] << std::endl;*/
+
+
                joint_mutex.unlock();
                torque_mutex.lock();
                // convert desired torque to desired current and PWM count

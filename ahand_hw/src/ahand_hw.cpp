@@ -40,6 +40,10 @@ void AhandHW::create(std::string name, std::string urdf_string){
     joint_effort_.resize(n_joints_);
     joint_effort_command_.resize(n_joints_);
 
+    joint_lower_limits_.resize(n_joints_);
+    joint_upper_limits_.resize(n_joints_);
+
+
     reset();
 
     // GET TRANSMISSIONS THAT BELONG TO ALLEGRO HAND
@@ -109,14 +113,52 @@ void AhandHW::registerInterfaces(const urdf::Model *const urdf_model, std::vecto
         hardware_interface::JointHandle joint_handle_effort;
         joint_handle_effort = hardware_interface::JointHandle(state_interface_.getHandle(joint_names_[j]),&joint_effort_command_[j]);
         effort_interface_.registerHandle(joint_handle_effort);
-    }
 
+        registerJointLimits(joint_names_[j], &urdf_model_, &joint_lower_limits_[j], &joint_upper_limits_[j]);
+    }
     // Register interfaces
     registerInterface(&state_interface_);
     registerInterface(&effort_interface_);
-
 }
 
+void AhandHW::registerJointLimits(const std::string& joint_name,
+                                  const urdf::Model *const urdf_model,
+                                  double *const lower_limit,
+                                  double *const upper_limit){
+
+    *lower_limit = -std::numeric_limits<double>::max();
+    *upper_limit = std::numeric_limits<double>::max();
+    joint_limits_interface::JointLimits limits;
+    bool has_limits = false;
+
+    if (urdf_model != NULL){
+        const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+        if (urdf_joint != NULL){
+            if (joint_limits_interface::getJointLimits(urdf_joint, limits)){
+                has_limits = true;
+            }else{
+                std::cout<< "does not have joint limit" << std::endl;
+            }
+        }else{
+            std::cerr<< "urdf_joint is NULL" << std::endl;
+        }
+
+    }else{
+        std::cerr<< "urdf_model is NULL" << std::endl;
+    }
+    if (!has_limits){
+        std::cout<< "joint " << joint_name << " does not have a limit" << std::endl;
+       return;
+    }
+
+    if(limits.has_position_limits){
+        std::cout<< "\t limite (" << limits.min_position << " " << limits.max_position << ")" << std::endl;
+        *lower_limit = limits.min_position;
+        *upper_limit = limits.max_position;
+     }else{
+        std::cout<< "joint " << joint_name << " does not have a position limit" << std::endl;
+    }
+}
 
 bool AhandHW::parseTransmissionsFromURDF(const std::string& urdf_string){
     std::vector<transmission_interface::TransmissionInfo> transmissions;
