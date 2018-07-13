@@ -2,7 +2,7 @@
 <launch>
 	<arg name="gui" 		default="false" />
 	<arg name="controller" 		default="TaskInverseKinematics" />
-	<arg name="stopped_controllers" default="TaskInverseKinematics" />
+	<arg name="stopped_controllers" default="" />
 
 	<arg name="use_real"		default="true"/>
 	<arg name="use_sim" 		default="false"/>
