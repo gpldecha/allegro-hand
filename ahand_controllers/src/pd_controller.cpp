@@ -2,12 +2,15 @@
 #include <algorithm>
 #include <memory>
 #include <functional>
+#include "utils/filters.h"
+#include <string>
+#include <iostream>
 
-const std::array<double, 16> home_pose = {
-   0.0,  0.0, 0.0, 45.0,
-   0.0, -10.0, 45.0, 45.0,
-   5.0, -5.0, 50.0, 45.0,
-   60.0, 25.0, 15.0, 45.0
+ std::array<double, 16> home_pose = {
+   0.0,  35.0, 35.0, 35.0,
+   0.0,  35.0, 35.0, 35.0,
+   0.0,  35.0, 35.0, 35.0,
+   40.0, 0.0,  35.0, 45.0
 };
 
 
@@ -19,29 +22,29 @@ bool ahand_controllers::PDController::init(hardware_interface::EffortJointInterf
     n_joints_ = robot->getNames().size();
     ROS_INFO("Initisalising PDController");
     ROS_INFO_STREAM("PDController number of joints: "  << n_joints_);
-
-    // initialise hanlde
-    //joint_handles_.resize(n_joints_);
-    for(std::string name : robot->getNames()){
-        std::cout<< "joint name: "<< name << std::endl;
-        joint_handles_.push_back(robot->getHandle(name));
+    for(std::size_t i = 0; i < n_joints_; i++){
+        joint_handles_.push_back(robot->getHandle("ahand_joint_" + boost::lexical_cast<std::string>(i)));
     }
-    ROS_INFO(" #1");
+
     // convert deg to rad
-    auto deg2rad = [](double deg){return deg*M_PI/180.0;};
-    std::for_each(home_pose.begin(), home_pose.end(), deg2rad);
-    ROS_INFO(" #2");
+    for(std::size_t i = 0; i < home_pose.size(); i++){
+        home_pose[i] = home_pose[i]*M_PI/180.0;
+    }
 
     tau_cmd_.resize(n_joints_, 0.0);
     joint_msr_position_.resize(n_joints_, 0.0);
     joint_msr_velocity_.resize(n_joints_, 0.0);
     joint_des_position_.resize(n_joints_, 0.0);
+    joint_filtered_position_.resize(n_joints_, 0.0);
+    joint_filtered_velocity_.resize(n_joints_, 0.0);
 
-    ROS_INFO(" #3");
     kp_.resize(n_joints_, 0.0);
     kd_.resize(n_joints_, 0.0);
 
-    ROS_INFO(" #4");
+    realtime_publisher.reset(new realtime_tools::RealtimePublisher<std_msgs::Float32MultiArray>(nh,"pd_controller",1) );
+    data_msg_.layout.dim.resize(1);
+    data_msg_.data.resize(n_joints_);
+
     // Dynamic reconfigure
     nh_gains_pd_ = ros::NodeHandle("gains_pd");
     dynamic_server_gains_dp_param_.reset( new dynamic_reconfigure::Server< ahand_controllers::gains_pd_paramConfig>(nh_gains_pd_) );
@@ -57,6 +60,8 @@ void ahand_controllers::PDController::starting(const ros::Time& time){
         joint_msr_position_[i] = joint_handles_[i].getPosition();
         joint_msr_velocity_[i] = joint_handles_[i].getVelocity();
         joint_des_position_[i] = home_pose[i];
+        joint_filtered_position_[i] = joint_msr_position_[i];
+        joint_filtered_velocity_[i] = joint_msr_velocity_[i];
     }
     ROS_INFO("PDController started!");
 
@@ -67,11 +72,18 @@ void ahand_controllers::PDController::update(const ros::Time& time, const ros::D
     for(size_t i=0; i<joint_handles_.size(); i++) {
         joint_msr_position_[i] = joint_handles_[i].getPosition();
         joint_msr_velocity_[i] = joint_handles_[i].getVelocity();
+        joint_filtered_position_[i] = ahand_controllers::exponentialSmoothing(joint_msr_position_[i], joint_filtered_position_[i], 0.2);
+        joint_filtered_velocity_[i] = ahand_controllers::exponentialSmoothing(joint_msr_velocity_[i], joint_filtered_velocity_[i], 0.2);
+       // data_msg_.data[i] = joint_filtered_velocity_[i];
     }
+   /* if (realtime_publisher->trylock()) {
+        realtime_publisher->msg_ = data_msg_;
+        realtime_publisher->unlockAndPublish();
+    }*/
 
     // pd controller
-    for(std::size_t i = 0; i < joint_handles_.size(); i++) {
-      tau_cmd_[i] = kp_[i]*(joint_des_position_[i] - joint_msr_position_[i]) - kd_[i]*joint_msr_velocity_[i];
+    for(size_t i=0; i<joint_handles_.size(); i++) {
+      tau_cmd_[i] = kp_[i]*(joint_des_position_[i] - joint_filtered_position_[i]) - kd_[i]*joint_filtered_velocity_[i];
     }
 
     // write

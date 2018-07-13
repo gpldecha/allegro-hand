@@ -11,6 +11,10 @@
 
 #include <pluginlib/class_list_macros.h>
 
+#include <realtime_tools/realtime_publisher.h>
+#include <std_msgs/Float32MultiArray.h>
+
+
 // STL
 
 #include <memory>
@@ -41,17 +45,23 @@ class PDController : public controller_interface::Controller<hardware_interface:
          std::vector<double> tau_cmd_;
          std::vector<double> joint_msr_position_, joint_msr_velocity_;
          std::vector<double> joint_des_position_;
-         std::vector<double> joint_filtered_position_, joint_filtered_velocity;
+         std::vector<double> joint_filtered_position_, joint_filtered_velocity_;
 
          std::vector<double> kp_, kd_;
 
          std::vector<hardware_interface::EffortJointInterface::ResourceHandleType> joint_handles_;
+         std::array<std::size_t,  16> joint_mapping;
 
          std::unique_ptr< dynamic_reconfigure::Server<ahand_controllers::gains_pd_paramConfig>> dynamic_server_gains_dp_param_;
 
          ros::Subscriber sub_command_pose_;
 
          ros::NodeHandle nh_gains_pd_;
+
+         // debug publishing
+         boost::shared_ptr<realtime_tools::RealtimePublisher<std_msgs::Float32MultiArray>>   realtime_publisher;
+         std_msgs::Float32MultiArray data_msg_;
+
 
 };
 

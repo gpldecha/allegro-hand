@@ -165,9 +165,7 @@ bool AhandHW::parseTransmissionsFromURDF(const std::string& urdf_string){
     transmission_interface::TransmissionParser::parse(urdf_string, transmissions);
     // Now iterate and save only transmission from this robot
     for (int j = 0; j < n_joints_; ++j){
-        //std::cout << "Check joint " << joint_names_[j] << std::endl;
         std::vector<transmission_interface::TransmissionInfo>::iterator it = transmissions.begin();
-
         for(; it != transmissions.end(); ++it){
            if (joint_names_[j].compare(it->joints_[0].name_) == 0){
             transmissions_.push_back( *it );

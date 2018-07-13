@@ -69,8 +69,8 @@
 
     <!-- thumb limit -->
 	
-    <xacro:property name="limit_0_t_up" value="1.496"/>
-    <xacro:property name="limit_0_t_low" value="0.363"/>
+    <xacro:property name="limit_0_t_up" value="1.57"/>
+    <xacro:property name="limit_0_t_low" value="0.275"/>
 
     <xacro:property name="limit_1_t_up" value="1.263"/>
     <xacro:property name="limit_1_t_low" value="-0.205"/>
