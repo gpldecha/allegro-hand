@@ -46,7 +46,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
          std::vector<double> kp_, kd_;
 
          std::vector<hardware_interface::EffortJointInterface::ResourceHandleType> joint_handles_;
-         std::array<std::size_t,  16> joint_mapping;
 
          std::unique_ptr< dynamic_reconfigure::Server<ahand_controllers::gains_pd_paramConfig>> dynamic_server_gains_dp_param_;
 
