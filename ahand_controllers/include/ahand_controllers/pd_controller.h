@@ -11,10 +11,6 @@
 
 #include <pluginlib/class_list_macros.h>
 
-#include <realtime_tools/realtime_publisher.h>
-#include <std_msgs/Float32MultiArray.h>
-
-
 // STL
 
 #include <memory>
@@ -57,10 +53,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
          ros::Subscriber sub_command_pose_;
 
          ros::NodeHandle nh_gains_pd_;
-
-         // debug publishing
-         boost::shared_ptr<realtime_tools::RealtimePublisher<std_msgs::Float32MultiArray>>   realtime_publisher;
-         std_msgs::Float32MultiArray data_msg_;
 
 
 };

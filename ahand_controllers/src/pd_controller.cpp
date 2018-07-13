@@ -74,12 +74,7 @@ void ahand_controllers::PDController::update(const ros::Time& time, const ros::D
         joint_msr_velocity_[i] = joint_handles_[i].getVelocity();
         joint_filtered_position_[i] = ahand_controllers::exponentialSmoothing(joint_msr_position_[i], joint_filtered_position_[i], 0.2);
         joint_filtered_velocity_[i] = ahand_controllers::exponentialSmoothing(joint_msr_velocity_[i], joint_filtered_velocity_[i], 0.2);
-       // data_msg_.data[i] = joint_filtered_velocity_[i];
     }
-   /* if (realtime_publisher->trylock()) {
-        realtime_publisher->msg_ = data_msg_;
-        realtime_publisher->unlockAndPublish();
-    }*/
 
     // pd controller
     for(size_t i=0; i<joint_handles_.size(); i++) {
