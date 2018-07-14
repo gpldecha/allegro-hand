@@ -1,7 +1,7 @@
 #ifndef AHAND_DRIVER_H
 #define AHAND_DRIVER_H
 
-#include <BHand/BHand.h>
+#include <bhand/BHand.h>
 
 #include <thread>
 #include <mutex>

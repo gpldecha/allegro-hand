@@ -1,7 +1,7 @@
 #ifndef _ROCKSCISSORSPAPER_H
 #define _ROCKSCISSORSPAPER_H
 
-#include <BHand/BHand.h>
+#include <bhand/BHand.h>
 
 
 class RockScissorsPaper{

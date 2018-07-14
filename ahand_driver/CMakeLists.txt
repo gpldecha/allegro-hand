@@ -6,8 +6,8 @@ add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
     can_api
     bhand
-	roscpp
- 	std_msgs
+    roscpp
+    std_msgs
 )
 
 ###################################
@@ -35,5 +35,7 @@ include_directories(${catkin_INCLUDE_DIRS} include)
 
 add_library(ahand_driver src/ahandDriver.cpp ${INCLUDE_DIR}/ahand_driver/ahandDriver.h ${INCLUDE_DIR}/ahand_driver/rDeviceAllegroHandCANDef.h)
 target_link_libraries(ahand_driver ${catkin_LIBRARIES})
+add_dependencies(ahand_driver bhand ${catkin_EXPORTED_TARGETS})
+
 
 add_subdirectory(example/rockPaperScissors)

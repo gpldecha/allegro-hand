@@ -91,6 +91,9 @@ add_dependencies(ahand_controllers ${PROJECT_NAME}_gencfg)
 
 add_executable(test_load tests/test_load.cpp)
 
+add_dependencies(ahand_controllers ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+
+
 
 # Install
 install(DIRECTORY include/ahand_controllers/
