@@ -5,7 +5,7 @@
       "keys": {
         "running-plugins": {
           "type": "repr",
-          "repr": "{u'rqt_plot/Plot': [1]}"
+          "repr": "{u'rqt_service_caller/ServiceCaller': [1], u'rqt_plot/Plot': [1]}"
         }
       },
       "groups": {
@@ -45,11 +45,42 @@
                 },
                 "y_limits": {
                   "type": "repr",
-                  "repr": "[-2.3571939635180668, 1.0]"
+                  "repr": "[-6.165041566953553, 3.234348951594462]"
                 },
                 "x_limits": {
                   "type": "repr",
-                  "repr": "[28.299601078033447, 29.299601078033447]"
+                  "repr": "[85.09078884124756, 86.09078884124756]"
+                }
+              },
+              "groups": {}
+            }
+          }
+        },
+        "plugin__rqt_service_caller__ServiceCaller__1": {
+          "keys": {},
+          "groups": {
+            "dock_widget__ServiceCallerWidget": {
+              "keys": {
+                "dockable": {
+                  "type": "repr",
+                  "repr": "True"
+                },
+                "parent": {
+                  "type": "repr",
+                  "repr": "None"
+                },
+                "dock_widget_title": {
+                  "type": "repr",
+                  "repr": "u'Service Caller'"
+                }
+              },
+              "groups": {}
+            },
+            "plugin": {
+              "keys": {
+                "splitter_orientation": {
+                  "type": "repr",
+                  "repr": "2"
                 }
               },
               "groups": {}
@@ -62,13 +93,13 @@
       "keys": {
         "geometry": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb0002000000000420000000b3000006740000029100000421000000cf000006730000029000000000000000000780')",
-          "pretty-print": "         t   !   s       "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('01d9d0cb000200000000095f0000000000000e0e00000437000009600000001c00000e0d0000043600000001000000000780')",
+          "pretty-print": "     _     7 `     6     "
         },
         "state": {
           "type": "repr(QByteArray.hex)",
-          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd00000001000000030000025300000193fc0100000001fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000000002530000017800ffffff000002530000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
-          "pretty-print": "                 Brqt_plot__Plot__1__DataPlotWidget                            6MinimizedDockWidgetsToolbar        "
+          "repr(QByteArray.hex)": "QtCore.QByteArray('000000ff00000000fd0000000100000003000004ae000003ecfc0100000002fb00000042007200710074005f0070006c006f0074005f005f0050006c006f0074005f005f0031005f005f00440061007400610050006c006f00740057006900640067006500740100000000000001c30000017800fffffffb00000072007200710074005f0073006500720076006900630065005f00630061006c006c00650072005f005f005300650072007600690063006500430061006c006c00650072005f005f0031005f005f005300650072007600690063006500430061006c006c0065007200570069006400670065007401000001c9000002e50000026a00ffffff000004ae0000000000000004000000040000000800000008fc00000001000000030000000100000036004d0069006e0069006d0069007a006500640044006f0063006b00570069006400670065007400730054006f006f006c0062006100720000000000ffffffff0000000000000000')",
+          "pretty-print": "                 Brqt_plot__Plot__1__DataPlotWidget          rrqt_service_caller__ServiceCaller__1__ServiceCallerWidget                            6MinimizedDockWidgetsToolbar        "
         }
       },
       "groups": {

@@ -15,11 +15,11 @@
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
 		<rosparam param="source_list">[/ahand/joint_states]</rosparam>
     		<param name="use_gui" value="false"/>
-		<param name="rate" value="100"/>
+		<param name="rate" value="300"/>
 	</node>
 
 	<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-	    <rosparam param="publish_frequency">100</rosparam>
+	    <rosparam param="publish_frequency">300</rosparam>
 	</node>
 
 	<!-- controllers -->

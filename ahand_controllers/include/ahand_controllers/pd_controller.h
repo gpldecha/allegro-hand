@@ -26,6 +26,11 @@ class PDController : public controller_interface::Controller<hardware_interface:
 
     public:
 
+        enum class State {idle, init, stop, start};
+
+
+    public:
+
         PDController();
 
         bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh);
@@ -38,9 +43,11 @@ class PDController : public controller_interface::Controller<hardware_interface:
 
         void gains_pd_callback(ahand_controllers::gains_pd_paramConfig& config, uint32_t level);
 
-        void command_callback(ahand_controllers::CommandRequest& request, ahand_controllers::CommandResponse& response);
+        bool command_callback(Command::Request& request, Command::Response& response);
 
     private:
+
+         PDController::State state;
 
          std::size_t n_joints_;
 
@@ -51,13 +58,17 @@ class PDController : public controller_interface::Controller<hardware_interface:
 
          std::vector<double> kp_, kd_;
 
+         std::vector<std::vector<double> > trajectory_;
+         std::size_t t_;
+
          std::vector<hardware_interface::EffortJointInterface::ResourceHandleType> joint_handles_;
 
          std::unique_ptr< dynamic_reconfigure::Server<ahand_controllers::gains_pd_paramConfig>> dynamic_server_gains_dp_param_;
 
          ros::Subscriber sub_command_pose_;
-
+         ros::ServiceServer service_server_;
          ros::NodeHandle nh_gains_pd_;
+
 
 
 };
