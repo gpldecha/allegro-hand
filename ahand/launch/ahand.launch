@@ -4,8 +4,10 @@
 	<arg name="controller" 		default="TaskInverseKinematics" />
 	<arg name="stopped_controllers" default="" />
 
-	<arg name="use_real"		default="true"/>
-	<arg name="use_sim" 		default="false"/>
+	<arg name="sim"			default="true"/>
+	<arg name="real" 		default="false"/>
+
+
 	<arg name="use_rviz" 		default="true"/>
 	<arg name="robot_name" 		default="ahand"/>
 
@@ -29,12 +31,14 @@
 	</include>
 
 	<!-- gazebo simulation -->
-	<group if="$(arg use_sim)">
+	<group if="$(arg sim)">
+		
 		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)"  respawn="false" output="screen" />
 
-		<include file="$(find gazebo_ros)/launch/empty_world.launch">
-			<arg name="world_name" value="simple world"/>
-			<arg name="paused" value="false"/>
+		<include file="$(find ahand_description)/world/empty_world.launch">
+			<arg name="world_name" value="$(find ahand_description)/world/empty_sky.world"/>
+			<arg name="paused" value="true"/>
+			<arg name="physics" value="dart"/>
 			<arg name="use_sim_time" value="true"/>
 			<arg name="gui" value="true"/>
 			<arg name="headless" value="false"/>
@@ -42,10 +46,10 @@
 		</include>
 	</group>
 
-	<!-- hardware interface to allegro hand -->     	
-	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="screen"/>
+	<!-- hardware interface to allegro hand -->
+	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="screen" if="$(arg real)"/>
 
         <!-- rviz -->
-     	<node name="rviz" pkg="rviz" type="rviz" required="true" if="$(arg use_rviz)"/>
+     	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ahand)/perspectives/ahand.rviz" if="$(arg use_rviz)"/>
 
 </launch>

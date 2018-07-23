@@ -43,16 +43,22 @@ class AHandHWGazebo : public AhandHW{
         void read(ros::Time time, ros::Duration period){
             for(int j=0; j < n_joints_; ++j){
                 joint_position_prev_[j] = joint_position_[j];
-                joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->GetAngle(0).Radian());
-                joint_velocity_[j]    = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
-                joint_effort_[j]      = sim_joints_[j]->GetForce((int)(0));
+                joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->Position(0));
+                joint_velocity_[j] = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
+                joint_effort_[j]  = sim_joints_[j]->GetForce((unsigned int)(0));
             }
         }
 
         void write(ros::Time time, ros::Duration period){
             for(std::size_t i = 0; i < n_joints_; i++){
-                sim_joints_[i]->SetForce(0, joint_effort_command_[i]);
-            }
+                if(i <= 0){
+                    std::cout<< "joint_effort_command_[" << i << "]: " << joint_effort_command_[i] << std::endl;
+                    sim_joints_[i]->SetForce(0, joint_effort_command_[i]);
+                }else{
+                    sim_joints_[i]->SetForce(0, 0.0);
+                }
+
+             }
         }
 
 

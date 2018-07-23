@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/guillaume/catkin_ws/src/allegro-hand/ahand_hw/build/devel/setup.sh

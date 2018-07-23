@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<package format="2">
+<package format="1">
   <name>ahand_hw</name>
   <version>1.0.0</version>
   <description>The ahand_hw package</description>
@@ -10,23 +10,35 @@
 
   <buildtool_depend>catkin</buildtool_depend>
 
-  <depend>control_toolbox</depend>
-  <depend>controller_interface</depend>
-  <depend>gazebo</depend>
-  <depend>gazebo_ros</depend>
-  <depend>hardware_interface</depend>
-  <depend>transmission_interface</depend>
-  <depend>realtime_tools</depend>
-  <depend>pluginlib</depend>
-  <depend>roscpp</depend>
-  <depend>tf</depend>
-  <depend>urdf</depend>
-  <depend>cmake_modules</depend>
-  <depend>controller_manager</depend>
-  <depend>kdl_parser</depend>
-  <depend>joint_limits_interface</depend>
-  <depend>std_msgs</depend>
-  <depend>ahand_driver</depend>
+  <build_depend>hardware_interface</build_depend>
+  <build_depend>controller_manager</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>control_msgs</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>pluginlib</build_depend>
+  <build_depend>transmission_interface</build_depend>
+  <build_depend>urdf</build_depend>
+  <build_depend>control_toolbox</build_depend>
+  <build_depend>joint_limits_interface</build_depend>
+  <build_depend>gazebo_ros</build_depend>
+  <build_depend>ahand_driver</build_depend>
+
+  <run_depend>hardware_interface</run_depend>
+  <run_depend>controller_manager</run_depend>
+  <run_depend>ros_controllers</run_depend>
+  <run_depend>rrbot_description</run_depend>
+  <run_depend>roscpp</run_depend>
+  <run_depend>control_msgs</run_depend>
+  <run_depend>trajectory_msgs</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>pluginlib</run_depend>
+  <run_depend>transmission_interface</run_depend>
+  <run_depend>urdf</run_depend>
+  <run_depend>control_toolbox</run_depend>
+  <run_depend>joint_limits_interface</run_depend>
+  <run_depend>gazebo_ros</run_depend>
+  <run_depend>ahand_driver</run_depend>
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>

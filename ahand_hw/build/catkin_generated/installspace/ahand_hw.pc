@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: ahand_hw
+Description: Description of ahand_hw
+Version: 1.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib -lahand_hw -lahand_hw_can -lahand_hw_gazebo_plugin
+Requires: control_toolbox controller_interface controller_manager hardware_interface realtime_tools joint_limits_interface roscpp tf urdf cmake_modules pluginlib kdl_parser transmission_interface gazebo_ros std_msgs ahand_driver

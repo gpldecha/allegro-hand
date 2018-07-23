@@ -22,7 +22,7 @@ catkin_package(
 # NOTE: You can switch to 32 bit if necessary by updating the symbolic link.
 find_library(BHAND_LIB
     NAMES BHand
-    PATHS lib
+    PATHS ./lib
 )
 
 # Make a tricky BHand target that just copies the .so binary file into the

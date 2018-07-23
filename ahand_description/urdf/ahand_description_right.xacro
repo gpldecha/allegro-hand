@@ -274,12 +274,6 @@
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link2_t_z/2}"/>
             </collision-->
-            <!--inertial>
-              <mass value="0.038" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="4.30439933333e-05" ixy="9.57068e-06" ixz="5.1205e-06" iyy="1.44451933333e-05"
-                       iyz="1.342825e-05" izz="4.30439933333e-05" />
-            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
