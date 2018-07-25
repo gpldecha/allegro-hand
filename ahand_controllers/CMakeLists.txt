@@ -78,10 +78,11 @@ catkin_package(
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(ahand_controllers
-    src/pd_controller.cpp include/ahand_controllers/pd_controller.h
-    src/state_publisher.cpp include/ahand_controllers/state_publisher.h
-    ${INCLUDE_DIR}/utils/filters.h
-    ${INCLUDE_DIR}/utils/utils.h
+        src/empty_controller.cpp include/ahand_controllers/empty_controller.h
+        src/pd_controller.cpp include/ahand_controllers/pd_controller.h
+        src/state_publisher.cpp include/ahand_controllers/state_publisher.h
+        ${INCLUDE_DIR}/utils/filters.h
+        ${INCLUDE_DIR}/utils/utils.h
 )
 
 

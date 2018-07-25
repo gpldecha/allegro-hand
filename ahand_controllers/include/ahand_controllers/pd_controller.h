@@ -26,11 +26,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
 
     public:
 
-        enum class State {idle, init, stop, start};
-
-
-    public:
-
         PDController();
 
         bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh);
@@ -47,8 +42,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
 
     private:
 
-         PDController::State state;
-
          std::size_t n_joints_;
 
          std::vector<double> tau_cmd_;
@@ -57,9 +50,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
          std::vector<double> joint_filtered_position_, joint_filtered_velocity_;
 
          std::vector<double> kp_, kd_;
-
-         std::vector<std::vector<double> > trajectory_;
-         std::size_t t_;
 
          std::vector<hardware_interface::EffortJointInterface::ResourceHandleType> joint_handles_;
 

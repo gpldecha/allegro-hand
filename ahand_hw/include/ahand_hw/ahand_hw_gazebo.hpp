@@ -40,7 +40,7 @@ class AHandHWGazebo : public AhandHW{
           return true;
         }
 
-        void read(ros::Time time, ros::Duration period){
+        void read(ros::Time time, ros::Duration period) override {
             for(int j=0; j < n_joints_; ++j){
                 joint_position_prev_[j] = joint_position_[j];
                 joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->Position(0));
@@ -49,15 +49,9 @@ class AHandHWGazebo : public AhandHW{
             }
         }
 
-        void write(ros::Time time, ros::Duration period){
+        void write(ros::Time time, ros::Duration period) override {
             for(std::size_t i = 0; i < n_joints_; i++){
-                if(i <= 0){
-                    std::cout<< "joint_effort_command_[" << i << "]: " << joint_effort_command_[i] << std::endl;
-                    sim_joints_[i]->SetForce(0, joint_effort_command_[i]);
-                }else{
-                    sim_joints_[i]->SetForce(0, 0.0);
-                }
-
+                sim_joints_[i]->SetForce(0, joint_effort_command_[i]);
              }
         }
 

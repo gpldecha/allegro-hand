@@ -29,42 +29,24 @@ bool ahand_controllers::PDController::init(hardware_interface::EffortJointInterf
 
     // convert deg to rad
     for(std::size_t i = 0; i < home_pose.size(); i++){
-        home_pose[i] = home_pose[i]*M_PI/180.0;
-    }
+           home_pose[i] = home_pose[i]*M_PI/180.0;
+       }
 
-    state = PDController::State::idle;
+       tau_cmd_.resize(n_joints_, 0.0);
+       joint_msr_position_.resize(n_joints_, 0.0);
+       joint_msr_velocity_.resize(n_joints_, 0.0);
+       joint_des_position_.resize(n_joints_, 0.0);
+       joint_filtered_position_.resize(n_joints_, 0.0);
+       joint_filtered_velocity_.resize(n_joints_, 0.0);
 
-    tau_cmd_.resize(n_joints_, 0.0);
-    joint_msr_position_.resize(n_joints_, 0.0);
-    joint_msr_velocity_.resize(n_joints_, 0.0);
-    joint_des_position_.resize(n_joints_, 0.0);
-    joint_filtered_position_.resize(n_joints_, 0.0);
-    joint_filtered_velocity_.resize(n_joints_, 0.0);
+       kp_.resize(n_joints_, 0.0);
+       kd_.resize(n_joints_, 0.0);
 
-    kp_.resize(n_joints_, 0.0);
-    kd_.resize(n_joints_, 0.0);
-
-    std::string filename = "/home/guillaume/data_positions.txt";
-    trajectory_ = ahand::load<double>(filename);
-    for(std::size_t i = 0; i < trajectory_.size(); i++){
-        trajectory_[i][4] = 0.30809686125061037;
-
-        if(i < 10)
-            std::cout<< trajectory_[i][5] << std::endl;
-        trajectory_[i][5] = trajectory_[i][5] + 0.1;
-        trajectory_[i][12] = 1.7;
-        trajectory_[i][14] = 0.1;
-    }
-
-    t_ = 0;
-
-    service_server_ = nh.advertiseService("cmd", &ahand_controllers::PDController::command_callback, this);
-
-    // Dynamic reconfigure
-    nh_gains_pd_ = ros::NodeHandle("gains_pd");
-    dynamic_server_gains_dp_param_.reset( new dynamic_reconfigure::Server< ahand_controllers::gains_pd_paramConfig>(nh_gains_pd_) );
-    dynamic_server_gains_dp_param_->setCallback(boost::bind(&ahand_controllers::PDController::gains_pd_callback, this, _1, _2));
-    ROS_INFO("Sucessfuly initialised PDController");
+       // Dynamic reconfigure
+       nh_gains_pd_ = ros::NodeHandle("gains_pd");
+       dynamic_server_gains_dp_param_.reset( new dynamic_reconfigure::Server< ahand_controllers::gains_pd_paramConfig>(nh_gains_pd_) );
+       dynamic_server_gains_dp_param_->setCallback(boost::bind(&ahand_controllers::PDController::gains_pd_callback, this, _1, _2));
+       ROS_INFO("Sucessfuly initialised PDController");
     return true;
 }
 
@@ -75,11 +57,11 @@ void ahand_controllers::PDController::starting(const ros::Time& time){
     for(size_t i=0; i<joint_handles_.size(); i++) {
         joint_msr_position_[i] = joint_handles_[i].getPosition();
         joint_msr_velocity_[i] = joint_handles_[i].getVelocity();
+        joint_des_position_[i] = home_pose[i];
         joint_filtered_position_[i] = joint_msr_position_[i];
         joint_filtered_velocity_[i] = joint_msr_velocity_[i];
     }
     ROS_INFO("PDController started!");
-
 }
 
 void ahand_controllers::PDController::update(const ros::Time& time, const ros::Duration& period){
@@ -87,48 +69,15 @@ void ahand_controllers::PDController::update(const ros::Time& time, const ros::D
     for(size_t i=0; i<joint_handles_.size(); i++) {
         joint_msr_position_[i] = joint_handles_[i].getPosition();
         joint_msr_velocity_[i] = joint_handles_[i].getVelocity();
-        joint_filtered_position_[i] = joint_msr_position_[i]; //ahand_controllers::exponentialSmoothing(joint_msr_position_[i], joint_filtered_position_[i], 0.1);
+        joint_des_position_[i] = home_pose[i];
+        joint_filtered_position_[i] = ahand_controllers::exponentialSmoothing(joint_msr_position_[i], joint_filtered_position_[i], 0.2);
         joint_filtered_velocity_[i] = ahand_controllers::exponentialSmoothing(joint_msr_velocity_[i], joint_filtered_velocity_[i], 0.2);
-    }
+     }
 
-    switch(state){
-    case State::idle:
-    {
-        std::copy(joint_filtered_position_.begin(), joint_filtered_position_.end(), joint_des_position_.begin());
-        break;
-    }
-    case State::init:
-    {
-        t_=0;
-        std::copy(trajectory_[t_].begin(), trajectory_[t_].end(), joint_des_position_.begin());
-        break;
-    }
-    case State::start:
-    {
-        if(t_ >= trajectory_.size()){
-            state = State::stop;
-            ROS_INFO("trajectory finished");
-        }else{
-            t_++;
-        }
-        std::copy(trajectory_[t_].begin(), trajectory_[t_].end(), joint_des_position_.begin());
-        break;
-    }
-    case State::stop:
-    {
-        break;
-    }
-    }
-
-    // pd controller
+    // joint impedance controller
     for(size_t i=0; i<joint_handles_.size(); i++) {
       tau_cmd_[i] = kp_[i]*(joint_des_position_[i] - joint_filtered_position_[i]) - kd_[i]*joint_filtered_velocity_[i];
     }
-
-    tau_cmd_[0] = 0;
-    tau_cmd_[1] = 0;
-    tau_cmd_[2] = 0;
-    tau_cmd_[3] = 0;
 
     // write
     for(size_t i=0; i<joint_handles_.size(); i++) {
@@ -152,22 +101,6 @@ void ahand_controllers::PDController::gains_pd_callback(ahand_controllers::gains
 
 bool ahand_controllers::PDController::command_callback(Command::Request &request, Command::Response &response){
     std::string msg =request.message;
-    if(msg == "idle"){
-        state = State::idle;
-        response.response = "state set to idle";
-    }else if(msg == "init"){
-        state = State::init;
-        response.response = "state set to init";
-    }else if(msg == "start"){
-        state = State::start;
-        response.response = "state set to start";
-    }else if(msg == "stop"){
-        state = State::stop;
-        response.response = "state set to stop";
-    }else{
-        ROS_WARN_STREAM_COND(1.0, "no such cmd: " + msg + " supported!");
-    }
-
 }
 
 

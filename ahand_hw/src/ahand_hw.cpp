@@ -71,10 +71,6 @@ void AhandHW::reset(){
 
 bool AhandHW::canSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list) const{
     ROS_INFO("can switch");
-    for ( std::list<hardware_interface::ControllerInfo>::const_iterator it = start_list.begin(); it != start_list.end(); ++it ){
-        std::cout<< "name: " << it->name << std::endl;
-
-    }
     return true;
 }
 

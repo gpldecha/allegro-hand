@@ -8,5 +8,10 @@
     <description> The PD Controller controllers each individual joint of the allegro hand. </description>
   </class>
 
+  <class name="ahand_controllers/EmptyController" type="ahand_controllers::EmptyController" base_class_type="controller_interface::ControllerBase">
+    <description> Outputs zero effort, this is to test gazebo dynamics. </description>
+  </class>
+
+
 
 </library>

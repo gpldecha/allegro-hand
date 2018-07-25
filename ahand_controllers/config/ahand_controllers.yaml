@@ -8,3 +8,7 @@ ahand:
   pd_controller:
     type: ahand_controllers/PDController
     publish_rate: 300
+
+  empty_controller:
+    type: ahand_controllers/EmptyController
+    publish_rate: 300

@@ -37,7 +37,11 @@
   <xacro:macro name="gz_finger" params="finger_num">
   <gazebo reference="${name}_link_${finger_num}">
   	<gravity>true</gravity>
-    	<selfCollide>false</selfCollide>
+    <selfCollide>false</selfCollide>
+	  <velocity_decay>
+		  <linear>0.2</linear>
+		  <angular>0.4</angular>
+	  </velocity_decay>
   </gazebo>
   </xacro:macro>
 

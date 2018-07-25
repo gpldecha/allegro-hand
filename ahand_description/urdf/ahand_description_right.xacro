@@ -14,17 +14,18 @@
     <xacro:property name="link2_z" value="0.0384"/>
 
     <!-- according to http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Link_Masses -->
-    <xacro:property name="link_0_mass" value="${11.0*0.001}"/>
-    <xacro:property name="link_1_mass" value="${65*0.001}"/>
-    <xacro:property name="link_2_mass" value="${35.5*0.001}"/>
-    <xacro:property name="link_3_mass" value="${9.6*0.001}"/>
-    <xacro:property name="link_tip_mass" value="${16.8*0.001}"/>
+    <xacro:property name="mass_scale" value="1.0"/>
+    <xacro:property name="link_0_mass" value="${11.0*0.001*mass_scale}"/>
+    <xacro:property name="link_1_mass" value="${65*0.001*mass_scale}"/>
+    <xacro:property name="link_2_mass" value="${35.5*0.001*mass_scale}"/>
+    <xacro:property name="link_3_mass" value="${9.6*0.001*mass_scale}"/>
+    <xacro:property name="link_tip_mass" value="${16.8*0.001*mass_scale}"/>
 
-    <xacro:property name="thumb_0_mass" value="${17.6*0.001}"/>
-    <xacro:property name="thumb_1_mass" value="${11.9*0.001}"/>
-    <xacro:property name="thumb_2_mass" value="${38.0*0.001}"/>
-    <xacro:property name="thumb_3_mass" value="${38.8*0.001}"/>
-    <xacro:property name="thumb_tip_mass" value="${16.8*0.001}"/>
+    <xacro:property name="thumb_0_mass" value="${17.6*0.001*mass_scale}"/>
+    <xacro:property name="thumb_1_mass" value="${11.9*0.001*mass_scale}"/>
+    <xacro:property name="thumb_2_mass" value="${38.0*0.001*mass_scale}"/>
+    <xacro:property name="thumb_3_mass" value="${38.8*0.001*mass_scale}"/>
+    <xacro:property name="thumb_tip_mass" value="${16.8*0.001*mass_scale}"/>
 
     <xacro:property name="palm_mass" value="${415.4*0.001}"/>
 
@@ -84,15 +85,15 @@
     <!-- ============================================================================= -->
 
   <xacro:include filename="$(find ahand_description)/urdf/common.xacro"/>
-  <xacro:property name="b" value="0.02"/> <!-- 0.8 damping // 0.2 ..-->
-  <xacro:property name="c" value="0.8"/> <!-- friction: not used ... -->
+  <xacro:property name="b" value="2.0"/>
+  <xacro:property name="c" value="0.0"/>
 
 
   <!-- Include transmissions -->
-  <xacro:include filename="$(find ahand_description)/urdf/allegro_hand_transmission.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/ahand_transmission.xacro"/>
 
   <!-- Include Gazebo -->
-  <xacro:include filename="$(find ahand_description)/urdf/hand_gazebo.xacro"/>
+  <xacro:include filename="$(find ahand_description)/urdf/ahand_gazebo.xacro"/>
 
 
   <!-- URDF model with default base_link (world)-->
@@ -189,13 +190,6 @@
               </material>
               <origin rpy="${180*DEG2RAD} 0 0" xyz="0 0 0"/>
             </visual>
-            <!--inertial>
-              <mass value="0.0176" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="1.89273333333e-5" ixy="7.16716e-06" ixz="5.35568e-06"
-                       iyy="1.43008213333e-05" iyz="6.8068e-06"
-                       izz="1.89273333333e-05" />
-            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+0}" type="revolute">
@@ -207,7 +201,7 @@
             <child link="${name}_link_${finger_num*4+0}"/>
             <origin rpy="${finger_angle_r} ${finger_angle_p} ${finger_angle_y}"
                     xyz="${offset_origin_x} ${offset_origin_y} ${offset_origin_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 13] -->
@@ -227,20 +221,6 @@
                     <color rgba=".2 .2 .2 1"/>
                 </material>
             </visual>
-
-            <!--collision>
-                <geometry>
-                    <box size="${links_x} ${links_y} ${link1_t_z}"/>
-                </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${link1_t_z/2}"/>
-            </collision-->
-            <!--inertial>
-              <mass value="0.0119" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="4.24250866667e-06" ixy="1.032087e-06" ixz="1.603525e-06"
-                       iyy="4.52362633333e-06" iyz="1.44808125e-06"
-                       izz="4.24250866667e-06" />
-            </inertial-->
         </link>
 
         <joint name="${name}_joint_${finger_num*4+1}" type="revolute">
@@ -251,7 +231,7 @@
             <parent link="${name}_link_${finger_num*4+0}"/>
             <child link="${name}_link_${finger_num*4+1}"/>
             <origin xyz="-0.027 0.005 0.0399"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 14] -->
@@ -268,12 +248,12 @@
                 <material name="black">
                 </material>
             </visual>
-            <!--collision>
+            <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link2_t_z}"/>
                 </geometry>
                 <origin rpy="0 0 0" xyz="0 0 ${link2_t_z/2}"/>
-            </collision-->
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
@@ -284,7 +264,7 @@
             <parent link="${name}_link_${finger_num*4+1}"/>
             <child link="${name}_link_${finger_num*4+2}"/>
             <origin xyz="0 0 ${link1_t_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 15] -->
@@ -301,21 +281,12 @@
                 <material name="black">
                 </material>
             </visual>
-
-            <!--collision>
+            <collision>
                 <geometry>
-                    <box size="${links_x} ${links_y} ${link3_t_z-fingerTip_r}"/>
+                    <box size="${links_x} ${links_y} ${link3_t_z-2.0*fingerTip_r}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${(link3_t_z-fingerTip_r)/2}"/>
-            </collision-->
-
-            <!--inertial>
-              <mass value="0.0388" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="3.29223173333e-05" ixy="8.042076e-06" ixz="5.2283e-06"
-                       iyy="1.47493026667e-5" iyz="1.1283525e-5"
-                       izz="3.29223173333e-05" />
-            </inertial-->
+                <origin rpy="0 0 0" xyz="0 0 ${(link3_t_z-2.0*fingerTip_r)/2}"/>
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}" type="revolute">
@@ -326,10 +297,10 @@
             <parent link="${name}_link_${finger_num*4+2}"/>
             <child link="${name}_link_${finger_num*4+3}"/>
             <origin xyz="0 0 ${link2_t_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
-        <!-- [FINGER TIP] -->
+        <!-- [FINGER TIP THUMB] -->
         <link name="${name}_link_${finger_num*4+3}_tip">
           <inertial>
                 <origin xyz="0.0 0.0 0.0"/>
@@ -344,21 +315,11 @@
                     <color rgba=".9 .9 .9 1"/>
                 </material>
             </visual>
-
-            <!--collision>
+            <collision>
                 <geometry>
-                    <sphere radius="${fingerTip_r}"/>
+                    <mesh filename="package://ahand_description/meshes/link_15.0_tip.STL"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 0"/>
-            </collision-->
-
-            <!--inertial>
-              <mass value="0.0168" />
-              <origin xyz="0 0 0" rpy="0 0 0"/>
-              <inertia ixx="9.68e-07" ixy="0" ixz="0"
-                       iyy="9.68e-07" iyz="0"
-                       izz="9.68e-07" />
-            </inertial-->
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">
@@ -402,7 +363,7 @@
             <child link="${name}_link_${finger_num*4+0}"/>
             <origin rpy="${finger_angle_r} 0 0"
                     xyz="${offset_origin_x} ${offset_origin_y} ${offset_origin_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 1, 5, 9] -->
@@ -434,7 +395,7 @@
             <parent link="${name}_link_${finger_num*4+0}"/>
             <child link="${name}_link_${finger_num*4+1}"/>
             <origin xyz="0 0 ${link0_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 2, 6, 10]-->
@@ -466,7 +427,7 @@
             <parent link="${name}_link_${finger_num*4+1}"/>
             <child  link="${name}_link_${finger_num*4+2}"/>
             <origin xyz="0 0 ${link1_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 3, 7, 11] -->
@@ -484,9 +445,9 @@
             </visual>
             <collision>
                 <geometry>
-                    <box size="${links_x} ${links_y} ${link3_z-fingerTip_r}"/>
+                    <box size="${links_x} ${links_y} ${link3_z-2.0*fingerTip_r}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${(link3_z-fingerTip_r)/2}"/>
+                <origin rpy="0 0 0" xyz="0 0 ${(link3_z-2.0*fingerTip_r)/2}"/>
             </collision>
         </link>
 
@@ -498,25 +459,29 @@
             <parent link="${name}_link_${finger_num*4+2}"/>
             <child link="${name}_link_${finger_num*4+3}"/>
             <origin xyz="0 0 ${link2_z}"/>
-            <dynamics damping="${0.1*b}" friction="${0.1*c}"/>
+            <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [FINGER TIP] -->
         <link name="${name}_link_${finger_num*4+3}_tip">
-          <inertial>
-            <origin xyz="0 0 0"/>
-            <xacro:cuboid_inertia_def width="0.02" height="0.020" length="0.020" mass="${link_tip_mass}"/>
-            <mass value="${link_tip_mass}"/>
-          </inertial>
-
-          <visual>
-            <geometry>
-              <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
-            </geometry>
-            <material name="white">
-              <color rgba=".9 .9 .9 1"/>
-            </material>
-          </visual>
+            <inertial>
+                <origin xyz="0 0 0"/>
+                <xacro:cuboid_inertia_def width="0.02" height="0.020" length="0.020" mass="${link_tip_mass}"/>
+                <mass value="${link_tip_mass}"/>
+            </inertial>
+            <visual>
+                <geometry>
+                    <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
+                </geometry>
+                <material name="white">
+                    <color rgba=".9 .9 .9 1"/>
+                </material>
+            </visual>
+            <collision>
+                <geometry>
+                    <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
+                </geometry>
+            </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">
