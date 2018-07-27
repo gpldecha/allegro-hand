@@ -18,7 +18,7 @@ namespace ahand_controllers {
 
     public:
 
-        EmptyController();
+        EmptyController() = default;
 
         bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh) override;
 

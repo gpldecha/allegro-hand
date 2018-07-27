@@ -1,14 +1,9 @@
 #include "ahand_controllers/empty_controller.h"
 
 
-ahand_controllers::EmptyController::EmptyController(){
-
-}
-
 bool ahand_controllers::EmptyController::init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh){
     std::size_t n_joints_ = robot->getNames().size();
-    ROS_INFO("Initisalising Empty");
-    ROS_INFO_STREAM("PDController number of joints: "  << n_joints_);
+    ROS_INFO("Initisalising EmptyController");
     for(std::size_t i = 0; i < n_joints_; i++){
         joint_handles_.push_back(robot->getHandle("ahand_joint_" + std::to_string(i)));
     }

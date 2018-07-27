@@ -1,5 +1,5 @@
-#ifndef AHAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
-#define AHAND_CONTROLLERS__JOINT_STATE_CONTROLLER_H
+#ifndef AHAND_CONTROLLERS__STATE_PUBLISHER_CONTROLLER_H
+#define AHAND_CONTROLLERS__STATE_PUBLISHER_CONTROLLER_H
 
 #include <control_msgs/JointControllerState.h>
 #include <controller_interface/controller.h>
@@ -21,15 +21,15 @@ class StatePublisher : public controller_interface::Controller<hardware_interfac
 
         StatePublisher() : publish_rate_(0.0) {}
 
-        virtual bool init(hardware_interface::JointStateInterface* hw,
+        bool init(hardware_interface::JointStateInterface* hw,
                           ros::NodeHandle&                         root_nh,
-                          ros::NodeHandle&                         controller_nh);
+                          ros::NodeHandle&                         controller_nh) override;
 
-        virtual void starting(const ros::Time& time);
+        void starting(const ros::Time& time) override;
 
-        virtual void update(const ros::Time& time, const ros::Duration& period);
+        void update(const ros::Time& time, const ros::Duration& period) override;
 
-        virtual void stopping(const ros::Time& time);
+        void stopping(const ros::Time& time) override;
 
     private:
 

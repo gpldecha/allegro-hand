@@ -4,11 +4,14 @@ ahand:
     type: ahand_controllers/StatePublisher
     publish_rate: 300
 
-  # PD controller
   pd_controller:
     type: ahand_controllers/PDController
     publish_rate: 300
 
   empty_controller:
     type: ahand_controllers/EmptyController
+    publish_rate: 300
+
+  ros_controller:
+    type: ahand_controllers/ROSController
     publish_rate: 300

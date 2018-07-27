@@ -94,6 +94,10 @@ class AHandHWsimPlugin : public gazebo::ModelPlugin{
               return;
             }
 
+            for(auto position : robot_hw_sim_->joint_position_){
+                position = 1.4;
+            }
+
             // Create the controller manager
             ROS_INFO_STREAM_NAMED("ros_control_plugin","Loading controller_manager");
             controller_manager_.reset(new controller_manager::ControllerManager(robot_hw_sim_.get(), model_nh_));

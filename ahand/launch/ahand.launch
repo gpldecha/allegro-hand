@@ -1,15 +1,16 @@
 <?xml version="1.0"?>
 <launch>
 	<arg name="gui" 				default="false" />
-	<arg name="controller" 			default="pd_controller" />
-	<arg name="stopped_controllers" default="empty_controller"/>
+	<arg name="controller" 			default="ros_controller" />
+	<arg name="stopped_controllers" default=""/>
 
-	<arg name="sim"			default="true"/>
-	<arg name="real" 		default="false"/>
+	<arg name="sim"					default="true"/>
+	<arg name="real" 				default="false"/>
 
+	<arg name="use_rviz" 			default="false"/>
+	<arg name="robot_name" 			default="ahand"/>
 
-	<arg name="use_rviz" 		default="false"/>
-	<arg name="robot_name" 		default="ahand"/>
+	<arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
 
    	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
 	<param name="use_gui" value="$(arg gui)"/>
@@ -25,18 +26,18 @@
 	</node>
 
 	<!-- controllers -->
-	<!--include file="$(find ahand_controllers)/launch/load_controller.launch">
+	<include file="$(find ahand_controllers)/launch/load_controller.launch">
 		<arg name="controller" value="$(arg controller)" />
 		<arg name="stopped_controllers" value="$(arg stopped_controllers)" />
-	</include-->
+	</include>
 
 	<!-- gazebo simulation -->
 	<group if="$(arg sim)">
 		
-		<node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)"  respawn="false" output="screen" />
+		<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) "  respawn="false" output="screen" />
 
-		<include file="$(find ahand_description)/world/empty_world.launch">
-			<arg name="world_name" value="$(find ahand_description)/world/empty_sky.world"/>
+		<include file="$(find ahand_description)/world/world.launch">
+			<arg name="world_name" value="$(arg world_name)"/>
 			<arg name="paused" value="true"/>
 			<arg name="physics" value="dart"/>
 			<arg name="use_sim_time" value="true"/>

@@ -12,6 +12,8 @@
     <description> Outputs zero effort, this is to test gazebo dynamics. </description>
   </class>
 
-
+  <class name="ahand_controllers/ROSController" type="ahand_controllers::ROSController" base_class_type="controller_interface::ControllerBase">
+    <description> Listens to a command topic and applies the commands to the robot. </description>
+  </class>
 
 </library>

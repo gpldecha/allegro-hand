@@ -375,7 +375,7 @@
       		</inertial>
           <visual>
             <geometry>
-              <mesh filename="package://ahand_description/meshes/link_1.0.STL"/>
+              <mesh filename="package://ahand_description/meshes/link_1.dae"/>
             </geometry>
             <material name="black"/>
           </visual>
