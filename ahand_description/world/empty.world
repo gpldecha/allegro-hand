@@ -1,0 +1,1444 @@
+<sdf version='1.4'>
+  <world name='default'>
+    <light name='sun' type='directional'>
+      <cast_shadows>1</cast_shadows>
+      <pose frame=''>0 0 10 0 -0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <model name='ground_plane'>
+      <static>1</static>
+      <link name='link'>
+        <collision name='collision'>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <surface>
+            <friction>
+              <ode>
+                <mu>100</mu>
+                <mu2>50</mu2>
+              </ode>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='visual'>
+          <cast_shadows>0</cast_shadows>
+          <geometry>
+            <plane>
+              <normal>0 0 1</normal>
+              <size>100 100</size>
+            </plane>
+          </geometry>
+          <material>
+            <script>
+              <uri>file://media/materials/scripts/gazebo.material</uri>
+              <name>Gazebo/Grey</name>
+            </script>
+          </material>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+    </model>
+    <gravity>0 0 -9.8</gravity>
+    <magnetic_field>6e-06 2.3e-05 -4.2e-05</magnetic_field>
+    <atmosphere type='adiabatic'/>
+    <physics name='default_physics' default='0' type='dart'>
+      <max_step_size>1e-02</max_step_size>
+      <real_time_factor>1000</real_time_factor>
+      <real_time_update_rate>0</real_time_update_rate>
+    </physics>
+    <scene>
+      <ambient>0.4 0.4 0.4 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>0</shadows>
+    </scene>
+    <spherical_coordinates>
+      <surface_model>EARTH_WGS84</surface_model>
+      <latitude_deg>0</latitude_deg>
+      <longitude_deg>0</longitude_deg>
+      <elevation>0</elevation>
+      <heading_deg>0</heading_deg>
+    </spherical_coordinates>
+    <model name='ahand'>
+      <link name='ahand_palm_link'>
+        <pose frame=''>0 0 0.15 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 -0.0475 0 -0 0</pose>
+          <mass>1.1644</mass>
+          <inertia>
+            <ixx>0.00184606</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>0.00112559</iyy>
+            <iyz>0</iyz>
+            <izz>0.00103098</izz>
+          </inertia>
+        </inertial>
+        <visual name='ahand_palm_link_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/base_link.STL</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <self_collide>0</self_collide>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_base_joint' type='fixed'>
+        <child>ahand_palm_link</child>
+        <parent>world</parent>
+      </joint>
+      <link name='ahand_link_0'>
+        <pose frame=''>0 0.0435 0.148458 -0.087267 0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.01 0 -0 0</pose>
+          <mass>0.011</mass>
+          <inertia>
+            <ixx>9.39583e-07</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.14583e-06</iyy>
+            <iyz>0</iyz>
+            <izz>9.39583e-07</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_0_collision'>
+          <pose frame=''>0 0 0.0082 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0164</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_0_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_0.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_0' type='revolute'>
+        <child>ahand_link_0</child>
+        <parent>ahand_palm_link</parent>
+        <axis>
+          <xyz>0 0.087156 0.996195</xyz>
+          <limit>
+            <lower>-0.57</lower>
+            <upper>0.57</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_1'>
+        <pose frame=''>0 0.044929 0.164796 -0.087267 0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.027 1.5707 -0 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>1.91804e-05</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.77083e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.91804e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_1_collision'>
+          <pose frame=''>0 0 0.027 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.054</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_1_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_1.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_1' type='revolute'>
+        <child>ahand_link_1</child>
+        <parent>ahand_link_0</parent>
+        <axis>
+          <xyz>0 0.996195 -0.087156</xyz>
+          <limit>
+            <lower>-0.296</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_2'>
+        <pose frame=''>0 0.049636 0.21859 -0.087267 0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.0192 0 1.5707 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>3.69792e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.2112e-06</iyy>
+            <iyz>0</iyz>
+            <izz>6.2112e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_2_collision'>
+          <pose frame=''>0 0 0.0192 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0384</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_2_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_2.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_2' type='revolute'>
+        <child>ahand_link_2</child>
+        <parent>ahand_link_1</parent>
+        <axis>
+          <xyz>0 0.996195 -0.087156</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_3'>
+        <pose frame=''>0 0.052983 0.256844 -0.087267 0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.016991 0 -0 0</pose>
+          <mass>0.0264</mass>
+          <inertia>
+            <ixx>6.47511e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.29511e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.94e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_3_collision'>
+          <pose frame=''>0 0 0.01335 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0267</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_3_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='ahand_link_3_tip_visual_1'>
+          <pose frame=''>0 0 0.0267 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0_tip.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_3' type='revolute'>
+        <child>ahand_link_3</child>
+        <parent>ahand_link_2</parent>
+        <axis>
+          <xyz>0 0.996195 -0.087156</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.73</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_12'>
+        <pose frame=''>-0.0182 0.019333 0.104013 3.14159 -1.48353 1.5708</pose>
+        <inertial>
+          <pose frame=''>-0.0179 0 0 0 -0 0</pose>
+          <mass>0.0176</mass>
+          <inertia>
+            <ixx>4.69333e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>2.93333e-06</iyy>
+            <iyz>0</iyz>
+            <izz>2.93333e-06</izz>
+          </inertia>
+        </inertial>
+        <visual name='ahand_link_12_visual'>
+          <pose frame=''>0 0 0 3.14159 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_12.0_right.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_12' type='revolute'>
+        <child>ahand_link_12</child>
+        <parent>ahand_palm_link</parent>
+        <axis>
+          <xyz>0 -0.087156 -0.996195</xyz>
+          <limit>
+            <lower>0.275</lower>
+            <upper>1.57</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_13'>
+        <pose frame=''>-0.0132 0.056728 0.073638 3.14159 -1.48353 1.5708</pose>
+        <inertial>
+          <pose frame=''>0 0 0.00885 0 -0 0</pose>
+          <mass>0.0119</mass>
+          <inertia>
+            <ixx>7.93333e-07</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>7.93333e-07</iyy>
+            <iyz>0</iyz>
+            <izz>7.93333e-07</izz>
+          </inertia>
+        </inertial>
+        <visual name='ahand_link_13_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_13.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_13' type='revolute'>
+        <child>ahand_link_13</child>
+        <parent>ahand_link_12</parent>
+        <axis>
+          <xyz>0 0.996195 -0.087156</xyz>
+          <limit>
+            <lower>-0.205</lower>
+            <upper>1.263</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_14'>
+        <pose frame=''>-0.0132 0.074361 0.072096 3.14159 -1.48353 1.5708</pose>
+        <inertial>
+          <pose frame=''>0 0 0.0257 0 -0 0</pose>
+          <mass>0.038</mass>
+          <inertia>
+            <ixx>2.53333e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>2.53333e-06</iyy>
+            <iyz>0</iyz>
+            <izz>2.53333e-06</izz>
+          </inertia>
+        </inertial>
+        <visual name='ahand_link_14_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_14.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_14' type='revolute'>
+        <child>ahand_link_14</child>
+        <parent>ahand_link_13</parent>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-0.289</lower>
+            <upper>1.744</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_15'>
+        <pose frame=''>-0.0132 0.125565 0.067616 3.14159 -1.48353 1.5708</pose>
+        <inertial>
+          <pose frame=''>0 0 0.031728 0 -0 0</pose>
+          <mass>0.0556</mass>
+          <inertia>
+            <ixx>9.33753e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.39753e-06</iyy>
+            <iyz>0</iyz>
+            <izz>6.64667e-06</izz>
+          </inertia>
+        </inertial>
+        <visual name='ahand_link_15_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_15.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='ahand_link_15_tip_visual_1'>
+          <pose frame=''>0 0 0.0423 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_15.0_tip.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_15' type='revolute'>
+        <child>ahand_link_15</child>
+        <parent>ahand_link_14</parent>
+        <axis>
+          <xyz>1 0 0</xyz>
+          <limit>
+            <lower>-0.262</lower>
+            <upper>1.819</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_4'>
+        <pose frame=''>0 0 0.1507 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.01 0 -0 0</pose>
+          <mass>0.011</mass>
+          <inertia>
+            <ixx>9.39583e-07</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.14583e-06</iyy>
+            <iyz>0</iyz>
+            <izz>9.39583e-07</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_4_collision'>
+          <pose frame=''>0 0 0.0082 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0164</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_4_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_0.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_4' type='revolute'>
+        <child>ahand_link_4</child>
+        <parent>ahand_palm_link</parent>
+        <axis>
+          <xyz>0 0 1</xyz>
+          <limit>
+            <lower>-0.57</lower>
+            <upper>0.57</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_5'>
+        <pose frame=''>0 0 0.1671 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.027 1.5707 -0 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>1.91804e-05</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.77083e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.91804e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_5_collision'>
+          <pose frame=''>0 0 0.027 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.054</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_5_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_1.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_5' type='revolute'>
+        <child>ahand_link_5</child>
+        <parent>ahand_link_4</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-0.296</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_6'>
+        <pose frame=''>0 0 0.2211 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.0192 0 1.5707 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>3.69792e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.2112e-06</iyy>
+            <iyz>0</iyz>
+            <izz>6.2112e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_6_collision'>
+          <pose frame=''>0 0 0.0192 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0384</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_6_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_2.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_6' type='revolute'>
+        <child>ahand_link_6</child>
+        <parent>ahand_link_5</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_7'>
+        <pose frame=''>0 0 0.2595 0 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.016991 0 -0 0</pose>
+          <mass>0.0264</mass>
+          <inertia>
+            <ixx>6.47511e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.29511e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.94e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_7_collision'>
+          <pose frame=''>0 0 0.01335 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0267</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_7_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='ahand_link_7_tip_visual_1'>
+          <pose frame=''>0 0 0.0267 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0_tip.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_7' type='revolute'>
+        <child>ahand_link_7</child>
+        <parent>ahand_link_6</parent>
+        <axis>
+          <xyz>0 1 0</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.73</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_8'>
+        <pose frame=''>0 -0.0435 0.148458 0.087267 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.01 0 -0 0</pose>
+          <mass>0.011</mass>
+          <inertia>
+            <ixx>9.39583e-07</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>1.14583e-06</iyy>
+            <iyz>0</iyz>
+            <izz>9.39583e-07</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_8_collision'>
+          <pose frame=''>0 0 0.0082 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0164</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_8_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_0.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_8' type='revolute'>
+        <child>ahand_link_8</child>
+        <parent>ahand_palm_link</parent>
+        <axis>
+          <xyz>0 -0.087156 0.996195</xyz>
+          <limit>
+            <lower>-0.57</lower>
+            <upper>0.57</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_9'>
+        <pose frame=''>0 -0.044929 0.164796 0.087267 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.027 1.5707 -0 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>1.91804e-05</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.77083e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.91804e-05</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_9_collision'>
+          <pose frame=''>0 0 0.027 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.054</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_9_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_1.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_9' type='revolute'>
+        <child>ahand_link_9</child>
+        <parent>ahand_link_8</parent>
+        <axis>
+          <xyz>0 0.996195 0.087156</xyz>
+          <limit>
+            <lower>-0.296</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_10'>
+        <pose frame=''>0 -0.049636 0.21859 0.087267 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.0192 0 1.5707 0</pose>
+          <mass>0.0355</mass>
+          <inertia>
+            <ixx>3.69792e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.2112e-06</iyy>
+            <iyz>0</iyz>
+            <izz>6.2112e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_10_collision'>
+          <pose frame=''>0 0 0.0192 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0384</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_10_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_2.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_10' type='revolute'>
+        <child>ahand_link_10</child>
+        <parent>ahand_link_9</parent>
+        <axis>
+          <xyz>0 0.996195 0.087156</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.74</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <link name='ahand_link_11'>
+        <pose frame=''>0 -0.052983 0.256844 0.087267 -0 0</pose>
+        <inertial>
+          <pose frame=''>0 0 0.016991 0 -0 0</pose>
+          <mass>0.0264</mass>
+          <inertia>
+            <ixx>6.47511e-06</ixx>
+            <ixy>0</ixy>
+            <ixz>0</ixz>
+            <iyy>6.29511e-06</iyy>
+            <iyz>0</iyz>
+            <izz>1.94e-06</izz>
+          </inertia>
+        </inertial>
+        <collision name='ahand_link_11_collision'>
+          <pose frame=''>0 0 0.01335 0 -0 0</pose>
+          <geometry>
+            <box>
+              <size>0.0196 0.0275 0.0267</size>
+            </box>
+          </geometry>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <friction>
+              <ode/>
+              <torsional>
+                <ode/>
+              </torsional>
+            </friction>
+            <bounce/>
+          </surface>
+          <max_contacts>10</max_contacts>
+        </collision>
+        <visual name='ahand_link_11_visual'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <visual name='ahand_link_11_tip_visual_1'>
+          <pose frame=''>0 0 0.0267 0 -0 0</pose>
+          <geometry>
+            <mesh>
+              <scale>1 1 1</scale>
+              <uri>/home/guillaume/catkin_ws/src/allegro-hand/ahand_description/meshes/link_3.0_tip.STL</uri>
+            </mesh>
+          </geometry>
+          <material>
+            <script>
+              <uri>__default__</uri>
+              <name>__default__</name>
+            </script>
+          </material>
+        </visual>
+        <gravity>1</gravity>
+        <velocity_decay/>
+        <self_collide>0</self_collide>
+        <gravity>1</gravity>
+        <kinematic>0</kinematic>
+      </link>
+      <joint name='ahand_joint_11' type='revolute'>
+        <child>ahand_link_11</child>
+        <parent>ahand_link_10</parent>
+        <axis>
+          <xyz>0 0.996195 0.087156</xyz>
+          <limit>
+            <lower>-0.28</lower>
+            <upper>1.73</upper>
+            <effort>15</effort>
+            <velocity>7</velocity>
+          </limit>
+          <dynamics>
+            <damping>1</damping>
+            <friction>0</friction>
+            <spring_reference>0</spring_reference>
+            <spring_stiffness>0</spring_stiffness>
+          </dynamics>
+          <use_parent_model_frame>1</use_parent_model_frame>
+        </axis>
+      </joint>
+      <static>0</static>
+      <plugin name='ahand_hw_sim' filename='libahand_hw_gazebo_plugin.so'>
+        <robotNamespace>ahand</robotNamespace>
+      </plugin>
+      <pose frame=''>0 0 0 0 -0 0</pose>
+    </model>
+    <state world_name='default'>
+      <sim_time>0 230339000</sim_time>
+      <real_time>160 750947628</real_time>
+      <wall_time>1531600512 797249493</wall_time>
+      <iterations>160456</iterations>
+      <model name='ahand'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='ahand_link_0'>
+          <pose frame=''>0 0.0435 0.148458 -0.087267 1e-06 6e-06</pose>
+          <velocity>1.4e-05 -3e-06 1.9e-05 0.000152 -6.8e-05 0.000297</velocity>
+          <acceleration>8.89802 13.8599 -3.49367 -3.02572 -1.27456 -0.011938</acceleration>
+          <wrench>0.097878 0.152459 -0.03843 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_1'>
+          <pose frame=''>0 0.044929 0.164796 -0.105703 0.598693 -0.059716</pose>
+          <velocity>1.2e-05 -6e-06 1.8e-05 0.000169 0.98453 -0.085849</velocity>
+          <acceleration>-3304.98 215.13 2260.52 -1.58848 0.408918 2.05267</acceleration>
+          <wrench>-117.327 7.6371 80.2485 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_10'>
+          <pose frame=''>0.030548 -0.048811 0.209155 0.238787 1.19341 0.222547</pose>
+          <velocity>0.034104 0.002029 -0.023287 0.00021 -0.898481 -0.078404</velocity>
+          <acceleration>-7619.74 834.404 -9595.04 0.146593 0.325877 0.696</acceleration>
+          <wrench>-270.501 29.6214 -340.624 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_11'>
+          <pose frame=''>0.066383 -0.050014 0.222903 2.77733 1.32365 2.78748</pose>
+          <velocity>0.021658 -0.000783 0.008909 -3.14135 0.61953 -2.9207</velocity>
+          <acceleration>6607.61 220.386 -2479.49 0.781611 -0.034235 -2.64415</acceleration>
+          <wrench>174.441 5.81819 -65.4584 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_12'>
+          <pose frame=''>-0.0182 0.019333 0.104013 2.45934 -1.48353 1.5708</pose>
+          <velocity>0.001061 0.001166 0.000152 0.069965 -0.003133 0.743517</velocity>
+          <acceleration>-1021.44 -1086 -19.1362 -0.262095 1.11274 -2.54031</acceleration>
+          <wrench>-17.9774 -19.1137 -0.336796 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_13'>
+          <pose frame=''>0.010839 0.04469 0.074691 2.46819 -1.48415 1.56193</pose>
+          <velocity>-0.016957 0.023763 0.000708 -1.66263 1.44401 -2.55593</velocity>
+          <acceleration>-7199.06 4432.62 -2095.24 -0.095589 0.166732 1.3886</acceleration>
+          <wrench>-85.6688 52.7482 -24.9334 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_14'>
+          <pose frame=''>0.022 0.058376 0.073495 0.115328 -1.08263 -2.3532</pose>
+          <velocity>-0.02604 0.032036 0.001433 2.66389 0.734728 0.673736</velocity>
+          <acceleration>-3673.85 7765.86 -11922.7 2.95132 1.52416 -1.68706</acceleration>
+          <wrench>-139.606 295.103 -453.064 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_15'>
+          <pose frame=''>0.049596 0.094528 0.097441 0.058364 -0.389118 -2.2734</pose>
+          <velocity>-0.032465 -0.01301 0.077311 2.10581 1.18728 0.634296</velocity>
+          <acceleration>-4356.06 -12646.8 -12128.7 -2.53017 -0.865324 0.706761</acceleration>
+          <wrench>-242.197 -703.164 -674.353 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_2'>
+          <pose frame=''>0.030548 0.048811 0.209155 -0.238788 1.19342 -0.222548</pose>
+          <velocity>0.044019 -0.002636 -0.030057 -3.1414 -1.30987 -2.98106</velocity>
+          <acceleration>-2644.52 -491.032 -5754.2 2.19015 -1.30309 -1.72847</acceleration>
+          <wrench>-93.8804 -17.4316 -204.274 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_3'>
+          <pose frame=''>0.066383 0.050014 0.222903 -2.77733 1.32365 -2.78748</pose>
+          <velocity>0.018642 0.003114 0.035582 -3.14144 -1.20822 2.76132</velocity>
+          <acceleration>5453.83 113.928 1399.24 3.00165 -0.882764 -1.32501</acceleration>
+          <wrench>143.981 3.0077 36.9399 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_4'>
+          <pose frame=''>0 0 0.1507 0 -0 0</pose>
+          <velocity>-3e-06 3e-06 -3e-06 -0.000386 2.2e-05 -0.000334</velocity>
+          <acceleration>4.18588 0.315669 2.80836 -1.87621 0.908362 1.17358</acceleration>
+          <wrench>0.046045 0.003472 0.030892 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_5'>
+          <pose frame=''>0 0 0.1671 0 0.601298 0</pose>
+          <velocity>-2e-06 7e-06 -3e-06 -0.000304 0.693462 -0.000351</velocity>
+          <acceleration>12883.6 0.414569 -8833.65 2.84458 1.26616 -0.649727</acceleration>
+          <wrench>457.367 0.014717 -313.595 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_6'>
+          <pose frame=''>0.030548 0 0.211629 0 1.20318 0</pose>
+          <velocity>0.030876 1e-05 -0.021187 -0.000298 -0.862576 -0.000366</velocity>
+          <acceleration>12938.8 0.520044 15630.9 -0.027225 -0.757501 0.577191</acceleration>
+          <wrench>459.326 0.018462 554.897 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_7'>
+          <pose frame=''>0.066383 0 0.225429 -3.14159 1.33928 -3.14159</pose>
+          <velocity>0.018972 1e-06 0.009723 3.14129 0.223621 3.14123</velocity>
+          <acceleration>-10286.2 -0.367791 4814.47 2.69382 -0.977986 -0.850282</acceleration>
+          <wrench>-271.556 -0.00971 127.102 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_8'>
+          <pose frame=''>0 -0.0435 0.148458 0.087267 1e-06 -6e-06</pose>
+          <velocity>1.3e-05 -6e-06 0 -0.000247 -0.000216 0.000164</velocity>
+          <acceleration>0.680509 -4.49585 -2.24663 -3.06945 -0.977375 -0.478843</acceleration>
+          <wrench>0.007486 -0.049454 -0.024713 0 -0 0</wrench>
+        </link>
+        <link name='ahand_link_9'>
+          <pose frame=''>0 -0.044929 0.164796 0.105703 0.598693 0.059716</pose>
+          <velocity>1.9e-05 -4e-06 5e-06 0.000217 0.762484 0.066894</velocity>
+          <acceleration>-7698.61 -467.456 5264.85 2.46811 -0.261114 2.16286</acceleration>
+          <wrench>-273.301 -16.5947 186.902 0 -0 0</wrench>
+        </link>
+        <link name='ahand_palm_link'>
+          <pose frame=''>0 0 0.15 0 -0 0</pose>
+          <velocity>2e-06 2e-06 -1e-06 -7.1e-05 7e-05 6.5e-05</velocity>
+          <acceleration>0.718505 0.827561 0.45413 -2.49709 -0.570515 -0.921832</acceleration>
+          <wrench>0.836627 0.963612 0.528789 0 -0 0</wrench>
+        </link>
+      </model>
+      <model name='ground_plane'>
+        <pose frame=''>0 0 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='link'>
+          <pose frame=''>0 0 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
+      <light name='sun'>
+        <pose frame=''>0 0 10 0 -0 0</pose>
+      </light>
+    </state>
+    <gui fullscreen='0'>
+      <camera name='user_camera'>
+        <pose frame=''>0.578074 0.646176 0.235266 0 0.197797 -2.38862</pose>
+        <view_controller>orbit</view_controller>
+        <projection_type>perspective</projection_type>
+      </camera>
+    </gui>
+  </world>
+</sdf>

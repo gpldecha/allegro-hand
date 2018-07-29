@@ -65,11 +65,11 @@
     <xacro:property name="limit_2_up" value="1.74"/> <!-- 1.809 -->
     <xacro:property name="limit_2_low" value="-0.28"/>
 
-    <xacro:property name="limit_3_up" value="1.73"/> 
+    <xacro:property name="limit_3_up" value="1.73"/>
     <xacro:property name="limit_3_low" value=" -0.28"/>
 
     <!-- thumb limit -->
-	
+
     <xacro:property name="limit_0_t_up" value="1.57"/>
     <xacro:property name="limit_0_t_low" value="0.275"/>
 
@@ -115,7 +115,7 @@
       </inertial>
       <visual>
         <geometry>
-          <mesh filename="package://ahand_description/meshes/base_link.STL"/>
+          <mesh filename="package://ahand_description/meshes/base_link.dae"/>
         </geometry>
         <origin rpy="0 0 0" xyz="0 0 0 "/>
           <material name="black">
@@ -183,7 +183,7 @@
             </inertial>
             <visual>
               <geometry>
-                <mesh filename="package://ahand_description/meshes/link_12.0_right.STL"/>
+                <mesh filename="package://ahand_description/meshes/link_12_right.dae"/>
               </geometry>
               <material name="black">
                 <color rgba=".2 .2 .2 1"/>
@@ -215,7 +215,7 @@
 
           <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_13.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_13.dae"/>
                 </geometry>
                 <material name="black">
                     <color rgba=".2 .2 .2 1"/>
@@ -243,7 +243,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_14.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_14.dae"/>
                 </geometry>
                 <material name="black">
                 </material>
@@ -276,7 +276,7 @@
           </inertial>
           <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_15.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_15.dae"/>
                 </geometry>
                 <material name="black">
                 </material>
@@ -342,7 +342,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_0.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_0.dae"/>
                 </geometry>
                 <material name="black"/>
             </visual>
@@ -402,7 +402,7 @@
         <link name="${name}_link_${finger_num*4+2}">
             <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_2.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_2.dae"/>
                 </geometry>
                 <material name="black"/>
             </visual>
@@ -439,7 +439,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_3.0.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_3.dae"/>
                 </geometry>
                 <material name="black"/>
             </visual>
@@ -471,7 +471,7 @@
             </inertial>
             <visual>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_3_tip.STL"/>
                 </geometry>
                 <material name="white">
                     <color rgba=".9 .9 .9 1"/>
@@ -479,7 +479,7 @@
             </visual>
             <collision>
                 <geometry>
-                    <mesh filename="package://ahand_description/meshes/link_3.0_tip.STL"/>
+                    <mesh filename="package://ahand_description/meshes/link_3_tip.STL"/>
                 </geometry>
             </collision>
         </link>
