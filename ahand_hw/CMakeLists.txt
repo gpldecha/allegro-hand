@@ -11,6 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   trajectory_msgs
   actionlib
   pluginlib
+  kdl_parser
   transmission_interface
   urdf
   control_toolbox
@@ -30,6 +31,7 @@ catkin_package(
   control_msgs
   trajectory_msgs
   pluginlib
+  kdl_parser
   transmission_interface
   urdf
   control_toolbox

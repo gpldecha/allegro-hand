@@ -54,9 +54,13 @@ void AhandHW::create(std::string name, std::string urdf_string){
 
     std::cout<< "Register interface" << std::endl;
 
-    const urdf::Model *const urdf_model_ptr = urdf_model_.initString(urdf_string_) ? &urdf_model_ : NULL;
+    const urdf::Model *const urdf_model_ptr = urdf_model_.initString(urdf_string_) ? &urdf_model_ : nullptr;
 
     registerInterfaces(urdf_model_ptr, transmissions_);
+
+    std::cout<< "Initialise KDL variables ..." << std::endl;
+    initKDLdescription(urdf_model_ptr);
+    std::cout<< "Successfully create abstract Allegro Hand with interface to ROS control" << std::endl;
 }
 
 void AhandHW::reset(){
@@ -179,5 +183,35 @@ bool AhandHW::parseTransmissionsFromURDF(const std::string& urdf_string){
 }
 
 bool AhandHW::initKDLdescription(const urdf::Model *const urdf_model){
+    KDL::Tree kdl_tree;
+    if (!kdl_parser::treeFromUrdfModel(*urdf_model, kdl_tree))
+    {
+        ROS_ERROR("Failed to construct kdl tree");
+        return false;
+    }
+    std::cout << "Ahand kinematic successfully parsed with "
+              << kdl_tree.getNrOfJoints()
+              << " joints, and "
+              << kdl_tree.getNrOfJoints()
+              << " segments." << std::endl;
+    std::cout<< "get_param: " <<std::string("/") + robot_namespace_ + std::string("/root_name") << std::endl;
+
+    gravity_ = KDL::Vector::Zero();
+    gravity_(2) = -9.81;
+
+    std::string root_name = robot_namespace_ + "_palm_link";
+    std::string tip_name;
+    std::cout<< "creating kdl chain " << std::endl;
+    for(std::size_t i = 0; i < n_fingers_; i++){
+        tip_name = robot_namespace_ + "_link_" + std::to_string(i*4+3) + "_tip";
+        std::cout<< "  " << root_name << " ----> " << tip_name << std::endl;
+        if(!kdl_tree.getChain(root_name, tip_name, ahand_chains_[i])) {
+            ROS_ERROR("Failed to get KDL chain from tree: ");
+            return false;
+        }
+        f_dyn_solvers_[i] = std::make_unique<KDL::ChainDynParam>(KDL::ChainDynParam(ahand_chains_[i], gravity_));
+        joint_position_kdl_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
+        gravity_effort_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
+    }
 
 }

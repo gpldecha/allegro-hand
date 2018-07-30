@@ -1,6 +1,10 @@
 #ifndef AHAND_HW_H
 #define AHAND_HW_H
 
+// STL
+
+#include <memory>
+
 // boost
 #include <boost/scoped_ptr.hpp>
 
@@ -64,6 +68,15 @@ class AhandHW : public hardware_interface::RobotHW {
     public:
 
         static const std::size_t n_joints_ = 16; // safe magic number, the allegro hand has 16 joints
+        static const std::size_t n_fingers_ = 4;
+
+    public:
+
+        std::array<KDL::Chain, n_fingers_> ahand_chains_;
+        std::array<KDL::JntArray, n_fingers_> joint_position_kdl_, gravity_effort_;
+        KDL::Vector gravity_;
+
+    public:
 
         // state and commands
         std::vector<double> joint_position_, joint_position_prev_, joint_velocity_, joint_effort_;
@@ -79,6 +92,9 @@ class AhandHW : public hardware_interface::RobotHW {
         // Model
         std::string urdf_string_;
         urdf::Model urdf_model_;
+
+        // KDL
+        std::array<std::unique_ptr<KDL::ChainDynParam>, n_fingers_> f_dyn_solvers_;
 
         // Transmissions in this plugin's scope
         std::vector<transmission_interface::TransmissionInfo> transmissions_;
