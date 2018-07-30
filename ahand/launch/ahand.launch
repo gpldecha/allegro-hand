@@ -4,10 +4,9 @@
 	<arg name="controller" 			default="ros_controller" />
 	<arg name="stopped_controllers" default=""/>
 
-	<arg name="sim"					default="true"/>
-	<arg name="real" 				default="false"/>
+	<arg name="sim"					default="false"/>
 
-	<arg name="use_rviz" 			default="false"/>
+	<arg name="use_rviz" 			default="true"/>
 	<arg name="robot_name" 			default="ahand"/>
 
 	<arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
@@ -48,7 +47,7 @@
 	</group>
 
 	<!-- hardware interface to allegro hand -->
-	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="screen" if="$(arg real)"/>
+	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="screen" unless="$(arg sim)"/>
 
     <!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ahand)/perspectives/ahand.rviz" if="$(arg use_rviz)"/>
