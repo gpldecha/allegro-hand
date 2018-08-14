@@ -11,12 +11,14 @@
 
 ### Examples on the hardware
 
-Gravity compensation
+Run the hand compensation
 
 ```shell
-
+roslaunch ahand ahand.launch
 ```
-
+This will open rivz and the hand will be runing the ros_controller, which listens to a torque command topic and 
+and sends these commands to the hardware via pcan. The gravity compensation torque is computed for all controllers and is allways added to torque command which is sent to the hand.
+ 
 ## Troubleshooting
 
 ```shell
