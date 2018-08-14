@@ -1,5 +1,5 @@
-#ifndef AHAND_CONTROLLERS__PD_CONTROLLER_H
-#define AHAND_CONTROLLERS__PD_CONTROLLER_H
+#ifndef AHAND_CONTROLLERS__JOINT_IMPEDANCE_CONTROLLER_H
+#define AHAND_CONTROLLERS__JOINT_IMPEDANCE_CONTROLLER_H
 
 // ROS
 
@@ -22,17 +22,17 @@
 
 namespace ahand_controllers{
 
-class PDController : public controller_interface::Controller<hardware_interface::EffortJointInterface>{
+class JointImpedanceController : public controller_interface::Controller<hardware_interface::EffortJointInterface>{
 
     public:
 
-        PDController();
+        JointImpedanceController();
 
-        bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh);
+        bool init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle& nh) override;
 
-        void starting(const ros::Time& time);
+        void starting(const ros::Time& time) override;
 
-        void update(const ros::Time& time, const ros::Duration& period);
+        void update(const ros::Time& time, const ros::Duration& period) override;
 
     private:
 
@@ -58,8 +58,6 @@ class PDController : public controller_interface::Controller<hardware_interface:
          ros::Subscriber sub_command_pose_;
          ros::ServiceServer service_server_;
          ros::NodeHandle nh_gains_pd_;
-
-
 
 };
 

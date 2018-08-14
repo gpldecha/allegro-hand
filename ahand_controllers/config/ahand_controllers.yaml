@@ -4,8 +4,8 @@ ahand:
     type: ahand_controllers/StatePublisher
     publish_rate: 300
 
-  pd_controller:
-    type: ahand_controllers/PDController
+  joint_impedance_controller:
+    type: ahand_controllers/JointImpedanceController
     publish_rate: 300
 
   empty_controller:

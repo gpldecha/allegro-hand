@@ -1,11 +1,11 @@
 <library path="lib/libahand_controllers">
 
   <class name="ahand_controllers/StatePublisher" type="ahand_controllers::StatePublisher" base_class_type="controller_interface::ControllerBase">
-    <description> The JointStateController publishes information such as the position of the joints. </description>
+    <description>JointStateController publishes information such as the position of the joints. </description>
   </class>
 
-  <class name="ahand_controllers/PDController" type="ahand_controllers::PDController" base_class_type="controller_interface::ControllerBase">
-    <description> The PD Controller controllers each individual joint of the allegro hand. </description>
+  <class name="ahand_controllers/JointImpedanceController" type="ahand_controllers::JointImpedanceController" base_class_type="controller_interface::ControllerBase">
+    <description> JointImpedanceController controllers each individual joint of the allegro hand with. </description>
   </class>
 
   <class name="ahand_controllers/EmptyController" type="ahand_controllers::EmptyController" base_class_type="controller_interface::ControllerBase">
