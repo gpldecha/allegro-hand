@@ -7,7 +7,7 @@
 * [PCAN-Light for LINUX](https://www.peak-system.com/fileadmin/media/linux/index.htm) 
   Should be compiled with chardev support.
 
-* [PCAN-Basic API (Linux)](https://www.peak-system.com/PCAN-USB.199.0.html? &L=1&gclid=EAIaIQobChMIvIWTi5Xs3AIVCr7tCh1WiwdNEAAYASABEgKRPvD_BwE)
+* [PCAN-Basic API Linux](https://www.peak-system.com/PCAN-USB.199.0.html? &L=1&gclid=EAIaIQobChMIvIWTi5Xs3AIVCr7tCh1WiwdNEAAYASABEgKRPvD_BwE)
 
 ### Examples on the hardware
 
