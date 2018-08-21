@@ -74,7 +74,7 @@ private:
   std::vector<gazebo::physics::JointPtr> sim_joints_;
   gazebo::physics::ModelPtr parent_model_;
   bool parent_set_ = false;
-  static constexpr double gravity_fudge_factor = 2.0;
+  static constexpr double gravity_fudge_factor = 0.0;
 
 
 };

@@ -61,8 +61,6 @@ int main(int argc, char** argv){
     // get params or give default values
     std::string file;
     std::string name;
-    //#lwr_nh.param("file", file, std::string(""));
-    //lwr_nh.param("name", name, std::string("ahand"));
 
     // get the general robot description, the lwr class will take care of parsing what's useful to itself
     std::string urdf_string = getURDF(ahand_nh, "/robot_description");
@@ -105,7 +103,7 @@ int main(int argc, char** argv){
 
       // write the command to the lwr
       ahand_robot.write(now, period);
-      std::this_thread::sleep_for(std::chrono::milliseconds(10));
+      std::this_thread::sleep_for(std::chrono::milliseconds(3));
 
     }
 

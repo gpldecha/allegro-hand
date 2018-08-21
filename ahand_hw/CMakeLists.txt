@@ -56,7 +56,8 @@ message(STATUS "gazebo include: ${GAZEBO_INCLUDE_DIRS}")
 message(STATUS "gazebo lib:     ${GAZEBO_LIBRARY_DIRS}")
 
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
-set(HDR_FILES  ${INCLUDE_DIR}/ahand_hw/ahand_hw.h)
+set(HDR_FILES  ${INCLUDE_DIR}/ahand_hw/ahand_hw.h
+               ${INCLUDE_DIR}/ahand_hw/ahand_filters.h)
 
 include_directories(
   include/
@@ -70,7 +71,7 @@ link_directories(${GAZEBO_LIBRARY_DIRS})
 
 ## AHAND HW BASE CLASS
 
-add_library(ahand_hw src/ahand_hw.cpp ${HDR_FILES})
+add_library(ahand_hw src/ahand_hw.cpp src/ahand_filters.cpp ${HDR_FILES})
 target_link_libraries(ahand_hw ${catkin_LIBRARIES})
 
 
@@ -80,9 +81,13 @@ add_dependencies(ahand_hw_can_node ahand_hw ahand_driver)
 target_link_libraries(ahand_hw_can_node ahand_hw ahand_driver  ${catkin_LIBRARIES} )
 
 
-
 ## Sim Interface
 add_library(ahand_hw_gazebo_plugin src/ahand_hw_gazebo_plugin.cpp include/ahand_hw/ahand_hw_gazebo.hpp)
 add_dependencies(ahand_hw_gazebo_plugin ahand_hw)
 
 target_link_libraries(ahand_hw_gazebo_plugin ahand_hw ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
+
+
+## tests
+add_executable(ahand_hw_tests src/ahand_hw_tests.cpp)
+target_link_libraries(ahand_hw_tests ahand_hw)
