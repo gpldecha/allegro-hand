@@ -23,15 +23,10 @@ AhandDriver::AhandDriver(){
     }else{
         tau_cov_const = tau_cov_const_v3;
     }
-
-    if(!createBHandAlgorithm())
-        std::cerr<< "could not create BHand Algorithm" << std::endl;
     if(!openCAN())
         std::cerr<< "could not open CAN" << std::endl;
     isInitialised = true;
 }
-
-AhandDriver::~AhandDriver(){}
 
 bool AhandDriver::isIntialised(){
     return isInitialised;
@@ -39,11 +34,6 @@ bool AhandDriver::isIntialised(){
 
 void AhandDriver::stop(){
     closeCAN();
-    destroyBHandAlgorithm();
-}
-
-BHand* const AhandDriver::getBHand(){
-    return pBHand;
 }
 
 void AhandDriver::getJointInfo(double *position){
@@ -58,10 +48,6 @@ void AhandDriver::setTorque(double *torques){
     for(int i = 0; i < MAX_DOF; i++){
         tau_des[i] = torques[i]/tau_cov_const;
     }
-}
-
-double* AhandDriver::getDesiredJointPosition(){
-    return q_des;
 }
 
 bool AhandDriver::openCAN(){
@@ -196,30 +182,6 @@ void AhandDriver::updateCAN(){
             }
        }
     }
-}
-
-void AhandDriver::computeTorque(){
-    if (!pBHand) return;
-    pBHand->SetJointPosition(q); // tell BHand library the current joint positions
-    pBHand->SetJointDesiredPosition(q_des);
-    pBHand->UpdateControl(0);
-    pBHand->GetJointTorque(tau_des);
-}
-
-bool AhandDriver::createBHandAlgorithm(){
-  if (RIGHT_HAND)
-    pBHand = bhCreateRightHand();
-  else
-    pBHand = bhCreateLeftHand();
-
-  if (!pBHand) return false;
-  pBHand->SetTimeInterval(delT);
-  return true;
-}
-
-void AhandDriver::destroyBHandAlgorithm(){
-  if (pBHand)
-    pBHand = NULL;
 }
 
 int AhandDriver::getCANChannelIndex(const char* cname)

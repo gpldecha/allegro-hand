@@ -1,8 +1,6 @@
 #ifndef AHAND_DRIVER_H
 #define AHAND_DRIVER_H
 
-#include <bhand/BHand.h>
-
 #include <thread>
 #include <mutex>
 
@@ -16,17 +14,13 @@ public:
 
     AhandDriver();
 
-    ~AhandDriver();
+    ~AhandDriver() = default;
 
     bool isIntialised();
 
     void setTorque(double *torque);
 
     void getJointInfo(double *position);
-
-    BHand* const getBHand();
-
-    double* getDesiredJointPosition();
 
     void stop();
 
@@ -37,12 +31,6 @@ private:
     void closeCAN();
 
     void updateCAN();
-
-    void computeTorque();
-
-    bool createBHandAlgorithm();
-
-    void destroyBHandAlgorithm();
 
     int getCANChannelIndex(const char* cname);
 
@@ -76,8 +64,6 @@ private:
       -3509, -2094, 312, -12,
       8234, -7615, 504, -165
     };
-
-    BHand* pBHand = NULL;
 
     AllegroHand_DeviceMemory_t vars;
     double q[MAX_DOF];
