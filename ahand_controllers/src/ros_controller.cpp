@@ -6,9 +6,7 @@ bool ahand_controllers::ROSController::init(hardware_interface::EffortJointInter
     for(std::size_t i = 0; i < n_joints_; i++){
         joint_handles_.push_back(robot->getHandle("ahand_joint_" + std::to_string(i)));
     }
-
     sub_cmd_ = nh.subscribe("/ahand/command", 1, &ahand_controllers::ROSController::command_callback, this);
-
     return true;
 }
 
