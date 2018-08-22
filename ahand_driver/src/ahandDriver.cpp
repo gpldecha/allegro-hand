@@ -46,7 +46,7 @@ void AhandDriver::getJointInfo(double *position){
 void AhandDriver::setTorque(double *torques){
     std::lock_guard<std::mutex> guard(torque_mutex);
     for(int i = 0; i < MAX_DOF; i++){
-        tau_des[i] = torques[i]/tau_cov_const;
+        tau_des[i] = torques[i];
     }
 }
 

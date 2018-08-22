@@ -96,6 +96,10 @@ void ahand_controllers::JointImpedanceController::gains_pd_callback(ahand_contro
     kd_[4]  = config.d10; kd_[5]  = config.d11; kd_[6]  = config.d12; kd_[7]  = config.d13;
     kd_[8]  = config.d20; kd_[9]  = config.d21; kd_[10] = config.d22; kd_[11] = config.d23;
     kd_[12] = config.d30; kd_[13] = config.d31; kd_[14] = config.d32; kd_[15] = config.d33;
+    for(std::size_t j = 0; j < n_joints_; j++){
+        kp_[j] = kp_[j]/1000.0;
+        kd_[j] = kd_[j]/1000.0;
+    }
 }
 
 bool ahand_controllers::JointImpedanceController::command_callback(Command::Request &request, Command::Response &response){

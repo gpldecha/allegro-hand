@@ -72,15 +72,13 @@ public:
         for(std::size_t finger_idx = 0; finger_idx < n_fingers_; finger_idx++){
             f_dyn_solvers_[finger_idx]->JntToGravity(joint_position_kdl_[finger_idx], gravity_effort_[finger_idx]);
         }
-
         std::size_t finger_idx;
         std::size_t joint_idx;
         for(std::size_t j = 0; j < n_joints_;j++){
             finger_idx = j/n_fingers_;
             joint_idx = j%n_fingers_;
-            joint_effort_command_[j] += 2500.0*gravity_effort_[finger_idx](joint_idx);
+            joint_effort_command_[j] += grav_fudge[joint_idx] * gravity_effort_[finger_idx](joint_idx);
         }
-
         ahandDriver_->setTorque(&joint_effort_command_[0]);
     }
 
@@ -94,6 +92,7 @@ private:
     double raw_prev_positions_[n_joints_];
     const double angle_error = 8.0*M_PI/180;
     const double max_radial_velocity = 4.0;
+    const double grav_fudge[4] = {2.0, 2.0, 2.0, 0.0};
 
 };
 
