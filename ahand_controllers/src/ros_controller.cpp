@@ -17,9 +17,14 @@ void ahand_controllers::ROSController::starting(const ros::Time& time){
 }
 
 void ahand_controllers::ROSController::update(const ros::Time& time, const ros::Duration& period){
+    safety.check_time();
     for(std::size_t i = 0; i < tau_cmd_.size(); i++){
+        safety.check_torque(tau_cmd_[i]);
         joint_handles_[i].setCommand(tau_cmd_[i]);
     }
+    ROS_INFO_STREAM_THROTTLE(1.0, "torques \nf1: " << tau_cmd_[0] << " " << tau_cmd_[1] << " " << tau_cmd_[2] << " " <<  tau_cmd_[3] <<
+                                          "\nf2: " << tau_cmd_[4] << " " << tau_cmd_[5] << " " << tau_cmd_[6] << " " << tau_cmd_[7] <<
+                                          "\nf3: " << tau_cmd_[8] << " " << tau_cmd_[9] << " " << tau_cmd_[10] << " " << tau_cmd_[11]);
 }
 
 void ahand_controllers::ROSController::command_callback(const std_msgs::Float32MultiArray::ConstPtr& msg){
@@ -30,6 +35,7 @@ void ahand_controllers::ROSController::command_callback(const std_msgs::Float32M
     for(std::size_t i = 0; i < tau_cmd_.size(); i++){
         tau_cmd_[i] = msg->data[i];
     }
+    safety.update_time();
 }
 
 PLUGINLIB_EXPORT_CLASS(ahand_controllers::ROSController, controller_interface::ControllerBase)

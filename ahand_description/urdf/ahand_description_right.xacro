@@ -85,7 +85,7 @@
     <!-- ============================================================================= -->
 
   <xacro:include filename="$(find ahand_description)/urdf/common.xacro"/>
-  <xacro:property name="b" value="2.0"/>
+  <xacro:property name="b" value="0.2"/>
   <xacro:property name="c" value="0.0"/>
 
 

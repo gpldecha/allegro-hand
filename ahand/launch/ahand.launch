@@ -1,22 +1,22 @@
 <?xml version="1.0"?>
 <launch>
-	<arg name="gui" 				default="false" />
 	<arg name="controller" 			default="ros_controller" />
 	<arg name="stopped_controllers" default=""/>
 
 	<arg name="sim"					default="false"/>
+	<arg name="use_gazebo_gui" 		default="true"/>
 
 	<arg name="use_rviz" 			default="true"/>
 	<arg name="robot_name" 			default="ahand"/>
 
+	<arg name="output"				default="screen"/>
+
 	<arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
 
    	<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
-	<param name="use_gui" value="$(arg gui)"/>
 
 	<node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
 		<rosparam param="source_list">[/ahand/joint_states]</rosparam>
-    		<param name="use_gui" value="false"/>
 		<param name="rate" value="300"/>
 	</node>
 
@@ -33,21 +33,21 @@
 	<!-- gazebo simulation -->
 	<group if="$(arg sim)">
 		
-		<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name) "  respawn="false" output="screen" />
+		<node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="$(arg output)" />
 
 		<include file="$(find ahand_description)/world/world.launch">
-			<arg name="world_name" value="$(arg world_name)"/>
-			<arg name="paused" value="true"/>
-			<arg name="physics" value="dart"/>
-			<arg name="use_sim_time" value="true"/>
-			<arg name="gui" value="true"/>
-			<arg name="headless" value="false"/>
-			<arg name="debug" value="false"/>
+			<arg name="world_name" 		value="$(arg world_name)"/>
+			<arg name="paused" 			value="true"/>
+			<arg name="physics" 		value="dart"/>
+			<arg name="use_sim_time" 	value="true"/>
+			<arg name="gui" 			value="$(arg use_gazebo_gui)"/>
+			<arg name="headless" 		value="false"/>
+			<arg name="debug" 			value="false"/>
 		</include>
 	</group>
 
 	<!-- hardware interface to allegro hand -->
-	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="screen" unless="$(arg sim)"/>
+	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" output="$(arg output)" unless="$(arg sim)"/>
 
     <!-- rviz -->
 	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ahand)/perspectives/ahand.rviz" if="$(arg use_rviz)"/>

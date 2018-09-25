@@ -81,10 +81,12 @@ add_library(ahand_controllers
         src/ros_controller.cpp include/ahand_controllers/ros_controller.h
         src/empty_controller.cpp include/ahand_controllers/empty_controller.h
         src/joint_impedance_controller.cpp include/ahand_controllers/joint_impedance_controller.h
+        src/inverse_kinematics.cpp include/ahand_controllers/inverse_kinematics.h
         src/state_publisher.cpp include/ahand_controllers/state_publisher.h
         ${INCLUDE_DIR}/utils/filters.h
         ${INCLUDE_DIR}/utils/utils.h
-)
+        ${INCLUDE_DIR}/utils/safety.h
+        )
 
 
 target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})

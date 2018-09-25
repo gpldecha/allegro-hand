@@ -57,7 +57,8 @@ message(STATUS "gazebo lib:     ${GAZEBO_LIBRARY_DIRS}")
 
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(HDR_FILES  ${INCLUDE_DIR}/ahand_hw/ahand_hw.h
-               ${INCLUDE_DIR}/ahand_hw/ahand_filters.h)
+               ${INCLUDE_DIR}/ahand_hw/ahand_filters.h
+                )
 
 include_directories(
   include/

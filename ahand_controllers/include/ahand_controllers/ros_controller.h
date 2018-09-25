@@ -11,6 +11,8 @@
 #include <hardware_interface/joint_command_interface.h>
 #include <pluginlib/class_list_macros.h>
 
+#include "utils/safety.h"
+
 
 namespace ahand_controllers {
 
@@ -35,6 +37,7 @@ namespace ahand_controllers {
             std::vector<hardware_interface::EffortJointInterface::ResourceHandleType> joint_handles_;
             ros::Subscriber sub_cmd_;
             std::array<double, 16> tau_cmd_;
+            Safety safety;
 
     };
 }

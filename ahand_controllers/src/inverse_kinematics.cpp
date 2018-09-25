@@ -1,18 +1,22 @@
 #include <pluginlib/class_list_macros.h>
 #include <kdl_parser/kdl_parser.hpp>
-#include <math.h>
 #include <Eigen/LU>
 
 #include <utils/pseudo_inversion.h>
 #include <utils/skew_symmetric.h>
-#include <allegro_hand_controllers/task_inverse_kinematics.h>
+#include <ahand_controllers/inverse_kinematics.h>
+
+#include <joint_limits_interface/joint_limits.h>
+#include <joint_limits_interface/joint_limits_interface.h>
+
 
 namespace ah_controllers
 {
-    TaskInverseKinematics::TaskInverseKinematics() {}
-    TaskInverseKinematics::~TaskInverseKinematics() {}
+    InverseKinematics::InverseKinematics() {}
 
-	bool TaskInverseKinematics::init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n)
+    InverseKinematics::~InverseKinematics() {}
+
+	bool InverseKinematics::init(hardware_interface::EffortJointInterface *robot, ros::NodeHandle &n)
 	{
         nh_ = n;
 
@@ -109,6 +113,7 @@ namespace ah_controllers
         // Parsing joint limits from urdf model
         boost::shared_ptr<const urdf::Link> link_ = model.getLink(tip_name);
         boost::shared_ptr<const urdf::Joint> joint_;
+
         joint_limits_.min.resize(kdl_chain_.getNrOfJoints());
         joint_limits_.max.resize(kdl_chain_.getNrOfJoints());
         joint_limits_.center.resize(kdl_chain_.getNrOfJoints());
@@ -119,6 +124,7 @@ namespace ah_controllers
         for (int i = 0; i < kdl_chain_.getNrOfJoints() && link_; i++)
         {
             joint_ = model.getJoint(link_->parent_joint->name);
+
             index = kdl_chain_.getNrOfJoints() - i - 1;
 
             joint_limits_.min(index) = joint_->limits->lower;
@@ -167,12 +173,12 @@ namespace ah_controllers
         tau_cmd_.resize(kdl_chain_.getNrOfJoints());
         J_.resize(kdl_chain_.getNrOfJoints());
 
-        sub_command_ = nh_.subscribe("command_configuration", 1, &TaskInverseKinematics::command_configuration, this);
+        //sub_command_ = nh_.subscribe("command_configuration", 1, &InverseKinematics::command_configuration, this);
 
         return true;
 	}
 
-	void TaskInverseKinematics::starting(const ros::Time& time)
+	void InverseKinematics::starting(const ros::Time& time)
 	{
 		// get joint positions
         for(int i=0; i < joint_handles_.size(); i++)
@@ -191,7 +197,7 @@ namespace ah_controllers
         cmd_flag_ = 0;
 	}
 
-	void TaskInverseKinematics::update(const ros::Time& time, const ros::Duration& period)
+	void InverseKinematics::update(const ros::Time& time, const ros::Duration& period)
 	{
 
         // get joint positions
@@ -267,7 +273,7 @@ namespace ah_controllers
         }
 	}
 
-    void TaskInverseKinematics::command_configuration(const PoseRPY::ConstPtr &msg)
+    /*void InverseKinematics::command_configuration(const PoseRPY::ConstPtr &msg)
 	{	
         KDL::Frame frame_des_;
 
@@ -302,9 +308,9 @@ namespace ah_controllers
 			return;
 		}
 		
-		x_des_ = frame_des_;
+		tip_desired_ = frame_des_;
         cmd_flag_ = 1;
-    }
+    }*/
 }
 
-PLUGINLIB_EXPORT_CLASS(ah_controllers::TaskInverseKinematics, controller_interface::ControllerBase)
+PLUGINLIB_EXPORT_CLASS(ah_controllers::InverseKinematics, controller_interface::ControllerBase)

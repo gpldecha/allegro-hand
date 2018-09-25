@@ -14,7 +14,6 @@
 
 
 // Get the URDF XML from the parameter server
-// Get the URDF XML from the parameter server
 std::string getURDF(ros::NodeHandle &model_nh_, std::string param_name)
 {
   std::string urdf_string;
@@ -26,14 +25,14 @@ std::string getURDF(ros::NodeHandle &model_nh_, std::string param_name)
     std::string search_param_name;
     if (model_nh_.searchParam(param_name, search_param_name))
     {
-      ROS_INFO_ONCE_NAMED("LWRHWFRIL", "LWRHWFRIL node is waiting for model"
+      ROS_INFO_ONCE_NAMED("AHAND_HW_CAN_NODE", "AHAND_HW_CAN_NODE is waiting for model"
         " URDF in parameter [%s] on the ROS param server.", search_param_name.c_str());
 
       model_nh_.getParam(search_param_name, urdf_string);
     }
     else
     {
-      ROS_INFO_ONCE_NAMED("LWRHWFRIL", "LWRHWFRIL node is waiting for model"
+      ROS_INFO_ONCE_NAMED("AHAND_HW_CAN_NODE", "AHAND_HW_CAN_NODE is waiting for model"
         " URDF in parameter [%s] on the ROS param server.", robot_description.c_str());
 
       model_nh_.getParam(param_name, urdf_string);
@@ -41,7 +40,7 @@ std::string getURDF(ros::NodeHandle &model_nh_, std::string param_name)
 
     usleep(100000);
   }
-  ROS_DEBUG_STREAM_NAMED("LWRHWFRIL", "Recieved urdf from param server, parsing...");
+  ROS_DEBUG_STREAM_NAMED("AHAND_HW_CAN_NODE", "Recieved urdf from param server, parsing...");
 
   return urdf_string;
 }

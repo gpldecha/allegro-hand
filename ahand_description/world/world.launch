@@ -7,6 +7,7 @@
   <arg name="extra_gazebo_args" default=""/>
   <arg name="gui" default="true"/>
   <arg name="recording" default="false"/>
+  <arg name="output" default="screen" />
   <!-- Note that 'headless' is currently non-functional.  See gazebo_ros_pkgs issue #491 (-r arg does not disable
        rendering, but instead enables recording). The arg definition has been left here to prevent breaking downstream
        launch files, but it does nothing. -->
@@ -35,12 +36,12 @@
   <group if="$(arg use_clock_frequency)">
     <param name="gazebo/pub_clock_frequency" value="$(arg pub_clock_frequency)" />
   </group>
-  <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="screen"
+  <node name="gazebo" pkg="gazebo_ros" type="$(arg script_type)" respawn="$(arg respawn_gazebo)" output="$(arg output)"
 	args="$(arg command_arg1) $(arg command_arg2) $(arg command_arg3) -e $(arg physics) $(arg extra_gazebo_args) $(arg world_name)" />
 	
   <!-- start gazebo client -->
   <group if="$(arg gui)">
-    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="screen"/>
+    <node name="gazebo_gui" pkg="gazebo_ros" type="gzclient" respawn="false" output="$(arg output)"/>
   </group>
 
 </launch>
