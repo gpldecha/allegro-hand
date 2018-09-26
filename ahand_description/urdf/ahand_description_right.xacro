@@ -164,6 +164,8 @@
             finger_angle_y="-${90*DEG2RAD}"
             />
 
+
+
     <!-- ============================================================================= -->
 
     <xacro:ahand_gazebo name="${name}"/>
@@ -237,12 +239,13 @@
         <!-- [LINK 14] -->
         <link name="${name}_link_${finger_num*4+2}">
             <inertial>
-                  <origin xyz="0.0 0.0 ${link2_t_z/2}"/>
+                  <origin xyz="${link2_t_z/2} 0.0 0.0"/>
                         <xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="${thumb_2_mass}"/>
                   <mass value="${thumb_2_mass}" />
             </inertial>
             <visual>
-                <geometry>
+            	<origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
+		<geometry>
                     <mesh filename="package://ahand_description/meshes/link_14.dae"/>
                 </geometry>
                 <material name="black">
@@ -252,29 +255,30 @@
                 <geometry>
                     <box size="${links_x} ${links_y} ${link2_t_z}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${link2_t_z/2}"/>
+                <origin rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}" xyz="${link2_t_z/2} 0 0"/>
             </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
-            <axis xyz="0 1 0"/>
+            <axis xyz="0 0 1"/>
             <limit effort="15" velocity="7"
                    lower="${limit_2_t_low+joint_safety_margin}"
                    upper="${limit_2_t_up-joint_safety_margin}"/>
             <parent link="${name}_link_${finger_num*4+1}"/>
             <child link="${name}_link_${finger_num*4+2}"/>
-            <origin xyz="0 0 ${link1_t_z}"/>
+            <origin xyz="0 0 ${link1_t_z}" rpy="0 -${90*DEG2RAD} -${90*DEG2RAD}"/>
             <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 15] -->
         <link name="${name}_link_${finger_num*4+3}">
           <inertial>
-                <origin xyz="0.0 0.0 ${link3_t_z/2}"/>
+                <origin xyz="${link3_t_z/2} 0.0 0.0"/>
                       <xacro:cuboid_inertia_def width="0.02" height="0.02" length="0.02" mass="${thumb_3_mass}"/>
                 <mass value="${thumb_3_mass}" />
           </inertial>
           <visual>
+            	<origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_15.dae"/>
                 </geometry>
@@ -285,18 +289,18 @@
                 <geometry>
                     <box size="${links_x} ${links_y} ${link3_t_z-2.0*fingerTip_r}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${(link3_t_z-2.0*fingerTip_r)/2}"/>
+                <origin rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}" xyz="${(link3_t_z-2.0*fingerTip_r)/2} 0 0"/>
             </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}" type="revolute">
-            <axis xyz="0 1 0"/>
+            <axis xyz="0 0 1"/>
             <limit effort="15" velocity="7"
                    lower="${limit_3_t_low+joint_safety_margin}"
                    upper="${limit_3_t_up-joint_safety_margin}"/>
             <parent link="${name}_link_${finger_num*4+2}"/>
             <child link="${name}_link_${finger_num*4+3}"/>
-            <origin xyz="0 0 ${link2_t_z}"/>
+            <origin xyz="${link2_t_z} 0 0" rpy="0 0 0"/>
             <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
@@ -308,6 +312,7 @@
                 <mass value="${thumb_tip_mass}" />
           </inertial>
             <visual>
+                <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_15.0_tip.STL"/>
                 </geometry>
@@ -316,6 +321,7 @@
                 </material>
             </visual>
             <collision>
+                <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_15.0_tip.STL"/>
                 </geometry>
@@ -325,7 +331,7 @@
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">
             <parent link="${name}_link_${finger_num*4+3}"/>
             <child link="${name}_link_${finger_num*4+3}_tip"/>
-            <origin rpy="0 0 0" xyz="0 0 ${link3_t_z-fingerTip_r}"/>
+            <origin rpy="0 0 0" xyz="${link3_t_z-fingerTip_r} 0 0"/>
         </joint>
     </xacro:macro>
     <!-- END THUMB MACRO -->
@@ -369,11 +375,12 @@
         <!-- [LINK 1, 5, 9] -->
         <link name="${name}_link_${finger_num*4+1}">
           <inertial>
-        		<origin xyz="0. 0. ${link1_z/2}" rpy="1.5707 0 0"/>
-        		<xacro:cuboid_inertia_def width="0.025" height="0.054" length="0.025" mass="${link_1_mass}"/>
-        		<mass value="${link_2_mass}" />
-      		</inertial>
+        	<origin xyz="${link1_z/2} 0. 0." rpy="0 0 1.5707"/>
+        	<xacro:cuboid_inertia_def width="0.025" height="0.054" length="0.025" mass="${link_1_mass}"/>
+        	<mass value="${link_2_mass}" />
+      	  </inertial>
           <visual>
+            <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
             <geometry>
               <mesh filename="package://ahand_description/meshes/link_1.dae"/>
             </geometry>
@@ -383,7 +390,7 @@
                 <geometry>
                     <box size="${links_x} ${links_y} ${link1_z}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${link1_z/2}"/>
+                <origin xyz="${link1_z/2} 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
           </collision>
         </link>
 
@@ -391,53 +398,55 @@
             <limit effort="15" velocity="7"
                    lower="${limit_1_low+joint_safety_margin}"
                    upper="${limit_1_up-joint_safety_margin}"/>
-            <axis xyz="0 1 0"/>
+            <axis xyz="0 0 1"/>
             <parent link="${name}_link_${finger_num*4+0}"/>
             <child link="${name}_link_${finger_num*4+1}"/>
-            <origin xyz="0 0 ${link0_z}"/>
+            <origin rpy="${90*DEG2RAD} -${90*DEG2RAD} 0" xyz="0 0 ${link0_z}"/>
             <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 2, 6, 10]-->
         <link name="${name}_link_${finger_num*4+2}">
-            <visual>
+	    <inertial>
+              <origin xyz="${link2_z/2} 0 0" rpy="0. 0. 0."/>
+              <xacro:cuboid_inertia_def width="0.0384" height="0.025" length="0.025" mass="${link_2_mass}"/>
+              <mass value="${link_2_mass}" />
+            </inertial>        
+    	    <visual>
+                <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_2.dae"/>
                 </geometry>
                 <material name="black"/>
             </visual>
-            <inertial>
-              <origin xyz="0 0 ${link2_z/2}" rpy="0. 1.5707 0."/>
-              <xacro:cuboid_inertia_def width="0.0384" height="0.025" length="0.025" mass="${link_2_mass}"/>
-              <mass value="${link_2_mass}" />
-            </inertial>
             <collision>
                 <geometry>
                     <box size="${links_x} ${links_y} ${link2_z}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${link2_z/2}"/>
+                <origin xyz="${link2_z/2} 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
             </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+2}" type="revolute">
-            <axis xyz="0 1 0"/>
+            <axis xyz="0 0 1"/>
             <limit effort="15" velocity="7"
                    lower="${limit_2_low+joint_safety_margin}"
                    upper="${limit_2_up-joint_safety_margin}"/>
             <parent link="${name}_link_${finger_num*4+1}"/>
             <child  link="${name}_link_${finger_num*4+2}"/>
-            <origin xyz="0 0 ${link1_z}"/>
+            <origin xyz="${link1_z} 0 0"/>
             <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
         <!-- [LINK 3, 7, 11] -->
         <link name="${name}_link_${finger_num*4+3}">
             <inertial>
-              <origin xyz=" 0 0 0"/>
+              <origin xyz=" 0 0 0" rpy="0. 0. 0."/>
               <xacro:cuboid_inertia_def width="0.02" height="0.025" length="0.025" mass="${link_3_mass}"/>
               <mass value="${link_3_mass}" />
             </inertial>
             <visual>
+                <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_3.dae"/>
                 </geometry>
@@ -447,18 +456,18 @@
                 <geometry>
                     <box size="${links_x} ${links_y} ${link3_z-2.0*fingerTip_r}"/>
                 </geometry>
-                <origin rpy="0 0 0" xyz="0 0 ${(link3_z-2.0*fingerTip_r)/2}"/>
+                <origin xyz="${(link3_z-2.0*fingerTip_r)/2} 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
             </collision>
         </link>
 
         <joint name="${name}_joint_${finger_num*4+3}" type="revolute">
-            <axis xyz="0 1 0"/>
+            <axis xyz="0 0 1"/>
             <limit effort="15" velocity="7"
                    lower="${limit_3_low+joint_safety_margin}"
                    upper="${limit_3_up-joint_safety_margin}"/>
             <parent link="${name}_link_${finger_num*4+2}"/>
             <child link="${name}_link_${finger_num*4+3}"/>
-            <origin xyz="0 0 ${link2_z}"/>
+            <origin xyz="${link2_z} 0 0"/>
             <dynamics damping="${b}" friction="${c}"/>
         </joint>
 
@@ -470,6 +479,7 @@
                 <mass value="${link_tip_mass}"/>
             </inertial>
             <visual>
+                <origin xyz="0 0 0" rpy="0 ${90*DEG2RAD} 0"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_3_tip.STL"/>
                 </geometry>
@@ -478,6 +488,7 @@
                 </material>
             </visual>
             <collision>
+                <origin xyz="0 0 0" rpy="${90*DEG2RAD} 0 ${90*DEG2RAD}"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_3_tip.STL"/>
                 </geometry>
@@ -487,7 +498,7 @@
         <joint name="${name}_joint_${finger_num*4+3}_tip" type="fixed">
             <parent link="${name}_link_${finger_num*4+3}"/>
             <child link="${name}_link_${finger_num*4+3}_tip"/>
-            <origin rpy="0 0 0" xyz="0 0 ${link3_z-fingerTip_r}"/>
+            <origin rpy="0 0 0" xyz="${link3_z-fingerTip_r} 0 0"/>
         </joint>
     </xacro:macro>
     <!-- [[END]] THREE FINGER MACRO -->
