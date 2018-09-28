@@ -163,6 +163,8 @@
             finger_angle_p="-${95*DEG2RAD}"
             finger_angle_y="-${90*DEG2RAD}"
             />
+      <!--finger_angle_p="-${95*DEG2RAD}"
+      finger_angle_y="-${90*DEG2RAD}"-->
 
 
 
