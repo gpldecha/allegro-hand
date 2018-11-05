@@ -28,13 +28,13 @@ install_library(){
 	if [[ -z $LIBRARY  ]]; 
 	then
 		printf "${GREEN}installing $1\n${NC}"
-		apt-get -qq --yes --force-yes install $1
+		apt-get -qq --yes --allow install $1
 	else
 		printf "${GREEN}$1 ... ok\n${NC}"
 	fi
 }
 
-
+install_library linux-headers-$(uname -r)
 install_library libpopt-dev
 install_peak_linux_driver
 install_pcan_basic
