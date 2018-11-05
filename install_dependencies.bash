@@ -28,7 +28,7 @@ install_library(){
 	if [[ -z $LIBRARY  ]]; 
 	then
 		printf "${GREEN}installing $1\n${NC}"
-		apt-get -qq --yes --allow install $1
+		apt-get -qq --yes --force-yes install $1
 	else
 		printf "${GREEN}$1 ... ok\n${NC}"
 	fi
