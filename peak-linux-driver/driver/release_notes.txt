@@ -1,0 +1,503 @@
+2011-01-12 - 6.24 - content:
+- handle PCMCIA cards in 2.6.35 kernel
+
+2011-01-18 - 6.24.1 - content:
+- support 2.6.36 kernel
+
+2011-01-18 - 6.24.2 - content:
+- support 2.6.37 kernel
+
+2011-03-11 - 7.0 - content:
+- support PCAN-USB-PRO 
+- fix 2.6.37 with PCMCIA
+- handle timestamps from PCAN-USB too
+
+2011-03-17 - 7.1 - content:
+- support of dynamic usb minors allocation (kernel config option)
+
+2011-03-24 - 7.1.1 - content:
+- fix typo in src/pcan_dongle.c to be able to use the PCAN-Dongle
+
+2011-04-08 - 7.1.2 - content:
+- fix sja1000 mutual exclusion in write() functions
+
+2011-04-21 - 7.2 - content:
+- support 2.6.38.3 kernel
+
+2011-07-19 - 7.2.1 - content:
+- support of older kernel which don't define list_for_each_prev_safe and
+  usb_driver structure don't define 'drvwrap' field (2.6.18 for example).
+- fix - non - support of pc-card even if PCCARD_SUPPORT is defined on command
+  line.
+
+2011-07-26 - 7.2.2 - content:
+- fix pcan usb regression issue (device number now back in irq field/column)
+- add support for kernel 3.0
+
+2011-07-27 - 7.3 - content:
+- include all 7.2.x patches
+- add support for OpenSUSE 11.3 x86_64
+
+2011-07-28 - 7.3 - content:
+- new delivery because of OpenSUSE config issue (missing i2c and pcmcia modules)
+  while options are set in the kernel! So this delivery is quite the same than
+  2011-07-27 but enforces some kernel config check and removes a patch of a
+  customer that brought some warning on 64-bits compilation.
+- the 2011-07-27 delivery should not be used and will be renamed in svn repo
+  into "Release_20110727_n-7.3-dontuse"
+
+2011-09-12 - 7.4 - content:
+- remove any references to selecttest into test/Makefile
+- fix USB-PRO on odd number of frames sent in between insmod/rmmod cycle
+- add cancelation of calibration message on device removing 
+- move can off messages sending on channel closing rather than on device 
+  removing
+
+2011-10-05 - 7.4.1 - content:
+- fix usb-pro packet size issue against receiving messages with size greater 
+  than 512 bytes
+
+2011-10-06 - 7.4.2 - content:
+- handle specifically USB-PRO error status and record fragmentation w/ packet
+  size < 1024 bytes
+- add error messages in pci probing to ease debugging
+- handle big/little endian in USB-PRO message coding/decoding
+
+2012-01-18 - 7.5 - content:
+- handle new PCAN-miniPCI-Express
+- fix potential issue in PCIeC driver by using a delayed work instead of a timer
+  to control the leds (i2c_transfer() may sleep because of underlying drivers).
+- fix some crashes when PCIeC support was requested
+- fix driver build until v3.03
+- fix potential infinite loop in usb driver part
+- fix wrong /dev/NULL ref in driver Makefile 
+- make install now adds peak_xxx mainline drivers to system blacklist (see 
+  udev/blacklist-peak.conf) and forces their unloading from memory
+- fix potential issue with PCAN-USB fw 2.8
+- add "uninstall" target to Makefiles to properly remove driver from the system
+
+2012-05-22 - 7.6 - content:
+- add support for some new PCI devices
+- remove unused MPCIE_SUPPORT compilation option from Makefile
+- fix compilation issue with old kernel versions and the usage of 
+  net_ratelimit()
+
+2012-07-26 - 7.7 - content:
+- fix compilation issues with Kernel versions until 3.5 (Thx Oliver H. ;-)
+- PCAN-USB Pro: fix compilation issue with undefined symbol "pr_err()" and
+(very) old Kernels (2.6.22).
+
+2013-01-31 - 7.8 - content:
+- handle "version.h" moving in Kernel 3.7+
+- pcan_netdev.c: add support for Kernel 3.9+ linux-can
+- add DESTDIR support in driver/lib/test Makefile
+- handle peak_pci removing according to Kernel version (< 3.4 crash when rmmod)
+- add build date/time in /proc/pcan display
+- dev_register(pcan_main_linux.c): add forgotten HW_ISA_SJA type when creating
+  and removing nodes with UDEV_SUPPORT
+- pcan_usb_setCANOff(pcan_usb.c): always force usb_clear_halt() and mdelay(50)
+  after CAN=off: this fixes an issue writing a single msg then closing the 
+  device next.
+- transmittest.cpp: fix wrong errno usage calling CAN_Write
+- receivetest.c: fix wrong errno usage calling LINUX_CAN_Read
+
+2013-04-04 - 7.8.1 - content:
+- src/sja1000.c: remove useless test on RECEIVE_MSG_COUNTER
+
+2013-04-15 - 7.8.2 - content:
+- add mutex to control access to devices list; add two functions to safe 
+  add/del items to/from this list and rescan all sources to use these functions,
+  or at least, to access devices list with respect to  mutual exclusion.
+- src/sja1000.c: reverted to 7.8
+- src/pcan_main.c: rework remove_dev_list() to remove device EVEN if no
+  cleanup() callback is regigistered (potential memory cosumption)
+
+2013-04-16 - 7.8.3 - content:
+- src/pcan_main.c: consolidate pcan_read_procmem() against NULL "netdev" pointer
+  access, when NETDEV_SUPPORT is defined
+- add mutex lock/unlock around all other device list accesses (opportunity to 
+  remove dust in the C coding style of some files)
+
+2013-07-03 - 7.8.4 - content:
+- handle /proc/pcan read access in a more modern way (create_proc_entry() 
+  deprecated since 3.9)
+
+2013-08-07 - 7.9-beta
+- src/pcan_usb.c: handle the fact that DLC field in PCAN-USB protocol can 
+  be > 8. For the moment, 'dlc' fields in user C structs is not!
+
+2013-08-13 - 7.9-local
+- fix bug in first column of /proc/pcan when displaying USB device can channel
+- also moved to more efficient way of filling and returning struct objects in
+  all "pcan_ioctl_diag_xxx()" functions
+
+2013-08-14 - 7.9
+- official release tested with 3.8 and 3.10 kernels
+
+2013-10-07 - 7.9.1-beta
+- added new PCI ID 0x0009 (PCAN-PCI Express OEM)
+
+2013-10-10 - 7.9.2-beta
+- handle USB error like BUSOFF to force application to restart
+
+2013-10-16 - 7.10.0-beta
+- handle usb core error in read callback (interrupt context) by properly 
+  closing the device instead of ignoring the error
+- handle USB error like BUSOFF to force application to restart
+- remove "PEAK-Systems" ending "s" to MODULE_DESCRIPTION string 
+
+2014-01-21 - 7.10 - content
+- official release tested with 3.10 kernel
+
+2014-04-30 - 7.11 - content
+- fix reading of Kernel version in driver's Malefile, especially when the 
+  version number doesn't match x.y.z strict formats. Now, versions like
+  x.y, x.0y, x.y-name, x.y.0z, x.y.z-name are correctly handled.
+- remove ability to set the serial number from userspace and from the driver,
+  for PCAN-USB and PCAN-USB Pro adapters.
+- fix errno handling in pcan-settings.c
+- update Documentation with infos about linux-can mainline drivers and fix
+  typos and (old) berlios.de references
+
+2014-05-14 - 7.11.1 - content
+- moved physically installed processing out of the USB interrupt context.
+
+2014-05-19 - 7.12-beta - content
+- chardev applications tasks are now unblocked when waiting for event on a
+  device that has been unplugged (errno = ENODEV).
+
+2014-07-10 - 7.12.1-beta - content
+- rework a few things to detect the spurious interrupt problem with RT patches
+  kernels
+- added two new modules parameters (irqmaxloop and irqmaxrmsg)
+
+2014-07-21 - 7.12 - content
+- moved physically installed processing out of the USB interrupt context.
+- fix "Kernel NULL pointer dereference" occuring with netdev under high busload
+- chardev applications tasks are now unblocked when waiting for event on a
+  device that has been unplugged (errno = ENODEV).
+- rework a few things to detect the spurious interrupt problem with RT patches
+  kernels.
+- added two new module parameters (irqmaxloop and irqmaxrmsg) to better control
+  how much time should pcan pass in each SJA1000 IRQ handler and how much CAN
+  message it can read from each rx queue (default value are 1 and 8 resp.).
+- reworked SJA1000 ISR to save time in case of error condition
+- fix in-tree compilation issue by using EXTRA_CFLAGS in driver's Makefile
+  instead of _CFLAGS.
+
+2014-08-22 - 7.12.3-beta - content
+- fix udev rules for correct naming of /dev/pcanxx symlinks to USB CAN devices:
+  USB CAN devices /dev/pcanxx names start from xx=32, what ever 
+  CONFIG_USB_DYNAMIC_MINORS Kernel configuration is.
+- add some attributes to /sys/devices tree for helping Udev in naming PCAN
+  devices (see new udev/455-pcan.rules) especially "pcan_devid" that enables to
+  name /dev/pcanxxx nodes with a number read from the hard-coded Device Id value
+- fix pcan-settings tool to be able to handle 32-bits device ids
+- add new value "devid" to "assign=" module parameter to be able to use the 
+  devid for "canX" names too.
+
+2014-08-25 - 7.12.4-beta - content
+- fix struct pcandev new flag field initialization in pcan_soft_init()
+
+2014-09-02 - 7.12.4-beta - content
+- fix regression in usb core
+
+2014-09-16 - 7.12.6-beta - content
+- support of 3.17 
+- support of PCAN-Express Card 34
+
+2014-10-17 - 7.13 - content
+- Release version
+
+2014-12-19 - 7.14 - content
+- add suport for PCAN-USB FD and PCAN-USB-Pro FD adapters for running CAN 2.0b
+  modes only.
+
+2015-03-12 - 7.14.2 - content
+- CAN-USB FD: send reset of Tx/Rx errors counters command, when bus is set to
+  on. This fixes channel LED behavior after bus errors detection.
+- PCAN-USB: add Self-Receive feature (see MSGTYPE_SELFRECEIVE). The UI with
+  the "write" entry of pcan has been extendd to offer two new "msg" types:
+  use 'M' (rsp. 'R') instead of 'm' (rsp. 'r') to send a CAN message with the
+  SelfReceive function set.
+
+2015-mm-dd - 7.15 - content
+- Extend Self-Receive facility to all the USB adapters
+
+2016-02-08 - 8.0.9-beta - content
+- CAN-FD available for all CANFD adapters
+- CANFD API ok
+- pcanfdtst new test application enables to test CANFD but also new API entry
+  points
+- lspcan (new)
+- all pcan nodes are moved under /sys/class/pcan (no more needing usbmisc)
+- /dev/pcan- boards names with tree representation of CAN channels
+- bus load, rx and tx errors counters available in struct pcanfd_msg 
+
+2016-02-10 - 8.0.10-beta - content
+- pcanfdtst: set default pause to 0 when rx (1000 when tx)
+- pcanfd_pci, pcanfd_usb: add clr of options when closing (BUS_LOAD, ERRORS)
+- pcan_usb: fix forerever sleep for tx task (tx engine management). Bug also
+  exists in 7.x but tx task doesn't sleep forever (but during a finite delay).
+  Running like this, tx task fixed the bug when it waked up...
+
+2016-02-15 - 8.0.11-beta - content
+- write: enlarge input line max size from 80 to 512 bytes to be able to parse
+  CANFD parameters too
+- fix some weird 3.13 Kernels (Ubuntu's) including pci_enable_msi_range() while
+  it is (normally) part of 3.14 (mainine) Kernels...
+ 
+2016-02-18 - 8.0.12-beta - content
+- src/parse.c: remove DEBUG
+
+2016-02-19 - 8.0.13-beta - content
+- fix multitasking writes in usb devices
+
+2016-02-19 - 8.0.14-beta - content
+- src/pcan_common.h: remove DEBUG_MEM flag
+
+2016-02-19 - 8.0.15-beta - content
+- src/pcan_netdev.c: fix typos and type changes
+
+2016-02-26 - 8.0.16-beta - content
+- add mutex around _open() and _close() entry points to enforce multitasking
+- fix pcanfd_pcie to be able to stop applications writing on the same can in
+  any other order than the reverse one they have started
+- test & libpcan: better handling of deprecated "usbpfd" and "usbpro" types
+
+2016-03-08 - 8.0.17-beta - content
+- fix compilation issues with 2.6.32 LTE
+- pcan_main.c: fix typo in sysfs "nom_tsegx"
+               check status of class_create_file() to fix __must_check attribute
+- pcan_dongle.c: fix missing ending ; and remove DEBUG define
+- pcan_main.h: move pcan_adapter declaration outside USB_SUPPORT
+- pcanfd_pci.c: fix dma_addr_t usage against 32/64-bits arch dma addr type
+- pcan_main.c: fix RT compilation against Xenomai 2.6 kernels
+
+2016-03-16 - 8.0.18-beta - content
+- pcan-usb CAN 2.0 devices: usage of dynamic mem alloc instead of static one
+  required for other arch and/or usb controller driver (ex: RPi3 + dwc_otg)
+
+2016-03-18 - 8.0.19-beta - content
+- pcan-parse.c: fix usage of msg type for input messages
+- pcan_ucan.c: set default init flag PCANFD_INIT_FD for uCAN device so that
+  default open is CAN-FD (command line usage)
+
+2016-03-24 - 8.0.20-beta - content
+- Makefile: include remarks made by Udo Sprute (thx!) to do things better
+- fix bug around mutex that could be released twice
+- change way of locking tx_engine_state vs. isr and multi-tasking access 
+
+2016-04-06 - 8.0.21-beta - content
+- pcanfd.h: fix typo in comment
+
+2016-04-13 - 8.0.22-beta - content
+- pcan_parse.c: fix timestamp display
+
+YYYY-MM-DD - 8.0.23-beta - content
+- add SingleShot feature for SJA1000 (-like) controllers (see PCANFD_MSG_SNG
+  bit in pcanfd.h)
+- add some test functionalities so this version SHOULD NOT be used at all!
+
+2016-05-03 - 8.0.24-beta - content
+*** WARNING: using this version over any 8.0.x-beta needs rebuilding and 
+    reinstalling everything! ***
+- change definition of PCANFD_TIMESTAMP, PCANFD_HWTIMESTAMP, PCANFD_ERRCNT and
+  PCANFD_BUSLOAD.
+- fix clock drift handling with PCAN-USB (Pro) FD in timestamps
+- add "host_time_ns" and "hw_time_ns" new fieds in "struct pcanfd_state" to
+  inform user of the current timestamps basics
+- pcanfd-pci: force fallback into INTA mode if MSI did not give the exact count
+  of requested msgs, since experiment show that MSI are not sharable
+
+2016-05-13 - 8.0.25-beta - content
+- fix clock drift to lower integer rounded effects
+- add clock drift handling to PCAN-USB [Pro] FD adapters
+
+2016-06-08 - 8.1.0 - content
+- pcanfd_pci: fix 64-bits version
+
+2016-11-03 - 8.2.0-beta - content
+- fix netdev lock/unlock around device_write
+- add netdev sysfs info
+- increase Tx fifo up to 500 entries
+- fix typo in Udev script: ctrl_number is actually ctrlr_number.
+- add two new ioctl to get bittiming ranges as well as available clocks from
+  the driver (pcanfd.h libpcanfd.h libpcanfd.c impacted)
+- take sample_point ratio into account now, when computing bittimings specs
+- add rtai and xeno as new Makefile targets
+- remove OFD_DSAMPLEPT bits (pcanfd_open() only): if sample_point is given then
+  it must be given for both nominal and data bitrates
+- the drivers now considers bitrate value only if BRP is not 0
+- fix handling of some errors cases from CAN-FD adapters
+- pcanfdtst(RTAI): do a better unique task Id.
+- remove forgotten DEBUG logs for PCAN-PCIe FD
+- usage of RX_BARRIER mechanism in PCAN-PCIe FD to prevent from any spurious
+  interrupts
+- add some control on channel index received from PCAN-PCIe FD
+- add PCANFD_BUS_ERROR new STATUS message to give applications SJA1000 BUS_ERROR
+  interrupt notifications
+- add a software ACTIVE STATUS message for SJA1000 based devices as soon as the
+  bus is setup
+- add support of MSI for PCAN-PCIe FD (see also new "fdusemsi" module parameter)
+- SJA1000 ISR no more entirely locked but only write access is
+- global init of PCAN-PCI -like boards moved to _probe() function
+- fix usage of "irqmaxloop" and "irqmaxrxmsg" when they're 0 on cmd line
+- speed up the way Rx frames are read and saved from the SJA1000 Rx buffer
+- fix bug in limitation of STATUS msgs flooding that could prevent from being
+  notified of a change of the status of the bus
+- add "usemsi" and "fdusemsi" new module parameters to ctrl if MSI should be 
+  enabled (0=INTA mode only 1=MSI mode tested 2=shared MSI mode tested).
+  "usemsi" default 1, "fdusemsi" default 2.
+- Makefile: add KBUILD_EXTRA_SYMBOLS def to remove 'undefined symbols' imsgs 
+  when building the driver with RTAI
+- libpcan.c: add const qualifier to each pointer that cannot be modified
+- post a soft STATUS msgs when the driver exits from any error cases, to
+  notfiy user application of the end of the error status
+- fix how DMA is handled in PCAN-PCIE FD: now Rx DMA is set once for all while
+  Tx DMA is setup each time the device is opened.
+- fix the netdev way of copying clocks from pcan (no more intern_prescaler)
+- enlarge bittimings ranges of any CAN-FD PC interface
+
+2016-11-08 - 8.2.0 - content
+- fix computation of bitrate_real field when setting bitrate using BRP...
+
+2017-01-10 - 8.3.0 - content
+- support of the new PCAN-USB X6 
+- 64-bit driver supports now 32-bit applications built with 32-bit libpcan
+- better netdev support with handling restart mechanism in case of busoff
+- set fdusemsi back to default 1 (writing onto a not-connected channel was
+  leading to loose MSinterrupts for the the other connected channel)
+- fix Tx/Rx fifo bits reset in exported CAN status
+- pcanfdtst: improve Xenomai RT by fixing usleep() usage
+- support of OEM PCI device Id. 0x0019
+- remove some spurious DEBUG msgs
+- dynamically allocate Tx and Rx fifos on open(). Release them on close().
+- uCAN cmd unused bits are set to 0
+
+2017-02-14 - 8.3.1 - content
+- netdev/pcanfd_pci: handle restart from BUSOFF
+- netdev: fix Ubuntu 4.4.0-59 linux can/dev.h change
+- pcanfd_usb: handle non-root usb (PCAN-USB X6 support with non ehci usb ctrlr)
+
+2017-06-13 - 8.4.0 - content
+- Fix usage of device_lock only if HANDLE_HOTPLUG is defined, to avoid
+  compilation errors
+- Fix depmod usage in cross-compiliation environment
+- Handle PCANFD_INIT_BUS_LOAD_INFO flag in uCAN hw so that BUSLOAD option is
+  really set when application wants it! For ex, pcanview sets the
+  PCANFD_INIT_BUS_LOAD_INFO flag while pcanfdtst doesn't.
+- Fix pr_warn() definition with kernels older than 2.6.35 and add new make
+  option: COMPAT_SUPPORT=NO that disables CONFIG_COMPAT even if it is globally
+  defined
+- Fix default usemsi values displayed by modinfo
+- Better handle cross-compilation when building test applications, installing
+  driver and libs
+- Fix usage of %llx vs %x according to CONFIG_ARCH_DMA_ADDR_T_64BIT
+- Fix wrong comparison in interface number for usb-fd devices
+- Fix sysfs attr when CONFIG_DEBUG_LOCK_ALLOC is y
+- Fix computing of btr0btr1 by adding sample_point value. Now, sysfs btr0btr1
+  property displays the right value according to the sample_pt selected
+- Add missing supported FD adapter names
+- Add specific sysfs properties to eget read access to rx/tx dma l/v addr
+- Add dmamask module parameter and include channel specific sysfs properties
+- normalize clock drift handling for 32b and 64b archs
+- bug on very 1st open + read with PCAN-PCIe FD is fixed: dev_reset() must be
+  called when OpenPath is > 0
+- Fix usage of (both) sample_pt in call of pcanfd_open()
+- Fix sample point computation when OFD_BTR0BTR1 or OFD_BRPTSEGSJW is used in
+  pcanfd_open()
+- fix bug in timeval_add_us when count of us = 1M and ts_high wrapping in
+  usb-fd
+- Add -T option to pcanfdtst, so that received timestamps are tested if they
+  don't come from the future, or if they aren't too different from 'now'
+- Since CALIBRATION msg ts_high 32-bits field is always 0, change code to not
+  taking care of this field when computing timestamps: now, usb interface
+  handles its own ts_high, when it sees that ts_low has wrapped...
+- Add support of OpenSuse like system where headers aren't stored like debian's,
+  to be able to compile weird Kernels 4.4 that include mainline 4.8 changes into
+  some linux-can struct objects.
+- Add support of PCAN-USB Chip
+- Include DESTDIR_DEV to be able to install headers files somewhere else than
+  the running rootfs. If empty, then DESTDIR_DEV equals DESTDIR
+
+#2017-10-23 - 8.5.0 - content
+2017-10-24 - 8.5.0 - content
+- Update Documentation to v3.2.1
+- lib/Makefile: fix link order to be able to compile RT binaries; also remove
+  useless -shared option from CFLAGS
+- test/Makefile: Remove useless def and remove space char in 2nd arg of ifeq
+- lib/Makefile: remove -Wcast-qual CFLAGS (this flag generates Warnings when
+  compiling with Xenomai 2.6)
+- Unify fops_linux and fops_rt functions by adding an arg and defining
+  pcan_copy to/from user() inline functions.
+- Add PCANFD_FEATURE_DEVICEID
+- pcan & test: fix/add new way of giving timestamps to user: with set_option()
+  it is now possible to set the way HW timestamps are given. Mode 3 converts any
+  raw hw ts64 into struct timeval without taking into account the host time.
+- src/pcan_pci.c: fix pcan_enable_msi() according to Kernel version, since
+  pcan_enable_msi_range() does not exist anymore since 4.10
+- Makefile: fix DESTDIR usage in old (and no more used) command...
+- src/panfd_core.c: when converting old BTR0BTR1 into new nominal bitrate, reset
+  BRP value so that 'bitrate' field is the only bittiming reference for further
+  usage. Especially when the device clock ISNOT a 8MHz one...
+- Fix CAN msg ID in log (DEBUG_RX_QUEUE) from dec to hex display
+- Fix acc code & mask usage by and'ing code with given mask, to protect from
+  wrong code value given by user
+- test/Makefile: since lib Makefile tries to build both 32 and 64-bit versions,
+  lib files have been moved into (new) 'lib':  fix -L option usage
+- libpcan: Makefile has been extended to include some of Warnings not set by
+  -Wall
+- pcan: SJA1000 devices: add reading of TX and Rx err counters registers
+- pcan: add ERROR_MSG handling (SJA1000+uCAN)
+- pcanfdtst: add ts-mode option to control hw_timestamp mode (OFF, ON, COOKED or
+  RAW)
+- pcanfd.h: add PCANFD_OPT_HWTIMESTAMP_MODE option to tune how timestamp are
+  given to userspace
+- pcan_main.c: add PCAN_DONT_USE_HWTS to be able to provide software timestamps
+  only and not taking into account any hw timestamp given by the devices
+- pcanfdtst: add -P option to specify the TX_PAUSE delay value
+- Add TX_PAUSE support in uCAN adapters
+- src/pcan_fops_linux.c: remove dirty msg 'Compiling for __LP64__' since amd64
+  starts to be the Standard
+- pcan-usb-fd: add display of BL version too
+- Add "CAN 2.0 A/B mode force" for FPGA uCAN adapter when NOT in CAN-FD mode.
+- Fix test applications compilation Makefile (libpcan is now built under
+  lib/lib instead of lib)
+- lib/makefile: add some test to check if a lib32 can be built when running a
+  64-bit system.
+- pcan_netdev.c: patch from Benad, Friedrich [DE] <friedrich.benad@airbus.com>
+  that enable to compile netdev mode with Kernel 3.0
+- udev/45-pcan.rules: Fix typo in comment
+- Add new OPTs like ACC_FILTER_11B and ACC_FILTER_29B
+- Add new ioctls that enable to set/get options to/from the driver, quite like
+  setsockopt() and getsockopt(). Some exisiting ioctl might be deprecated in the
+  future. Also add some allowed MSG filter for PCAN-Basic
+- Add peak_canfd (the mainline driver since 4.12) to the blacklist
+- Fix RTR flag usage in CANFD frame (unused) as well as endianess issue in
+  outgoing uCAN tx msg flags 16-bit field
+- Donot display BUS_LOAD info when in QUIET mode
+- Change order of building test applications so that pcan-settings - needing 
+  libpopt - is built last, not preventing all the other applications to be built
+  in case of libpopt not installed
+- Fix issues around timestamping: now PCANFD_INIT_TS_DRV_REL is correctly
+  handled (was handled as PCANFD_INIT_TS_HOST_REL before); since open callbacks
+  might push a soft STATUS message, some init MUST be done BEFORE calling these
+  callbacks. This fixes the 1st (soft) STATUS=ERROR_ACTIVE messages timestamp
+  value, in case this one should be translated; Note: PCANFD_INIT_TS_HOST_REL
+  is now 0 while PCANFD_INIT_TS_DRV_REL is 0x20: since DRV_REL was NOT handled
+  correcttly by pcan v8 but like HOST_REL AND DRV_REL was 0, so lots of
+  customers who don't care about these bits receive HOST_REL timestamps. For
+  their applications always receiving the same timestamps, HOST_REL must be 0
+  (default struct pcanfd_init value). For other customers who explicitely set
+  the flags, things will go correctly now...
+- Fix compilation error with Kernel 4.11+ in netdev mode (last_rx field has
+  been removed from struct net_device in Kernel 4.11.)
+- Add deftsmode module parameter: this parameter enables to define the default
+  timestamp mode used for all of the channels. This is useful for netdev
+  interfaces because ioctl() cannot be used.
+
+2017-10-27 - 8.5.1 - content
+- fix DMA usage in usb_control_urb(): since 4.13, USB control URB HAVE TO be
+  allocated in DMA capabale memeory area. 4.13 is the Kernel of Ubuntu 17.10.
+- fix lonely "(le)" ("be) in dmesg.

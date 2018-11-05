@@ -1,0 +1,1 @@
+cmd_/home/guillaume/software/peak-linux-driver-8.5.1/driver/pcan.ko := ld -r -m elf_x86_64  -z max-page-size=0x200000 -T ./scripts/module-common.lds --build-id  -o /home/guillaume/software/peak-linux-driver-8.5.1/driver/pcan.ko /home/guillaume/software/peak-linux-driver-8.5.1/driver/pcan.o /home/guillaume/software/peak-linux-driver-8.5.1/driver/pcan.mod.o

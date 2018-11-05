@@ -7,8 +7,17 @@ NC='\033[0m'
 ROS_DISTRO=$(ls /opt/ros/) 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
+install_peak_linux_driver(){
+	printf "${GREEN}installing peak linux driver\n${NC}"
+	cd ${DIR}/peak-linux-driver/
+	make NET=NO
+	make install
+	modprobe pcan
+}
+
 install_pcan_basic(){
-	cd ${DIR}/pcan_basic/pcanbasic/
+	printf "${GREEN}installing pcan bais\n${NC}"
+	cd ${DIR}/pcan-basic/pcanbasic/
 	make 
 	make install
 	cd ../../
@@ -26,4 +35,6 @@ install_library(){
 }
 
 
+install_library libpopt-dev
+install_peak_linux_driver
 install_pcan_basic

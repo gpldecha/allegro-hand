@@ -1,0 +1,252 @@
+#!/bin/sh
+#
+# lspcan
+#
+#	Small tool that list all the PEAK-System CAN/CAN-FD devices found
+#	by pcan driver.
+#
+# (c) 2016 PEAK-System GmbH
+#
+MYSELF=`basename $0`
+SYSFSROOT="/sys/class"
+DRV="pcan"
+DRVROOT=${SYSFSROOT}/$DRV
+
+# -- usage
+usage()
+{
+	echo "$MYSELF: list PEAK-System CAN/CANFD devices found by pcan driver"
+	echo
+	echo "Option:"
+	echo "-a | --all        equivalent to: -i -s"
+	echo "-f | --forever    forever loop on devices (^C to stop)"
+	echo "-h | --help       display this help"
+	echo "-i | --info       information about pcan devices"
+	echo "-s | --stats      statistics about pcan devices"
+	echo "-t | --title      display a title line over columns"
+	echo "-T | --tree       tree version"
+	echo "-v | --version    display $DRV version"
+	exit 0
+}
+
+# -- main
+devlist=""
+fmt="l"
+display="q"
+forever="n"
+title="n"
+for arg in "$@"; do
+	case "$arg" in
+
+	"--help" | "-h" )
+		usage
+		;;
+
+	"--tree" | "-T" )
+		fmt="t"
+		;;
+
+	"--info" | "-i" )
+		display="i"
+		;;
+
+	"--all" | "-a" )
+		display="a"
+		;;
+
+	"--forever" | "-f" )
+		forever="y"
+		;;
+
+	"--stats" | "-s" )
+		display="s"
+		;;
+
+	"--title" | "-t" )
+		title="y"
+		;;
+
+	"--version" | "-v" )
+		if [ -f "$DRVROOT/version" ]; then
+			cat $DRVROOT/version
+			exit 0
+		fi
+		echo "No pcan driver v8 is loaded"
+		exit 2
+		;;
+	* )
+		devlist="$devlist $arg"
+		;;
+
+	esac
+done
+
+if [ ! -f $DRVROOT/version ]; then
+	echo "$MYSELF can't run over versions of pcan driver less than 8.x"
+	exit 1
+fi
+
+if [ -z "$devlist" ]; then
+	devlist=`ls $DRVROOT`
+fi
+
+while :; do
+
+d=0
+
+if [ "$display" = "a" ]; then
+	pcanver=`cat $DRVROOT/version`
+	echo "pcan version: $pcanver"
+fi
+
+if [ "$title" = "y" ]; then
+	titletxt="dev name\tport"
+	case "$display" in
+
+	"i" )	# info
+		titletxt="$titletxt\tirq\tclock\tbtrs\tbus"
+		;;
+
+	"s" )	# stats
+		titletxt="$titletxt\tbus\t%bus\trx\t%fifo\ttx\t%fifo\terr"
+		;;
+
+	"a" )	# all
+		titletxt="$titletxt\tirq\tclock\tbtrs\tbus\t%bus\trx\ttx\terr"
+		;;
+	esac
+	echo $titletxt
+fi
+
+for dev in $devlist; do
+	if [ ! -d $DRVROOT/$dev ]; then
+		continue;
+	fi
+
+	line="$dev\t"
+	d=`expr $d + 1`
+
+	# simple "ls" mode
+	if [ "$display" = "q" ]; then
+		echo -n $line
+		if [ $d -ge 5 ]; then
+			echo
+			d=0
+		fi
+		continue
+	fi
+
+	prodname=`cat $DRVROOT/$dev/adapter_name`
+	cardidx=`cat $DRVROOT/$dev/adapter_number`
+	brdname="[${prodname} ${cardidx}]"
+
+	btr=`cat $DRVROOT/$dev/nom_bitrate`
+	if [ $btr -ge 1000000 ]; then
+		btr=`expr $btr / 1000000`M
+	elif [ $btr -ge 1000 ]; then
+		btr=`expr $btr / 1000`k
+	fi
+
+	dbtr=""
+	if [ -f $DRVROOT/$dev/data_bitrate ]; then
+		dbtr=`cat $DRVROOT/$dev/data_bitrate`
+		if [ $dbtr -ge 1000000 ]; then
+			dbtr=`expr $dbtr / 1000000`M
+		elif [ $dbtr -ge 1000 ]; then
+			dbtr=`expr $dbtr / 1000`k
+		elif [ $dbtr -eq 0 ]; then
+			dbtr=""
+		fi
+	fi
+	if [ -n "$dbtr" ]; then
+		btr="$btr+$dbtr"
+	fi
+
+	clk=`cat $DRVROOT/$dev/clock`
+	if [ $clk -ge 1000000 ]; then
+		clk=`expr $clk / 1000000`MHz
+	elif [ $btr -ge 1000 ]; then
+		clk=`expr $clk / 1000`kHz
+	fi
+
+	bus=`cat $DRVROOT/$dev/bus_state`
+	case $bus in
+
+	0 )	# PCANFD_UNKNOWN
+		bus="CLOSED"
+		;;
+
+	1 )	# PCANFD_ERROR_ACTIVE
+		bus="ACTIVE"
+		;;
+
+	2 )	# PCANFD_ERROR_WARNING
+		bus="WARNING"
+		;;
+
+	3 )	# PCANFD_ERROR_PASSIVE
+		bus="PASSIVE"
+		;;
+
+	4 )	# PCANFD_ERROR_BUSOFF
+		bus="BUSOFF"
+		;;
+
+	esac
+
+	canidx=`cat $DRVROOT/$dev/ctrlr_number`
+	case "$fmt" in
+
+	"t" )	# tree
+		if [ $canidx -eq 0 ]; then
+			echo "${brdname}"
+		fi
+		line=" |_ $line"
+		;;
+	esac
+
+	rxcnt=`cat $DRVROOT/$dev/read`
+	txcnt=`cat $DRVROOT/$dev/write`
+	errcnt=`cat $DRVROOT/$dev/errors`
+
+	if [ -f $DRVROOT/$dev/bus_load ]; then
+		bload=`cat $DRVROOT/$dev/bus_load`
+	else
+		bload="-"
+	fi
+
+	line="${line}CAN`expr $canidx + 1`"
+
+	case "$display" in
+
+	"i" )	# info
+		irq=`cat $DRVROOT/$dev/irq`
+		if [ $irq -eq 0 ]; then
+			irq="-"
+		fi
+		line="$line\t$irq\t$clk\t$btr\t$bus"
+		;;
+
+	"s" )	# stats
+		rxratio=`cat $DRVROOT/$dev/rx_fifo_ratio`
+		txratio=`cat $DRVROOT/$dev/tx_fifo_ratio`
+		line="$line\t$bus\t$bload\t$rxcnt\t$rxratio\t$txcnt\t$txratio\t$errcnt"
+		;;
+
+	"a" )	# all
+		line="${line}CAN`expr $canidx + 1`\t$clk\t$btr\t$bus"
+		line="${line}\t"
+		line="${line}$bload\t$rxcnt\t$txcnt\t$errcnt"
+		;;
+	esac
+
+	echo "$line"
+done
+
+if [ "$forever" != "y" ]; then
+	break
+fi
+sleep 1
+clear
+done
+echo
