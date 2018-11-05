@@ -35,6 +35,8 @@ install_library(){
 }
 
 install_library linux-headers-$(uname -r)
+install_library libncurses5-dev 
+install_library libncursesw5-dev
 install_library libpopt-dev
 install_peak_linux_driver
 install_pcan_basic
