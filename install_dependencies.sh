@@ -54,8 +54,10 @@ install_library linux-headers-$(uname -r)
 install_peak_linux_driver
 install_pcan_basic
 
-install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
 install_library ros-${ROS_DISTRO}-control-toolbox
+install_library ros-${ROS_DISTRO}-controller-manager
+
+install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
 install_library ros-${ROS_DISTRO}-gazebo9-dev
 install_library ros-${ROS_DISTRO}-forward-command-controller
 
