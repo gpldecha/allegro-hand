@@ -1,5 +1,5 @@
 # Allegro Hand
-![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)
+[![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)
 
 ### Automatic install
 
