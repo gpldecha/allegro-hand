@@ -24,7 +24,7 @@ install_peak_linux_driver(){
 	if [[ ! -f /usr/include/libpcan.h ]]; then
 		printf "${GREEN}installing peak linux driver\n${NC}"
 		cd ${DIR}/peak-linux-driver/
-		make NET=NO
+		make NET=NO PCC=NO
 		make install
 		modprobe pcan
 		cd ${DIR}
