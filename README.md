@@ -24,7 +24,7 @@ sudo ./install_gazebo_source.sh
 roslaunch ahand ahand.launch
 ```
 This will open rivz and the hand will be runing the ros_controller, which listens to a torque command topic and 
-and sends these commands to the hardware via pcan. The gravity compensation torque is computed for all controllers and is allways added to torque command which is sent to the hand.
+and sends these commands to the hardware via pcan. The gravity compensation torque is computed for all controllers and is allways added to the torque command sent to the hand.
 
 
 ### References and drivers
