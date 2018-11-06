@@ -8,9 +8,7 @@
 sudo chmod a+x install_dependencies.bash
 sudo ./install_dependencies.bash
 ```
-3. run catkin make
-
-After succesfull installation of the dependencies you can build your catkin workspace
+3. After succesfull installation of the dependencies you can build your catkin workspace
 
 ### Manual installation 
 
