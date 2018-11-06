@@ -3,7 +3,7 @@
 ### Automatic install
 
 cd to allegro-hand directory and run
-```shell
+```bash
 sudo chmod a+x install_dependencies.bash
 sudo ./install_dependencies.bash
 ```
@@ -21,7 +21,7 @@ sudo ./install_dependencies.bash
 
 Run the hand compensation
 
-```shell
+```bash
 roslaunch ahand ahand.launch
 ```
 This will open rivz and the hand will be runing the ros_controller, which listens to a torque command topic and 
