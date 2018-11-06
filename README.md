@@ -1,5 +1,7 @@
-# Allegro Hand
-[![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)
+# Allegro Hand 
+<!--[![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)-->
+
+Tested with ROS Kinetic
 
 ### Automatic install
 1. clone directory into catkin workspace
@@ -8,7 +10,7 @@
 sudo chmod a+x install_dependencies.bash
 sudo ./install_dependencies.bash
 ```
-After succesfull installation of the dependencies you can build your catkin workspace
+3. after succesfull installation of the dependencies you can build your catkin workspace
 
 ### Manual installation 
 

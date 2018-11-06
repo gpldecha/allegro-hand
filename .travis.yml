@@ -6,7 +6,6 @@ env:
     - IMAGE_NAME=osrf/ros:kinetic-desktop
 
 before_script:
-  - version="$(awk '$2 == "CAKE_SERVICE_VERSION" { print $3; exit }' Dockerfile)"
   - docker pull "$IMAGE_NAME" || true
 script:
   - docker build --pull --cache-from "$IMAGE_NAME" --tag "$IMAGE_NAME" .
