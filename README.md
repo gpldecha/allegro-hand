@@ -1,6 +1,15 @@
 # Allegro Hand
 
-## Installation dependencies
+___
+### Automatic install
+
+cd to allegro-hand directory and run
+```shell
+sudo chmod a+x install_dependencies.bash
+sudo ./install_dependencies.bash
+```
+___
+### Installation dependencies
 
 * [Allegro_Hand_Linux_Project](http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Allegro_Hand_Linux_Project)
 
