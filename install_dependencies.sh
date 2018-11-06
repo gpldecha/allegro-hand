@@ -58,10 +58,11 @@ install_library ros-${ROS_DISTRO}-control-toolbox
 install_library ros-${ROS_DISTRO}-controller-manager
 install_library ros-${ROS_DISTRO}-transmission-interface 
 install_library ros-${ROS_DISTRO}-joint-limits-interface
-install_library ros-${ROS_DISTRO}-gazebo-ros
+install_library ros-${ROS_DISTRO}-forward-command-controller
 
+install_library ros-${ROS_DISTRO}-gazebo9-ros
 install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
 install_library ros-${ROS_DISTRO}-gazebo9-dev
-install_library ros-${ROS_DISTRO}-forward-command-controller
+
 
 
