@@ -1,5 +1,7 @@
-# Allegro Hand
+# Allegro Hand 
 [![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)
+
+Tested with ROS Kinetic
 
 ### Automatic install
 1. clone directory into catkin workspace
