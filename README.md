@@ -1,7 +1,7 @@
 # Allegro Hand 
 <!--[![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)-->
 
-Tested with ROS Kinetic
+Tested with ROS Kinetic, Gazebo 9, ODE and DART
 
 ### Install
 1. Clone the directory into the src folder of your catkin workspace.
