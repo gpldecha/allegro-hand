@@ -56,6 +56,7 @@ install_pcan_basic
 
 install_library ros-${ROS_DISTRO}-control-toolbox
 install_library ros-${ROS_DISTRO}-controller-manager
+install_library ros-${ROS_DISTRO}-transmission-interface 
 
 install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
 install_library ros-${ROS_DISTRO}-gazebo9-dev
