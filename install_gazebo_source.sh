@@ -4,10 +4,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-
 ROS_DISTRO=$(ls /opt/ros/) 
-INSTALL_GAZEBO_FROM_SOURCE=true
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 remove_gazebo_in_path(){
 	sudo find $1 -name '*gazebo*' | while read line; do
