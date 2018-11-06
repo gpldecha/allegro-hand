@@ -56,7 +56,6 @@ install_pcan_basic
 
 install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
 install_library ros-${ROS_DISTRO}-gazebo9-dev
-install_library ros-${ROS_DISTRO}-gazebo9-ros-control
 
 install_library ros-${ROS_DISTRO}-forward-command-controller
 
