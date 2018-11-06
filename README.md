@@ -3,7 +3,7 @@
 
 Tested with ROS Kinetic
 
-### Automatic install
+### Install
 1. Clone the directory into the src folder of your catkin workspace.
 2. cd to the allegro-hand directory and run
 ```bash
