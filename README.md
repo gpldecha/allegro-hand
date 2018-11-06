@@ -10,7 +10,7 @@ Tested with ROS Kinetic
 sudo chmod +x install_dependencies.bash
 sudo ./install_dependencies.bash
 ```
-3. With this setting you will not be able to use gazebo the simulator, only the hardware. The standard gazebo used by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst running in real time. If you want to use gazebo you will need the [dart](https://dartsim.github.io/) simulator which requires compiling gazebo from source, for this follow step 4.
+3. With this setting you will not be able to use gazebo the simulator, only the hardware. The standard apt-get gazebo uses by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst running in real time. If you want to use gazebo you will need the [dart](https://dartsim.github.io/) simulator which requires compiling gazebo from source, for this follow step 4.
 4. The script install_gazebo_source.bash will purge all your current gazebo libraries, clone gazebo from the orfoundation, build and install it with dart.   
 ```bash
 sudo chmod +x install_gazebo_source.bash
