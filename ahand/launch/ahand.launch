@@ -4,7 +4,7 @@
 	<arg name="stopped_controllers" default=""/>
 
 	<arg name="sim"					default="false"/>
-	<arg name="use_gazebo_gui" 		default="true"/>
+	<arg name="use_gazebo_gui" 		default="false"/>
 
 	<arg name="use_rviz" 			default="true"/>
 	<arg name="robot_name" 			default="ahand"/>

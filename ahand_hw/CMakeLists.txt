@@ -20,7 +20,7 @@ find_package(catkin REQUIRED COMPONENTS
   ahand_driver
 )
 
-find_package(gazebo REQUIRED)
+#find_package(gazebo REQUIRED)
 
 catkin_package(
  INCLUDE_DIRS include
