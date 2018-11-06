@@ -2,8 +2,8 @@
 [![Build Status](https://travis-ci.org/gpldecha/allegro-hand.svg?branch=master)](https://travis-ci.org/gpldecha/allegro-hand)
 
 ### Automatic install
-
-cd to allegro-hand directory and run
+1. clone directory into catkin workspace
+2. cd to allegro-hand directory and run
 ```bash
 sudo chmod a+x install_dependencies.bash
 sudo ./install_dependencies.bash
