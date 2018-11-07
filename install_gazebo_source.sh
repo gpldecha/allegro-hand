@@ -76,7 +76,6 @@ install_gazebo_source(){
 	install_library libignition-msgs-dev
 	install_library libignition-math4-dev
 
-	
 	if [[ ! -d /tmp/gazebo9 ]]; then
 		# add osr foundation to source
 		printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
@@ -84,6 +83,7 @@ install_gazebo_source(){
 		wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 		sudo apt-get -q -y update 1> /dev/null
 	fi
+	
 	# clone gazebo
 	printf "${GREEN}cloning gazebo\n${NC}"
 	hg clone https://bitbucket.org/osrf/gazebo/branch/gazebo9 /tmp/gazebo9
