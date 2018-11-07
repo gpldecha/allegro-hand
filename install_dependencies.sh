@@ -32,7 +32,7 @@ install_peak_linux_driver(){
 		cd ${DIR}/peak-linux-driver/
 		make NET=NO PCC=NO
 		sudo make install
-		modprobe pcan
+		sudo modprobe pcan 1> /dev/null
 		cd ${DIR}
 	else
 		printf "${GREEN}peak linux driver ... ok\n${NC}"
@@ -66,9 +66,10 @@ install_library ros-${ROS_DISTRO}-transmission-interface
 install_library ros-${ROS_DISTRO}-joint-limits-interface
 install_library ros-${ROS_DISTRO}-forward-command-controller
 
-install_library ros-${ROS_DISTRO}-gazebo9-ros
-install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
-install_library ros-${ROS_DISTRO}-gazebo9-dev
+install_library ros-${ROS_DISTRO}-gazebo-ros
+install_library ros-${ROS_DISTRO}-gazebo-ros-control
+install_library ros-${ROS_DISTRO}-gazebo-ros-plugins
+install_library ros-${ROS_DISTRO}-gazebo-ros-pkgs
 
 
 

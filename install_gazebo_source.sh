@@ -75,6 +75,8 @@ install_gazebo_source(){
 	install_library libignition-transport4-dev 
 	install_library libignition-msgs-dev
 	install_library libignition-math4-dev
+	
+	install_library mercurial
 
 	if [[ ! -d /tmp/gazebo9 ]]; then
 		# add osr foundation to source
