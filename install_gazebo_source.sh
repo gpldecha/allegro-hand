@@ -4,11 +4,28 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
+
+while ! echo "$PW" | sudo -S -v > /dev/null 2>&1; do
+    read -s -p "Enter your sudo password: " PW
+    echo
+done
+
 ROS_DISTRO=$(ls /opt/ros/) 
+
+
+install_library(){
+	LIBRARY=$(dpkg -S $1 2> /dev/null )
+	if [[ -z $LIBRARY  ]]; 
+	then
+		printf "${GREEN}installing $1\n${NC}"
+		sudo apt-get -q -y install $1 1> /dev/null
+	else
+		printf "${GREEN}$1 ... ok\n${NC}"
+	fi
+}
 
 remove_gazebo_in_path(){
 	sudo find $1 -name '*gazebo*' | while read line; do
-		echo "removing file '$line'" 
 		sudo rm -fr $line
 	done
 }
@@ -25,9 +42,9 @@ remove_gazebo_source(){
 
 purge_gazebo(){
 	printf "${GREEN}removing gazebo\n${NC}"
-	apt-get -q --yes --force-yes remove '.*gazebo.*' '.*sdformat.*' '.*ignition-math.*' '.*ignition-msgs.*' '.*ignition-transport.*' > /dev/null
-	apt-get -q --yes --force-yes autoremove  > /dev/null
-	remove_gazebo_dpk
+	sudo apt-get -q -y remove '.*gazebo.*' '.*sdformat.*' '.*ignition-math.*' '.*ignition-msgs.*' '.*ignition-transport.*' 1> /dev/null
+	sudo apt-get -q -y autoremove  1> /dev/null
+	remove_gazebo_dpkg
 	remove_gazebo_source
 }
 
@@ -42,39 +59,46 @@ install_gazebo_source(){
 	
 	# purge gazebo dpkg (necesary to trick ros)
 	remove_gazebo_dpkg
-	
-	# add osr foundation to source
-	printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
-	sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
-	wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
-	apt-get -q --yes --force-yes update > /dev/null
-
-	# install gazebo dependencies
-	printf "${GREEN}install gazebo dependencies\n${NC}"
-	
-	wget https://bitbucket.org/osrf/release-tools/raw/default/jenkins-scripts/lib/dependencies_archive.sh -O /tmp/dependencies.sh
-	ROS_DISTRO=dummy . /tmp/dependencies.sh
-	apt-get -q --yes --force-yes install $(sed 's:\\ ::g' <<< $BASE_DEPENDENCIES) $(sed 's:\\ ::g' <<< $GAZEBO_BASE_DEPENDENCIES)
-	
+		
 	install_library ros-${ROS_DISTRO}-dartsim
 	install_library libsdformat6
 	install_library libsdformat6-dev
-	install_library libignition-msgs-dev
+
+	install_library libfreeimage-dev
+	install_library libxml2-dev
+	install_library libprotobuf-dev
+	install_library libprotoc-dev
+	install_library libsimbody-dev 
+
+	install_library libignition-common-dev 
+	install_library libignition-fuel-tools-dev
 	install_library libignition-transport4-dev 
+	install_library libignition-msgs-dev
+	install_library libignition-math4-dev
+
 	
-	printf "${GREEN}cloning gazebo\n${NC}"
+	if [[ ! -d /tmp/gazebo9 ]]; then
+		# add osr foundation to source
+		printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
+		sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
+		wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
+		sudo apt-get -q -y update 1> /dev/null
+	fi
 	# clone gazebo
+	printf "${GREEN}cloning gazebo\n${NC}"
 	hg clone https://bitbucket.org/osrf/gazebo/branch/gazebo9 /tmp/gazebo9
 	cd /tmp/gazebo9
 	printf "${GREEN}checkout gazebo9.4.1\n${NC}"
 	hg checkout gazebo9_9.4.1
 	mkdir build
+		
 	cd build
-	cmake -DCMAKE_BUILD_TYPE=Release
+	cmake -DCMAKE_BUILD_TYPE=Release ../
 	# build gazebo
 	make -j8
-	sudo make install
-	sudo ldconfig
+	sudo -S make install <<< "$password" 1> /dev/null
+	sudo -S ldconfig <<< "$password" 1> /dev/null
 }
 
 install_gazebo_source
+
