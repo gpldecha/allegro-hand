@@ -11,6 +11,9 @@
 #include <controller_manager/controller_manager.h>
 #include "ahand_hw/ahand_hw_can.hpp"
 
+// Boost
+
+#include <boost/program_options.hpp>
 
 
 // Get the URDF XML from the parameter server
@@ -45,7 +48,20 @@ std::string getURDF(ros::NodeHandle &model_nh_, std::string param_name)
   return urdf_string;
 }
 
+namespace po = boost::program_options;
+
+
 int main(int argc, char** argv){
+
+    po::options_description description("ahand_hw_can options");
+    description.add_options()
+            ("robot_name,n", po::value<std::string>(), "robot name" );
+
+    po::variables_map vm;
+    po::store(po::parse_command_line(argc, argv, description), vm);
+    po::notify(vm);
+
+    std::string namespace_ = vm["robot_name"].as<std::string>();
 
     // initialize ROS
     ros::init(argc, argv, "ahand_hw_interface", ros::init_options::NoSigintHandler);
@@ -55,14 +71,14 @@ int main(int argc, char** argv){
     spinner.start();
 
     // create a node
-    ros::NodeHandle ahand_nh("/ahand");
+    ros::NodeHandle ahand_nh(namespace_);
 
     // get params or give default values
     std::string file;
     std::string name;
 
     // get the general robot description, the lwr class will take care of parsing what's useful to itself
-    std::string urdf_string = getURDF(ahand_nh, "/robot_description");
+    std::string urdf_string = getURDF(ahand_nh, namespace_+ "/robot_description");
 
     // construct and start the real ahand
     AhandHWCAN ahand_robot;
@@ -80,7 +96,6 @@ int main(int argc, char** argv){
 
     //the controller manager
     controller_manager::ControllerManager manager(&ahand_robot, ahand_nh);
-
 
     while( true ){
       // get the time / period

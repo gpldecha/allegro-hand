@@ -7,6 +7,14 @@
 #include "can_api/canAPI.h"
 #include "can_api/canDef.h"
 #include "ahand_driver/rDeviceAllegroHandCANDef.h"
+#include <boost/lockfree/spsc_queue.hpp>
+
+// Eigen
+
+#include <Eigen/Dense>
+
+
+typedef Eigen::Matrix<double, 16, 1> Vector16d;
 
 class AhandDriver{
 
@@ -18,9 +26,9 @@ public:
 
     bool isIntialised();
 
-    void setTorque(double *torque);
+    void setTorque(const Vector16d& torques);
 
-    void getJointInfo(double *position);
+    bool getJointInfo(Vector16d& joint_positions);
 
     void stop();
 
@@ -66,12 +74,14 @@ private:
     };
 
     AllegroHand_DeviceMemory_t vars;
-    double q[MAX_DOF];
-    double q_des[MAX_DOF];
-    double tau_des[MAX_DOF];
-    double cur_des[MAX_DOF];
 
-    std::mutex joint_mutex, torque_mutex;
+    Vector16d tau_des;
+    Vector16d cur_des;
+    Vector16d q;
+    Vector16d q_des;
+
+    boost::lockfree::spsc_queue<Vector16d> torque_command_buffer;
+    boost::lockfree::spsc_queue<Vector16d> sensor_buffer;
 
     std::thread updated_thread_;
     bool ioThreadRun = false;

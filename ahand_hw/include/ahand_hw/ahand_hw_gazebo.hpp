@@ -46,11 +46,11 @@ class AHandHWGazebo : public AhandHW{
             for(std::size_t j=0; j < n_joints_; ++j){
                 finger_idx = j/n_fingers_;
                 joint_idx = j%n_fingers_;
-                joint_position_prev_[j] = joint_position_[j];
-                joint_position_[j] += angles::shortest_angular_distance(joint_position_[j], sim_joints_[j]->Position(0));
-                joint_position_kdl_[finger_idx](joint_idx) = joint_position_[j];
-                joint_velocity_[j] = filters::exponentialSmoothing((joint_position_[j] - joint_position_prev_[j])/period.toSec(), joint_velocity_[j], 0.2);
-                joint_effort_[j]  = sim_joints_[j]->GetForce((unsigned int)(0));
+                measured_joint_position_prev[j] = measured_joint_position_[j];
+                measured_joint_position_[j] += angles::shortest_angular_distance(measured_joint_position_[j], sim_joints_[j]->Position(0));
+                joint_position_kdl_[finger_idx](joint_idx) = measured_joint_position_[j];
+                estimated_joint_velocity_[j] = filters::exponentialSmoothing((measured_joint_position_[j] - measured_joint_position_prev[j])/period.toSec(), estimated_joint_velocity_[j], 0.2);
+                measured_joint_effort_[j]  = sim_joints_[j]->GetForce((unsigned int)(0));
             }
         }
 

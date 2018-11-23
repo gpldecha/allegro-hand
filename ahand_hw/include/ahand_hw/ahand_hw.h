@@ -12,6 +12,10 @@
 #include <std_msgs/Duration.h>
 #include <urdf/model.h>
 
+// Eigen
+
+#include <Eigen/Dense>
+
 // ROS controls
 #include <hardware_interface/robot_hw.h>
 #include <transmission_interface/transmission_info.h>
@@ -79,8 +83,8 @@ class AhandHW : public hardware_interface::RobotHW {
     public:
 
         // state and commands
-        std::vector<double> joint_position_, joint_position_prev_, joint_velocity_, joint_effort_;
-        std::vector<double> joint_effort_command_;
+        Eigen::Matrix<double, 16, 1> measured_joint_position_, measured_joint_position_prev, estimated_joint_velocity_, measured_joint_effort_;
+        Eigen::Matrix<double, 16, 1> joint_effort_command_;
 
         // joint limits
         std::vector<double> joint_lower_limits_;
@@ -102,7 +106,6 @@ class AhandHW : public hardware_interface::RobotHW {
         hardware_interface::JointStateInterface       state_interface_;
 
         hardware_interface::EffortJointInterface      effort_interface_;
-        hardware_interface::PositionJointInterface    position_interface_;
 
         std::vector<std::string> joint_names_;
 

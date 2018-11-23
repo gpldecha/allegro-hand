@@ -40,15 +40,11 @@ install_peak_linux_driver(){
 }
 
 install_pcan_basic(){
-	if [[ !  /usr/include/PCANBasic.h ]]; then
-		printf "${GREEN}installing pcan basic api\n${NC}"
-		cd ${DIR}/pcan-basic/pcanbasic/
-		make 
-		sudo make install
-		cd ${DIR}
-	else
-		printf "${GREEN}pcan basic api ... ok\n${NC}"
-	fi
+	printf "${GREEN}installing pcan basic api\n${NC}"
+	cd ${DIR}/pcan-basic/pcanbasic/
+	make 
+	sudo make install
+	cd ${DIR}
 }
 
 
@@ -68,7 +64,6 @@ install_library ros-${ROS_DISTRO}-forward-command-controller
 
 install_library ros-${ROS_DISTRO}-gazebo-ros
 install_library ros-${ROS_DISTRO}-gazebo-ros-control
-install_library ros-${ROS_DISTRO}-gazebo-ros-plugins
 install_library ros-${ROS_DISTRO}-gazebo-ros-pkgs
 
 

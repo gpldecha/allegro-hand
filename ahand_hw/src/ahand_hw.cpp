@@ -34,12 +34,6 @@ void AhandHW::create(std::string name, std::string urdf_string){
         joint_names_[i] = robot_namespace_ + joint_names_[i];
     }
 
-    joint_position_.resize(n_joints_);
-    joint_position_prev_.resize(n_joints_);
-    joint_velocity_.resize(n_joints_);
-    joint_effort_.resize(n_joints_);
-    joint_effort_command_.resize(n_joints_);
-
     joint_lower_limits_.resize(n_joints_);
     joint_upper_limits_.resize(n_joints_);
 
@@ -64,13 +58,12 @@ void AhandHW::create(std::string name, std::string urdf_string){
 }
 
 void AhandHW::reset(){
-    for (std::size_t j = 0; j < n_joints_; ++j){
-      joint_position_[j] = 0.0;
-      joint_position_prev_[j] = 0.0;
-      joint_velocity_[j] = 0.0;
-      joint_effort_[j] = 0.0;
-      joint_effort_command_[j] = 0.0;
-    }
+    measured_joint_position_.setZero();
+    measured_joint_position_prev.setZero();
+    estimated_joint_velocity_.setZero();
+    measured_joint_effort_.setZero();
+
+    joint_effort_command_.setZero();
 }
 
 bool AhandHW::canSwitch(const std::list<hardware_interface::ControllerInfo> &start_list, const std::list<hardware_interface::ControllerInfo> &stop_list) const{
@@ -108,7 +101,7 @@ void AhandHW::registerInterfaces(const urdf::Model *const urdf_model, std::vecto
         // Debug
         std::cout << "\x1B[37m" << "ahand_hw: " << "Loading joint '" << joint_names_[j] << "' of type '" << joint_interfaces.front() << "'" << "\x1B[0m" << std::endl;
 
-        state_interface_.registerHandle(hardware_interface::JointStateHandle(joint_names_[j], &joint_position_[j], &joint_velocity_[j], &joint_effort_[j]));
+        state_interface_.registerHandle(hardware_interface::JointStateHandle(joint_names_[j], &measured_joint_position_[j], &estimated_joint_velocity_[j], &measured_joint_effort_[j]));
 
         hardware_interface::JointHandle joint_handle_effort;
         joint_handle_effort = hardware_interface::JointHandle(state_interface_.getHandle(joint_names_[j]),&joint_effort_command_[j]);
@@ -212,6 +205,9 @@ bool AhandHW::initKDLdescription(const urdf::Model *const urdf_model){
         f_dyn_solvers_[i] = std::make_unique<KDL::ChainDynParam>(KDL::ChainDynParam(ahand_chains_[i], gravity_));
         joint_position_kdl_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
         gravity_effort_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
+
+        joint_position_kdl_[i].data.setZero();
+        gravity_effort_[i].data.setZero();
     }
 
 }

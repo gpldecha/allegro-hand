@@ -80,6 +80,7 @@ class JointImpedanceController:
         self.joint_filtered_velocity = JointImpedanceController.exponential_smoothing(self.joint_state.velocity, self.joint_filtered_velocity, 0.2)
 
         tau_cmd = self.kp*(self.joint_des_position - self.joint_filtered_position) - self.kd*self.joint_filtered_velocity
+        tau_cmd[1:] = 0
 
         self.action_msg.data = tau_cmd
         self.pub_torques.publish(self.action_msg)

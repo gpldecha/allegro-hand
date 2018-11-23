@@ -24,7 +24,8 @@ void ahand_controllers::ROSController::update(const ros::Time& time, const ros::
     }
     ROS_INFO_STREAM_THROTTLE(1.0, "torques \nf1: " << tau_cmd_[0] << " " << tau_cmd_[1] << " " << tau_cmd_[2] << " " <<  tau_cmd_[3] <<
                                           "\nf2: " << tau_cmd_[4] << " " << tau_cmd_[5] << " " << tau_cmd_[6] << " " << tau_cmd_[7] <<
-                                          "\nf3: " << tau_cmd_[8] << " " << tau_cmd_[9] << " " << tau_cmd_[10] << " " << tau_cmd_[11]);
+                                          "\nf3: " << tau_cmd_[8] << " " << tau_cmd_[9] << " " << tau_cmd_[10] << " " << tau_cmd_[11] <<
+                                          "\nth: " << tau_cmd_[12] << " " << tau_cmd_[13] << " " << tau_cmd_[14] << " " << tau_cmd_[15]);
 }
 
 void ahand_controllers::ROSController::command_callback(const std_msgs::Float32MultiArray::ConstPtr& msg){

@@ -14,8 +14,6 @@ namespace filters {
         median_idx = static_cast<std::size_t >((window_size - 1) / 2);
         cbuffer_ = boost::circular_buffer<double>(window_size);
         buffer_= std::vector<double>(window_size);
-
-        std::cout<< "median_idx: " << median_idx << std::endl;
     }
 
     double Median::get(const double x) {
