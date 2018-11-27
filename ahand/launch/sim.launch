@@ -9,28 +9,29 @@
     <arg name="use_gazebo_gui" default="true"/>
     <arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
 
-    <!--group ns="$(arg robot_name)"-->
+    <group ns="$(arg robot_name)">
 
         <param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
 
-        <!--node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
             <param name="rate" value="300"/>
-        </node-->
+        </node>
 
         <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
             <rosparam param="publish_frequency">300</rosparam>
         </node>
 
-    <!--/group-->
+        <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="$(arg output)"/>
+
+    </group>
 
 
-    <!--include file="$(find ahand_controllers)/launch/load_controller.launch">
+    <include file="$(find ahand_controllers)/launch/load_controller.launch">
         <arg name="namespace" value ="$(arg robot_name)"/>
         <arg name="controller" value="$(arg controller)" />
-    </include-->
+    </include>
 
     <!-- gazebo simulation -->
-    <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="$(arg output)" />
     <include file="$(find ahand_description)/world/world.launch">
         <arg name="world_name" 		value="$(arg world_name)"/>
         <arg name="paused" 			value="true"/>
