@@ -3,29 +3,37 @@
 
 Tested with ROS Kinetic, Gazebo 9, ODE and DART
 
-### Install
+### Install allegro-hand hardware
 1. Clone the directory into the src folder of your catkin workspace.
 2. cd to the allegro-hand directory and run
 ```bash
 sudo chmod +x install_dependencies.sh
 sudo ./install_dependencies.sh
 ```
-3. With this setting you will not be able to use gazebo the simulator, only the hardware. The standard apt-get gazebo uses by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst running in real time. If you want to use gazebo (running with real time factor) you will need the [dart](https://dartsim.github.io/) simulator which requires compiling gazebo from source, for this follow step 4.
-4. The script *install_gazebo_source.sh* **will purge all your gazebo libraries**, clone gazebo from the orfoundation, build and install it with dart.   
+With this setup you will not be able to use gazebo the simulator. The standard "apt-get install gazebo" uses by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst maintaining real time performance. 
+
+If you want to use gazebo (running with a real time factor) you will need the [dart](https://dartsim.github.io/) physics engine gazebo plugin which requires compiling gazebo from source. Follow the steps outlined in **Install allegro-hand gazebo**. If you don't want to use the gazebo simulator, you are done, just compile your catkin workspace.
+
+### Install allegro-hand gazebo
+
+1. The script *install_gazebo_source.sh* **will purge all your gazebo libraries**, clone gazebo from the orfoundation, build and install it with dart.   
 ```bash
 sudo chmod +x install_gazebo_source.sh
 sudo ./install_gazebo_source.sh
 ```
-5. You can now build your catkin workspace
+2. Delete the CATKIN_IGNORE file from the ahand_gazebo folder
+3. You can now build your catkin workspace
 
-### Examples on the hardware
+### Running on the hardware
 
 ```bash
-roslaunch ahand ahand.launch
+roslaunch ahand hw.launch
 ```
-This will open rivz and the hand will be runing the ros_controller, which listens to a torque command topic and 
-and sends these commands to the hardware via pcan. The gravity compensation torque is computed for all controllers and is allways added to the torque command sent to the hand.
+### Running on the gazebo simulator
 
+```bash
+roslaunch ahand sim.launch
+```
 
 ### References and drivers
 You can look at the bottom of the install_dependencies.bash file and you can see each element which is being installed. 
@@ -35,11 +43,3 @@ You can aslo take a look at [Allegro_Hand_Linux_Project](http://wiki.wonikroboti
   Should be compiled with chardev support.
 
 * [PCAN-Basic API Linux](https://www.peak-system.com/PCAN-USB.199.0.html)
-
-
-### Troubleshooting
-
-```shell
-1534240126.209767: ERROR: failed to scan directory (errno=2) '/sys/class/pcan'
-```
-
