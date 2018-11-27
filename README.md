@@ -10,8 +10,10 @@ Tested with ROS Kinetic, Gazebo 9, ODE and DART
 sudo chmod +x install_dependencies.sh
 sudo ./install_dependencies.sh
 ```
-3. With this setting you will not be able to use gazebo the simulator, only the hardware. The standard apt-get gazebo uses by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst running in real time. If you want to use gazebo (running with real time factor) you will need the [dart](https://dartsim.github.io/) simulator which requires compiling gazebo from source, for this follow steps in **install allegro-hand gazebo**. 
-If you don't want to use gazebo simulation, you are done. Just compile your catkin workspace.
+With this setup you will not be able to use gazebo the simulator. The standard "apt-get install gazebo" uses by default the ode physics engine which is unable to handle the small inertia matrices of the hand whilst mainting a real time performance. 
+
+If you want to use gazebo (running with a real time factor) you will need the [dart](https://dartsim.github.io/) simulator which requires compiling gazebo from source for this follow steps outlined in **Install allegro-hand gazebo**. 
+If you don't want to use the gazebo simulator, you are done, just compile your catkin workspace.
 
 ### Install allegro-hand gazebo
 
