@@ -30,6 +30,18 @@ remove_gazebo_in_path(){
 	done
 }
 
+install_gazebo_ros_pkgs(){
+  if [[ ! -d ../gazebo_ros_pkgs  ]];
+  then
+    git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git ../gazebo_ros_pkgs
+    cd ../gazebo_ros_pkgs
+    git checkout kinetic-devel
+    cd ../allegro-hand
+  else
+      printf "${GREEN}gazebo_ros_pkgs ... ok\n${NC}"
+  fi
+}
+
 
 install_gazebo_source(){
 	# remove old version of gazebo both sim and dpkg
