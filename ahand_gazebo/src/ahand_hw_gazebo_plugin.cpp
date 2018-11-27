@@ -12,7 +12,7 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/common/common.hh>
 
-#include "ahand_hw/ahand_hw_gazebo.hpp"
+#include "ahand_gazebo/ahand_hw_gazebo.hpp"
 
 
 class AHandHWsimPlugin : public gazebo::ModelPlugin{

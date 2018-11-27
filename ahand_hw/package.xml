@@ -22,7 +22,6 @@
   <build_depend>urdf</build_depend>
   <build_depend>control_toolbox</build_depend>
   <build_depend>joint_limits_interface</build_depend>
-  <build_depend>gazebo_ros</build_depend>
   <build_depend>ahand_driver</build_depend>
 
 
@@ -40,12 +39,8 @@
   <run_depend>urdf</run_depend>
   <run_depend>control_toolbox</run_depend>
   <run_depend>joint_limits_interface</run_depend>
-  <run_depend>gazebo_ros</run_depend>
   <run_depend>ahand_driver</run_depend>
 
-  <!-- The export tag contains other, unspecified, tags -->
-  <export>
-    <gazebo_ros plugin_path="${prefix}/lib" gazebo_media_path="${prefix}"/>
-  </export>
+
 
 </package>

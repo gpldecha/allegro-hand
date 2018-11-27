@@ -6,9 +6,10 @@
     <arg name="controller" 			default="ros_controller" />
     <arg name="stopped_controllers" default=""/>
     <arg name="output"				default="screen"/>
+    <arg name="use_gazebo_gui" default="true"/>
     <arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
 
-    <group ns="$(arg robot_name)">
+    <!--group ns="$(arg robot_name)"-->
 
         <param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
 
@@ -20,14 +21,13 @@
             <rosparam param="publish_frequency">300</rosparam>
         </node>
 
-    </group>
+    <!--/group-->
 
 
-    <include file="$(find ahand_controllers)/launch/load_controller.launch">
+    <!--include file="$(find ahand_controllers)/launch/load_controller.launch">
         <arg name="namespace" value ="$(arg robot_name)"/>
         <arg name="controller" value="$(arg controller)" />
-        <arg name="stopped_controllers" value="$(arg stopped_controllers)" />
-    </include>
+    </include-->
 
     <!-- gazebo simulation -->
     <node name="spawn_robot" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -model $(arg robot_name)" respawn="false" output="$(arg output)" />

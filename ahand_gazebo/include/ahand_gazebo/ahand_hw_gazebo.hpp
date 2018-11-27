@@ -9,7 +9,7 @@
 #include <gazebo/physics/physics.hh>
 #include <gazebo/gazebo.hh>
 
-#include "ahand_hw/ahand_hw.h"
+#include <ahand_hw/ahand_hw.h>
 
 class AHandHWGazebo : public AhandHW{
 

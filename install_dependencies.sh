@@ -10,14 +10,14 @@ while ! echo "$PW" | sudo -S -v > /dev/null 2>&1; do
     echo
 done
 
-ROS_DISTRO=$(ls /opt/ros/) 
+ROS_DISTRO=$(ls /opt/ros/)
 INSTALL_GAZEBO_FROM_SOURCE=true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 
 install_library(){
 	LIBRARY=$(dpkg -S $1 2> /dev/null )
-	if [[ -z $LIBRARY  ]]; 
+	if [[ -z $LIBRARY  ]];
 	then
 		printf "${GREEN}installing $1\n${NC}"
 		sudo apt-get -q -y install $1 1> /dev/null
@@ -42,13 +42,13 @@ install_peak_linux_driver(){
 install_pcan_basic(){
 	printf "${GREEN}installing pcan basic api\n${NC}"
 	cd ${DIR}/pcan-basic/pcanbasic/
-	make 
+	make
 	sudo make install
 	cd ${DIR}
 }
 
 
-install_library libncurses5-dev 
+install_library libncurses5-dev
 install_library libncurses5
 install_library libpopt-dev
 
@@ -58,13 +58,6 @@ install_pcan_basic
 
 install_library ros-${ROS_DISTRO}-control-toolbox
 install_library ros-${ROS_DISTRO}-controller-manager
-install_library ros-${ROS_DISTRO}-transmission-interface 
+install_library ros-${ROS_DISTRO}-transmission-interface
 install_library ros-${ROS_DISTRO}-joint-limits-interface
 install_library ros-${ROS_DISTRO}-forward-command-controller
-
-install_library ros-${ROS_DISTRO}-gazebo-ros
-install_library ros-${ROS_DISTRO}-gazebo-ros-control
-install_library ros-${ROS_DISTRO}-gazebo-ros-pkgs
-
-
-
