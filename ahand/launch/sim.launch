@@ -22,7 +22,6 @@
 
     </group>
 
-
     <include file="$(find ahand_controllers)/launch/load_controller.launch">
         <arg name="namespace" value ="$(arg robot_name)"/>
     </include>

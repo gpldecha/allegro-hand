@@ -53,25 +53,26 @@ install_gazebo_ros_pkgs(){
 
 install_gazebo_source(){
 	# remove old version of gazebo both sim and dpkg
-    remove_gazebo_in_path /usr/bin
+    	remove_gazebo_in_path /usr/bin
 	remove_gazebo_in_path /usr/lib
+	remove_gazebo_in_path /usr/share
 	remove_gazebo_in_path /usr/include
-    remove_gazebo_in_path /usr/local
+    	remove_gazebo_in_path /usr/local
 
 	printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
 	sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
 	wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 	sudo apt-get -q -y update 1> /dev/null
 
-
-    install_ros_gazebo_packages
+	install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
+    	# install_ros_gazebo_packages
 
 	install_library ros-${ROS_DISTRO}-dartsim
 	install_library libsdformat6
 	install_library libsdformat6-dev
-    install_library libignition-math4-dev
-    install_library libignition-transport4-dev
-    install_library libignition-msgs-dev
+    	install_library libignition-math4-dev
+    	install_library libignition-transport4-dev
+    	install_library libignition-msgs-dev
 
 	install_library mercurial
 
@@ -79,8 +80,8 @@ install_gazebo_source(){
 	printf "${GREEN}cloning gazebo\n${NC}"
 	hg clone https://bitbucket.org/osrf/gazebo/branch/gazebo9 /tmp/gazebo9
 	cd /tmp/gazebo9
-	printf "${GREEN}checkout gazebo9.2.0\n${NC}"
-	hg checkout gazebo9_9.2.0
+	printf "${GREEN}checkout gazebo9\n${NC}"
+	hg checkout gazebo9
 	mkdir build
 
 	cd build
@@ -89,6 +90,12 @@ install_gazebo_source(){
 	make -j8
 	sudo -S make install <<< "$password"
 	sudo -S ldconfig <<< "$password"
+
+	remove_gazebo_in_path /usr/bin
+	remove_gazebo_in_path /usr/lib
+	remove_gazebo_in_path /usr/share
+	remove_gazebo_in_path /usr/include
+
 
 }
 

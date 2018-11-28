@@ -91,32 +91,16 @@ set(INC_FILES
 
 add_library(ahand_controllers ${SRC_FILES} ${INC_FILES}
         ${INCLUDE_DIR}/utils/filters.h
-        ${INCLUDE_DIR}/utils/utils.h
-        ${INCLUDE_DIR}/utils/safety.h)
+        ${INCLUDE_DIR}/utils/utils.h)
 
 
 target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})
 
 add_dependencies(ahand_controllers ${PROJECT_NAME}_gencfg)
-
-add_executable(test_load tests/test_load.cpp)
-
 add_dependencies(ahand_controllers ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 
-
-# Install
-install(DIRECTORY include/ahand_controllers/
-  DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION})
-
-install(TARGETS ahand_controllers
-  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-  )
-
-install(FILES ahand_controllers_plugins.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
+install(FILES ahand_controllers_plugins.xml DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})
 
 
 

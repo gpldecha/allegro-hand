@@ -15,7 +15,6 @@
 
 // package
 
-#include "utils/safety.h"
 #include "controllers/ahand_types.h"
 #include "controllers/joint_impedance_controller.h"
 #include "controllers/bhand_controller.h"
@@ -56,7 +55,6 @@ namespace ahand_controllers {
             ros::ServiceServer service_server_;
 
             ros::Subscriber sub_cmd_;
-            Safety safety;
 
     };
 }

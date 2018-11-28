@@ -26,7 +26,6 @@ void ahand_controllers::ROSController::starting(const ros::Time& time){
 }
 
 void ahand_controllers::ROSController::update(const ros::Time& time, const ros::Duration& period){
-    safety.check_time();
     for(std::size_t i = 0; i < joint_handles_.size(); i++){
         measurements.measured_joint_positions[i] = joint_handles_[i].getPosition();
         measurements.estimated_joint_velocities[i] = joint_handles_[i].getVelocity();
@@ -53,7 +52,6 @@ void ahand_controllers::ROSController::update(const ros::Time& time, const ros::
     }
 
     for(std::size_t i = 0; i < torque_commands.size(); i++){
-        //safety.check_torque(torque_commands[i]);
         joint_handles_[i].setCommand(torque_commands[i]);
     }
 
@@ -72,7 +70,6 @@ void ahand_controllers::ROSController::command_callback(const std_msgs::Float32M
         return;
     }
     std::copy(msg->data.begin(), msg->data.end(), torque_commands.data());
-    safety.update_time();
 }
 
 bool ahand_controllers::ROSController::service_command_callback(Command::Request &request, Command::Response &response){
