@@ -18,12 +18,8 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
 # NOTE: You can switch to 32 bit if necessary by updating the symbolic link.
-find_library(BHAND_LIB
-    NAMES BHand
-    PATHS lib
-)
+set(BHAND_LIB ${CMAKE_CURRENT_SOURCE_DIR}/libBHand_64/lib/libBHand.so)
 
 # Make a tricky BHand target that just copies the .so binary file into the
 # output directory.
