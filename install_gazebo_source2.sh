@@ -56,19 +56,19 @@ install_gazebo_source(){
 	sudo apt-get -q -y update 1> /dev/null
 
 	# gazebo ros stuff
-	install_library ros-${ROS_DISTRO}-gazebo8-*
+	install_library ros-${ROS_DISTRO}-gazebo9-dev
+	install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
+	install_library ros-${ROS_DISTRO}-gazebo9-ros-control
 
 	# purge gazebo dpkg (necesary to trick ros)
-	# remove_apt_get_install_gazebo
-	remove_gazebo_in_path /usr/bin
+	remove_apt_get_install_gazebo
 
-		
 	install_library ros-${ROS_DISTRO}-dartsim
-	#install_library libsdformat6
-	#install_library libsdformat6-dev
-	#install_library libignition-msgs-dev
-	#install_library libignition-math4-dev
-	#install_library libignition-transport4-dev
+	install_library libsdformat6
+	install_library libsdformat6-dev
+	install_library libignition-msgs-dev
+	install_library libignition-math4-dev
+	install_library libignition-transport4-dev
 
 
 	#install_library libfreeimage-dev
@@ -83,12 +83,12 @@ install_gazebo_source(){
 
 	# clone gazebo
 	printf "${GREEN}cloning gazebo\n${NC}"
-	hg clone https://bitbucket.org/osrf/gazebo/branch/gazebo$1 /tmp/gazebo$1
-	cd /tmp/gazebo$1
+	hg clone https://bitbucket.org/osrf/gazebo/branch/gazebo9 /tmp/gazebo9
+	cd /tmp/gazebo9
 	printf "${GREEN}checkout $1\n${NC}"
-	hg checkout gazebo$1_$1.$2
+	hg checkout gazebo9_$1
 	mkdir build
-		
+
 	cd build
 	cmake -DCMAKE_BUILD_TYPE=Release ../
 	# build gazebo
@@ -97,4 +97,13 @@ install_gazebo_source(){
 	sudo -S ldconfig <<< "$password" 1> /dev/null
 }
 
-install_gazebo_source 8 1.0
+install_library ros-${ROS_DISTRO}-gazebo9-dev
+install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
+install_library ros-${ROS_DISTRO}-gazebo9-ros-control
+
+install_library ros-${ROS_DISTRO}-dartsim
+install_library libsdformat6
+install_library libsdformat6-dev
+install_library libignition-msgs-dev
+install_library libignition-math4-dev
+install_library libignition-transport4-dev

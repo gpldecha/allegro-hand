@@ -15,6 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
   kdl_parser
   message_generation
   cmake_modules
+  bhand
 )
 
 
@@ -30,11 +31,7 @@ include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 
 add_message_files(
    FILES
-   PoseRPY.msg
-   RPY.msg
-   MultiPriorityTask.msg
-   PID.msg
-   PIDgains.msg
+   bhand.msg
 )
 
 add_service_files(
@@ -65,6 +62,7 @@ catkin_package(
     forward_command_controller
     kdl_parser
     message_runtime
+    bhand
   INCLUDE_DIRS include
   LIBRARIES ahand_controllers
 )
@@ -77,16 +75,24 @@ catkin_package(
 
 set(INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library(ahand_controllers
-        src/ros_controller.cpp include/ahand_controllers/ros_controller.h
-        src/empty_controller.cpp include/ahand_controllers/empty_controller.h
-        src/joint_impedance_controller.cpp include/ahand_controllers/joint_impedance_controller.h
-        src/inverse_kinematics.cpp include/ahand_controllers/inverse_kinematics.h
-        src/state_publisher.cpp include/ahand_controllers/state_publisher.h
+set(SRC_FILES
+        src/motion/CDDynamics.cpp
+        src/controllers/bhand_controller.cpp
+        src/controllers/joint_impedance_controller.cpp
+        src/ros_controller.cpp
+        src/state_publisher.cpp)
+
+set(INC_FILES
+        ${INCLUDE_DIR}/ahand_controllers/motion/CDDynamics.h
+        ${INCLUDE_DIR}/ahand_controllers/controllers/ahand_types.h
+        ${INCLUDE_DIR}/ahand_controllers/controllers/base_controller.h
+        ${INCLUDE_DIR}/ahand_controllers/controllers/bhand_controller.h
+        ${INCLUDE_DIR}/ahand_controllers/controllers/joint_impedance_controller.h)
+
+add_library(ahand_controllers ${SRC_FILES} ${INC_FILES}
         ${INCLUDE_DIR}/utils/filters.h
         ${INCLUDE_DIR}/utils/utils.h
-        ${INCLUDE_DIR}/utils/safety.h
-        )
+        ${INCLUDE_DIR}/utils/safety.h)
 
 
 target_link_libraries(ahand_controllers ${catkin_LIBRARIES} kdl_parser ${orocos_kdl_LIBRARIES})

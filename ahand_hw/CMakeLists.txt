@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(ahand_hw)
 
-add_compile_options(-std=c++14)
+add_compile_options(-std=c++11)
 
 
 find_package(catkin REQUIRED COMPONENTS
@@ -87,8 +87,3 @@ add_library(ahand_hw_gazebo_plugin src/ahand_hw_gazebo_plugin.cpp include/ahand_
 add_dependencies(ahand_hw_gazebo_plugin ahand_hw)
 
 target_link_libraries(ahand_hw_gazebo_plugin ahand_hw ${catkin_LIBRARIES} ${GAZEBO_LIBRARIES})
-
-
-## tests
-add_executable(ahand_hw_tests src/ahand_hw_tests.cpp)
-target_link_libraries(ahand_hw_tests ahand_hw)

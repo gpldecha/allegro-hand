@@ -4,14 +4,6 @@ ahand:
     type: ahand_controllers/StatePublisher
     publish_rate: 330
 
-  joint_impedance_controller:
-    type: ahand_controllers/JointImpedanceController
-    publish_rate: 330
-
-  empty_controller:
-    type: ahand_controllers/EmptyController
-    publish_rate: 330
-
   ros_controller:
     type: ahand_controllers/ROSController
     publish_rate: 330

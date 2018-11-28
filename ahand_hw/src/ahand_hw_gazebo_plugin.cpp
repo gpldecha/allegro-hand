@@ -22,7 +22,7 @@ class AHandHWsimPlugin : public gazebo::ModelPlugin{
         AHandHWsimPlugin() : gazebo::ModelPlugin() {}
 
         virtual ~AHandHWsimPlugin(){
-            //gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
+           //gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
         }
 
         virtual void Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf){
