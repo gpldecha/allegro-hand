@@ -21,7 +21,6 @@ peak-linux-driver/driver/src/.pcan_*
 *.pch
 
 # Compiled Dynamic libraries
-*.so
 *.dylib
 *.dll
 
