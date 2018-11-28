@@ -35,6 +35,3 @@ roslaunch ahand hw.launch
 roslaunch ahand sim.launch
 ```
 
-### References and drivers
-You can look at the bottom of the install_dependencies.sh file and you can see each element which is being installed. 
-You can aslo take a look at [Allegro_Hand_Linux_Project]
