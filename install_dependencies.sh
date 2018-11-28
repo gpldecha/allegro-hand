@@ -11,7 +11,6 @@ while ! echo "$PW" | sudo -S -v > /dev/null 2>&1; do
 done
 
 ROS_DISTRO=$(ls /opt/ros/)
-INSTALL_GAZEBO_FROM_SOURCE=true
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 
