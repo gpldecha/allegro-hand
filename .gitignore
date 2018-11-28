@@ -1,6 +1,7 @@
 ahand_description/urdf/ahand.gv
 ahand_description/urdf/ahand.pdf
 ahand_description/urdf/model.urdf
+ahand_gazebo/CATKIN_IGNORE
 
 .idea
 .idea/vcs.xml

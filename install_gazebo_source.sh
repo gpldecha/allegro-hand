@@ -24,6 +24,14 @@ install_library(){
 	fi
 }
 
+install_ros_gazebo_packages(){
+    git clone https://github.com/ros-simulation/gazebo_ros_pkgs.git ../gazebo_ros_pkgs
+    cd ../gazebo_ros_pkgs
+    git checkout kinetic-devel
+    cd ../allegro-hand
+}
+
+
 remove_gazebo_in_path(){
 	sudo find $1 -name '*gazebo*' | while read line; do
 		sudo rm -fr $line
@@ -45,22 +53,24 @@ install_gazebo_ros_pkgs(){
 
 install_gazebo_source(){
 	# remove old version of gazebo both sim and dpkg
-  remove_gazebo_in_path /usr/bin
+    remove_gazebo_in_path /usr/bin
 	remove_gazebo_in_path /usr/lib
 	remove_gazebo_in_path /usr/include
-  remove_gazebo_in_path /usr/local
+    remove_gazebo_in_path /usr/local
 
 	printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
 	sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
 	wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 	sudo apt-get -q -y update 1> /dev/null
 
+    install_gazebo_source
+
 	install_library ros-${ROS_DISTRO}-dartsim
 	install_library libsdformat6
 	install_library libsdformat6-dev
-  install_library libignition-math4-dev
-  install_library libignition-transport4-dev
-  install_library libignition-msgs-dev
+    install_library libignition-math4-dev
+    install_library libignition-transport4-dev
+    install_library libignition-msgs-dev
 
 	install_library mercurial
 
@@ -78,6 +88,7 @@ install_gazebo_source(){
 	make -j8
 	sudo -S make install <<< "$password"
 	sudo -S ldconfig <<< "$password"
+
 }
 
-install_gazebo_source
+install_ros_gazebo_packages
