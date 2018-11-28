@@ -36,10 +36,5 @@ roslaunch ahand sim.launch
 ```
 
 ### References and drivers
-You can look at the bottom of the install_dependencies.bash file and you can see each element which is being installed. 
-You can aslo take a look at [Allegro_Hand_Linux_Project](http://wiki.wonikrobotics.com/AllegroHandWiki/index.php/Allegro_Hand_Linux_Project) which tells you which drivers to install. All these steps are present in nstall_dependencies.bash.
-
-* [PCAN-Light for LINUX](https://www.peak-system.com/fileadmin/media/linux/index.htm) 
-  Should be compiled with chardev support.
-
-* [PCAN-Basic API Linux](https://www.peak-system.com/PCAN-USB.199.0.html)
+You can look at the bottom of the install_dependencies.sh file and you can see each element which is being installed. 
+You can aslo take a look at [Allegro_Hand_Linux_Project]
