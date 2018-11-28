@@ -202,7 +202,7 @@ bool AhandHW::initKDLdescription(const urdf::Model *const urdf_model){
             ROS_ERROR("Failed to get KDL chain from tree: ");
             return false;
         }
-        f_dyn_solvers_[i] = std::make_unique<KDL::ChainDynParam>(KDL::ChainDynParam(ahand_chains_[i], gravity_));
+        f_dyn_solvers_[i].reset( new KDL::ChainDynParam(ahand_chains_[i], gravity_));
         joint_position_kdl_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
         gravity_effort_[i] = KDL::JntArray(ahand_chains_[i].getNrOfJoints());
 

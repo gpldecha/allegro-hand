@@ -63,7 +63,8 @@ install_gazebo_source(){
 	wget http://packages.osrfoundation.org/gazebo.key -O - | sudo apt-key add -
 	sudo apt-get -q -y update 1> /dev/null
 
-    install_gazebo_source
+
+    install_ros_gazebo_packages
 
 	install_library ros-${ROS_DISTRO}-dartsim
 	install_library libsdformat6
@@ -91,4 +92,4 @@ install_gazebo_source(){
 
 }
 
-install_ros_gazebo_packages
+install_gazebo_source

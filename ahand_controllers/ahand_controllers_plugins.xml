@@ -4,14 +4,6 @@
     <description>JointStateController publishes information such as the position of the joints. </description>
   </class>
 
-  <class name="ahand_controllers/JointImpedanceController" type="ahand_controllers::JointImpedanceController" base_class_type="controller_interface::ControllerBase">
-    <description> JointImpedanceController controllers each individual joint of the allegro hand with. </description>
-  </class>
-
-  <class name="ahand_controllers/EmptyController" type="ahand_controllers::EmptyController" base_class_type="controller_interface::ControllerBase">
-    <description> Outputs zero effort, this is to test gazebo dynamics. </description>
-  </class>
-
   <class name="ahand_controllers/ROSController" type="ahand_controllers::ROSController" base_class_type="controller_interface::ControllerBase">
     <description> Listens to a command topic and applies the commands to the robot. </description>
   </class>

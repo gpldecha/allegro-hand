@@ -6,7 +6,8 @@
 
 	<!-- Load joint controller configurations from YAML file to parameter server -->
 	<rosparam file="$(find ahand_controllers)/config/ahand_controllers.yaml" command="load"/>
+	<!-- ns="$(arg namespace)" -->
 
-	<node ns="$(arg namespace)" name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controller) state_publisher"/>
+	<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" args="$(arg controller) state_publisher"/>
 
 </launch>

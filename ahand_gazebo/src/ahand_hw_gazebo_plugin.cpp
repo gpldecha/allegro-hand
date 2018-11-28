@@ -19,10 +19,12 @@ class AHandHWsimPlugin : public gazebo::ModelPlugin{
 
     public:
 
-        AHandHWsimPlugin() : gazebo::ModelPlugin() {}
+        AHandHWsimPlugin() : gazebo::ModelPlugin() {
+            std::cout<< "LOADING PLUGING" << std::endl;
+        }
 
         virtual ~AHandHWsimPlugin(){
-            //gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
+           //gazebo::event::Events::DisconnectWorldUpdateBegin(update_connection_);
         }
 
         virtual void Load(gazebo::physics::ModelPtr parent, sdf::ElementPtr sdf){

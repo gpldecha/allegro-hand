@@ -14,6 +14,7 @@
 // Boost
 
 #include <boost/program_options.hpp>
+#include <chrono>
 
 
 // Get the URDF XML from the parameter server
