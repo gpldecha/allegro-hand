@@ -349,7 +349,7 @@
               <mass value="${link_0_mass}" />
             </inertial>
             <visual>
-                <origin xyz="0 0 0" rpy="0 0 -${90*DEG2RAD}"/>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
                 <geometry>
                     <mesh filename="package://ahand_description/meshes/link_0.dae"/>
                 </geometry>
