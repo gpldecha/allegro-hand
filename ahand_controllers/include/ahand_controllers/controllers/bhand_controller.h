@@ -5,7 +5,7 @@
 #ifndef BHAND_CONTROLLER_H
 #define BHAND_CONTROLLER_H
 
-#include "BHand/BHand.h"
+#include "bhand/BHand.h"
 #include "controllers/base_controller.h"
 #include "motion/CDDynamics.h"
 
