@@ -36,6 +36,18 @@ remove_gazebo_in_path(){
 	sudo find $1 -name '*gazebo*' | while read line; do
 		sudo rm -fr $line
 	done
+	sudo find $1 -name 'gzserver*' | while read line; do
+    	sudo rm -fr $line
+    done
+    sudo find $1 -name 'gzclient*' | while read line; do
+        sudo rm -fr $line
+    done
+    sudo find $1 -name 'gz' | while read line; do
+        sudo rm -fr $line
+    done
+    sudo find $1 -name 'gz-*' | while read line; do
+        sudo rm -fr $line
+     done
 }
 
 install_gazebo_ros_pkgs(){
@@ -53,11 +65,11 @@ install_gazebo_ros_pkgs(){
 
 install_gazebo_source(){
 	# remove old version of gazebo both sim and dpkg
-    	remove_gazebo_in_path /usr/bin
+    remove_gazebo_in_path /usr/bin
 	remove_gazebo_in_path /usr/lib
 	remove_gazebo_in_path /usr/share
 	remove_gazebo_in_path /usr/include
-    	remove_gazebo_in_path /usr/local
+    remove_gazebo_in_path /usr/local
 
 	printf "${GREEN}adding osrfoundation to sources gazebo\n${NC}"
 	sudo sh -c 'echo "deb http://packages.osrfoundation.org/gazebo/ubuntu-stable `lsb_release -cs` main" > /etc/apt/sources.list.d/gazebo-stable.list'
@@ -65,14 +77,13 @@ install_gazebo_source(){
 	sudo apt-get -q -y update 1> /dev/null
 
 	install_library ros-${ROS_DISTRO}-gazebo9-ros-pkgs
-    	# install_ros_gazebo_packages
 
 	install_library ros-${ROS_DISTRO}-dartsim
 	install_library libsdformat6
 	install_library libsdformat6-dev
-    	install_library libignition-math4-dev
-    	install_library libignition-transport4-dev
-    	install_library libignition-msgs-dev
+    install_library libignition-math4-dev
+    install_library libignition-transport4-dev
+    install_library libignition-msgs-dev
 
 	install_library mercurial
 
@@ -95,7 +106,6 @@ install_gazebo_source(){
 	remove_gazebo_in_path /usr/lib
 	remove_gazebo_in_path /usr/share
 	remove_gazebo_in_path /usr/include
-
 
 }
 

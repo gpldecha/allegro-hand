@@ -16,7 +16,7 @@ bool ahand_controllers::ROSController:: init(hardware_interface::EffortJointInte
     joint_impedance_controller.reset(new JointImpedanceController(nh));
     bhand_controller.reset(new BhandController(nh));
 
-    bPrintTorques = true;
+    bPrintTorques = false;
 
     return true;
 }

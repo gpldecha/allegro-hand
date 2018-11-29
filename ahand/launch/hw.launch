@@ -9,9 +9,9 @@
 
 	<group ns="$(arg robot_name)">
    		<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
-			<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
+		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
             <rosparam param="publish_frequency">300</rosparam>
-      </node>
+      	</node>
 	</group>
 
 
