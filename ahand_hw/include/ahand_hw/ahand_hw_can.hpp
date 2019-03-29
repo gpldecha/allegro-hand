@@ -1,6 +1,11 @@
 #ifndef AHAND_HW_CAN_H
 #define AHAND_HW_CAN_H
 
+// STL
+
+#include <fstream>
+
+
 // ROS
 
 #include <angles/angles.h>
@@ -15,7 +20,7 @@ class AhandHWCAN : public AhandHW {
 
 public:
 
-    AhandHWCAN() : AhandHW() {
+    AhandHWCAN(const std::string& encoder_conf) : AhandHW(), encoder_conf(encoder_conf) {
         raw_positions_.setZero();
         raw_prev_positions_.setZero();
         for(std::size_t j=0; j < n_joints_; j++){
@@ -33,7 +38,7 @@ public:
     }
 
     bool init() override {
-        ahandDriver_ = new AhandDriver();
+        ahandDriver_ = new AhandDriver(encoder_conf);
         return ahandDriver_->isIntialised();
     }
 
@@ -107,6 +112,7 @@ private:
     filters::Median* median_filter_[n_joints_];
     filters::SavitzkyGolay* sg_filters_[n_joints_];
 
+    std::string encoder_conf;
 
     Vector16d raw_positions_;
     Vector16d raw_prev_positions_;

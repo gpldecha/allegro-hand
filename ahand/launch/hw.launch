@@ -2,6 +2,7 @@
 <launch>
 
 	<arg name="robot_name" 			default="ahand"/>
+	<arg name="encoder_config"		default="SAH030E046L"/>
 
 	<arg name="controller" 			default="ros_controller" /> <!-- joint_impedance_controller -->
 	<arg name="output"				default="screen"/>
@@ -21,6 +22,6 @@
 	</include>
 
 	<!-- hardware interface to allegro hand -->
-	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" args="-n $(arg robot_name)" output="$(arg output)"/>
+	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" args="-n $(arg robot_name) --encoder_conf $(arg encoder_config)" output="$(arg output)"/>
 
 </launch>

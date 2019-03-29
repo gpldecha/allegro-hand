@@ -56,13 +56,17 @@ int main(int argc, char** argv){
 
     po::options_description description("ahand_hw_can options");
     description.add_options()
-            ("robot_name,n", po::value<std::string>(), "robot name" );
+            ("robot_name,n", po::value<std::string>(), "robot name" )
+            ("encoder_conf,ec", po::value<std::string>(), "filename of the joint encoder offsets" )
+            ;
 
     po::variables_map vm;
     po::store(po::parse_command_line(argc, argv, description), vm);
     po::notify(vm);
 
     std::string namespace_ = vm["robot_name"].as<std::string>();
+    std::string encoder_conf = vm["encoder_conf"].as<std::string>();
+
 
     // initialize ROS
     ros::init(argc, argv, "ahand_hw_interface", ros::init_options::NoSigintHandler);
@@ -81,9 +85,12 @@ int main(int argc, char** argv){
     // get the general robot description, the lwr class will take care of parsing what's useful to itself
     std::string urdf_string = getURDF(ahand_nh, namespace_+ "/robot_description");
 
+    std::cout<< "encoder_conf: " << encoder_conf << std::endl;
+
     // construct and start the real ahand
-    AhandHWCAN ahand_robot;
+    AhandHWCAN ahand_robot(encoder_conf);
     ahand_robot.create("ahand", urdf_string);
+
 
     if(!ahand_robot.init()){
        ROS_FATAL_NAMED("ahand_hw","Could not initialize robot real interface");

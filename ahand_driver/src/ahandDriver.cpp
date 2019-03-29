@@ -8,10 +8,14 @@
 #include <pthread.h>
 #include <iostream>
 
+#include <ros/package.h>
+#include <fstream>
+#include <string>
+
 #define _T(X)   X
 #define _tcsicmp(x, y)   strcmp(x, y)
 
-AhandDriver::AhandDriver():
+AhandDriver::AhandDriver(const std::string& encoder_conf):
         torque_command_buffer(2), sensor_buffer(2)
 {
     memset(&vars, 0, sizeof(vars));
@@ -26,6 +30,17 @@ AhandDriver::AhandDriver():
     }else{
         tau_cov_const = tau_cov_const_v3;
     }
+    std::cout<< "LOADING encoder offsets" << std::endl;
+    std::string path = ros::package::getPath("ahand_driver") + "/config/" + encoder_conf;
+    std::ifstream infile(path);
+    int a, i;
+    i = 0;
+    while (infile >> a){
+        enc_offset[i] = a;
+        std::cout<< enc_offset[i] << std::endl;
+        i++;
+    }
+
 
     if(!openCAN())
         std::cerr<< "could not open CAN" << std::endl;

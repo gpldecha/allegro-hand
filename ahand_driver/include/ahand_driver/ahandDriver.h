@@ -14,13 +14,14 @@
 #include <Eigen/Dense>
 
 
+
 typedef Eigen::Matrix<double, 16, 1> Vector16d;
 
 class AhandDriver{
 
 public:
 
-    AhandDriver();
+    AhandDriver(const std::string& encoder_conf);
 
     ~AhandDriver() = default;
 
@@ -66,12 +67,13 @@ private:
       1.0, 1.0, 1.0, 1.0,
       1.0, 1.0, 1.0, 1.0
     };
-    const int enc_offset[MAX_DOF] = { // SAH030F049
+    int enc_offset[MAX_DOF];
+    /*int enc_offset[MAX_DOF] = { // SAH030F049
       -6212, 3628, 733, 172, // f1
       -6347, -38, -4683, -4669,
       -3509, -2094, 312, -12,
       8234, -7615, 504, -165
-    };
+    };*/
 
     AllegroHand_DeviceMemory_t vars;
 
@@ -86,7 +88,6 @@ private:
     std::thread updated_thread_;
     bool ioThreadRun = false;
     bool isInitialised = false;
-
 
 };
 

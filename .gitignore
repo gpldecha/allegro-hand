@@ -6,7 +6,7 @@ ahand_description/urdf/model.urdf
 .idea
 .idea/vcs.xml
 peak-linux-driver/driver/src/.pcan_*
-
+peak-linux-driver/driver/src/.pcan*
 
 *.d
 
