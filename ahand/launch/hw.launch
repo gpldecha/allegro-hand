@@ -3,13 +3,13 @@
 
 	<arg name="robot_name" 			default="ahand"/>
 	<arg name="encoder_config"		default="SAH030E046L"/>
+	<arg name="hand_type" 			default="left"/>
 
 	<arg name="controller" 			default="ros_controller" /> <!-- joint_impedance_controller -->
 	<arg name="output"				default="screen"/>
-	<arg name="world_name" 			default="$(find ahand_description)/world/empty_sky.world"/>
 
 	<group ns="$(arg robot_name)">
-   		<param name="robot_description" command="$(find xacro)/xacro.py '$(find ahand_description)/urdf/ahand.xacro'" />
+   		<param name="robot_description" command="$(find xacro)/xacro.py --inorder '$(find ahand_description)/urdf/ahand.xacro'" />
 		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
             <rosparam param="publish_frequency">300</rosparam>
       	</node>
