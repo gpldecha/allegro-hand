@@ -37,7 +37,25 @@ roslaunch ahand sim.launch
 
 ### Troubleshooting
 
+If you get the following error:
 ```bash
 1555577332.132839: ERROR: failed to scan directory (errno=2) '/sys/class/pcan'
 ```
+it is most likely that the pcan dirver was incorrectly installed. If the /proc/pcan file does 
+not exist run the following:
+
+```bash
+cd allegro-hand/peak-linux-driver
+make clean
+make NET=NO PCC=NO
+sudo make install
+sudo modprobe pcan 1> /dev/null
+```
+then check if the pcan file exists:
+```bash
+cat /proc/pcan
+```
+if it does then this error is likely to be fixed.
+
+
 
