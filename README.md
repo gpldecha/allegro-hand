@@ -35,3 +35,9 @@ roslaunch ahand hw.launch
 roslaunch ahand sim.launch
 ```
 
+### Troubleshooting
+
+```bash
+1555577332.132839: ERROR: failed to scan directory (errno=2) '/sys/class/pcan'
+```
+
