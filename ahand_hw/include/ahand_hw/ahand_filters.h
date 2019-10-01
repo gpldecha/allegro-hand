@@ -7,6 +7,7 @@
 
 #include <boost/circular_buffer.hpp>
 #include <Eigen/Core>
+#include <vector>
 
 namespace filters {
 

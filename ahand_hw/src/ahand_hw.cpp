@@ -125,7 +125,7 @@ void AhandHW::registerJointLimits(const std::string& joint_name,
     bool has_limits = false;
 
     if (urdf_model != NULL){
-        const boost::shared_ptr<const urdf::Joint> urdf_joint = urdf_model->getJoint(joint_name);
+        auto urdf_joint = urdf_model->getJoint(joint_name);
         if (urdf_joint != NULL){
             if (joint_limits_interface::getJointLimits(urdf_joint, limits)){
                 has_limits = true;
