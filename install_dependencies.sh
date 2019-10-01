@@ -53,8 +53,8 @@ install_library libpopt-dev
 install_library libelf-dev
 
 install_library linux-headers-$(uname -r)
-install_peak_linux_driver
-install_pcan_basic
+#install_peak_linux_driver
+#install_pcan_basic
 
 install_library ros-${ROS_DISTRO}-control-toolbox
 install_library ros-${ROS_DISTRO}-controller-manager
