@@ -1,9 +1,11 @@
 <?xml version="1.0"?>
 <robot name="ahand" xmlns:xacro="http://ros.org/wiki/xacro">
 
-
-    <xacro:property name="hand_type" default="left" />
-    <xacro:include filename="$(find ahand_description)/urdf/ahand_${hand_type}.xacro"/>
+    <xacro:arg name="hand_type" default="right"/>
+    <!-- <xacro:property name="hand_type" default="right" /> -->
+    <xacro:property name="hand_type" default="$(arg hand_type)" />
+    <xacro:include filename="$(find ahand_description)/urdf/ahand_$(arg hand_type).xacro"/>
+    <!-- <xacro:include filename="$(find ahand_description)/urdf/ahand_right.xacro"/> -->
 
     <link name="world"/>
 
