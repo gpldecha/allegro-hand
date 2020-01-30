@@ -1,27 +1,31 @@
-<?xml version="1.0"?>
 <launch>
-
-	<arg name="robot_name" 			default="ahand"/>
-	<arg name="encoder_config"		default="SAH030E046L"/>
-	<arg name="hand_type" 			default="left"/>
-
-	<arg name="controller" 			default="ros_controller" /> <!-- joint_impedance_controller -->
-	<arg name="output"				default="screen"/>
+	<arg name="robot_name" default="ahand"/>
+	
+<!-- 	 	<arg name="encoder_config"		default="SAH030E046L"/>
+		<arg name="hand_type" 			default="left"/>  -->
+	
+	<arg name="encoder_config" default="SAH030F049R"/>
+	<arg name="hand_type" default="right"/>
+	<arg name="controller" default="ros_controller"/>
+	<!-- joint_impedance_controller -->
+	<arg name="output" default="screen"/>
 
 	<group ns="$(arg robot_name)">
-   		<param name="robot_description" command="$(find xacro)/xacro.py --inorder '$(find ahand_description)/urdf/ahand.xacro'" />
+		<param name="robot_description" command="$(find xacro)/xacro.py --inorder '$(find ahand_description)/urdf/ahand.xacro' hand_type:=$(arg hand_type)"/>
+
 		<node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher">
-            <rosparam param="publish_frequency">300</rosparam>
-      	</node>
+			<rosparam param="publish_frequency">300</rosparam>
+		</node>
 	</group>
 
-
 	<include file="$(find ahand_controllers)/launch/load_controller.launch">
-		<arg name="namespace" value ="$(arg robot_name)"/>
-		<arg name="controller" value="$(arg controller)" />
+		<arg name="namespace" value="$(arg robot_name)"/>
+		<arg name="controller" value="$(arg controller)"/>
 	</include>
 
 	<!-- hardware interface to allegro hand -->
 	<node name="ahand_can" pkg="ahand_hw" type="ahand_hw_can_node" args="-n $(arg robot_name) --encoder_conf $(arg encoder_config)" output="$(arg output)"/>
 
+	<!-- visualize allegro hand -->
+	<node name="rviz" pkg="rviz" type="rviz" required="true" args="-d $(find ahand)/perspectives/ahand.rviz"/>
 </launch>
